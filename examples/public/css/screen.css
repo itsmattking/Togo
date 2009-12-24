@@ -1,0 +1,168 @@
+* {
+    outline: none;
+}
+body {
+    font: 76% helvetica;
+    padding: 0;
+    margin: 0;
+}
+#header {
+    background: #68C107;
+    height: 24px;
+    color: #FFF;
+    line-height: 24px;
+    font-size: 18px;
+    padding: 10px 20px;
+    text-shadow: #1E1E1E 1px 1px 2px;
+}
+#nav {
+    width: 200px;
+    position: absolute;
+    left: 0;
+    top: 44px;
+    bottom: 0;
+    overflow: auto;
+}
+#nav ul {
+    margin: 0;
+    padding: 0;
+}
+#nav ul li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+#nav ul li a {
+    padding: 10px 20px;
+    display: block;
+    color: #000;
+    text-decoration: none;
+    border-bottom: 1px solid #CECECE;
+}
+#nav ul li a.selected,
+#nav ul li a:hover {
+    background: #1E1E1E;
+    color: #FFF;
+}
+#main {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #F3F3F3;
+    margin-left: 200px;
+    border-left: 1px solid #CECECE;
+    overflow: auto;
+}
+#main h1 {
+    border-bottom: 1px solid #CECECE;
+    background: #FFF;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 36px;
+    padding: 10px 20px;
+    margin: 0;
+}
+#main h1 a {
+    text-decoration: none;
+    color: #68C107;
+}
+#main table, #main form {
+    width: 100%;
+}
+#main table {
+    border-collapse: collapse;
+}
+#main table a {
+    color: #000;
+    text-decoration: none;
+}
+#main table th {
+    text-align: left;
+    padding: 10px 20px;
+    background: #1E1E1E;
+    color: #FFF;
+}
+#main table td {
+    padding: 10px 20px;
+    border-bottom: 1px solid #CECECE;
+    background: #FFF;
+}
+#main .wrapper {
+    position: absolute;
+    top: 56px;
+    bottom: 40px;
+    right: 0;
+    left: 0;
+    overflow: auto;
+}
+#main form .wrapper {
+    padding-top: 20px;
+}
+#main .wrapper .errors {
+    padding: 0 20px 10px 20px;
+    color: #F00;
+}
+#main form fieldset {
+    border: none;
+    padding: 0 30px 20px 20px;
+    margin: 0;
+}
+#main form fieldset label {
+    display: block;
+    font-weight: bold;
+    padding: 0 0 6px 0;
+}
+#main form fieldset label.inline {
+    display: inline;
+    font-weight: normal;
+}
+#main form fieldset textarea,
+#main form fieldset input[type=text] {
+    border: 1px solid #CECECE;
+    width: 100%;
+    padding: 5px;
+}
+#main form fieldset textarea:focus,
+#main form fieldset input[type=text]:focus {
+    border: 1px solid #ABABAB;
+}
+div.actions {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 3;
+    background: #1E1E1E;
+    text-align: right;
+    height: 40px;
+}
+div.actions button,
+div.actions a {
+    width: 80px;
+    height: 40px;
+    color: #FFF;
+    text-align: center;
+    border: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    background: #68C107;
+    font-size: 14px;
+    text-shadow: #1E1E1E 1px 1px 2px;
+    line-height: 36px;
+}
+div.actions a {
+    line-height: 40px;
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+}
+div.actions button {
+    font-family: helvetica;
+}
+div.actions button:hover,
+div.actions a:hover {
+    background: #76db09;
+}

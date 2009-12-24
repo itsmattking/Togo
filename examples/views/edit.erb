@@ -1,0 +1,14 @@
+<h1><a href="/<%= @model.name %>"><%= @model.name.uncamelize %></a> / Edit</h1>
+<form action="/update/<%= @model.name %>/<%= @content.id %>" method="post">
+  <div class="wrapper">
+    <% if @errors %><div id="save_errors" class="errors"><%= @errors %></div><% end %>
+    <% @model.form_properties.each do |p| %>
+    <fieldset id="property_<%= p.name %>">
+      <%= @model.form_for(p,@content) %>
+    </fieldset>
+    <% end %>
+  </div>
+  <div class="actions">
+    <button type="submit" class="save">Save</button>
+  </div>
+</form>

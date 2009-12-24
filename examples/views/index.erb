@@ -1,0 +1,30 @@
+<h1><%= @model.name.uncamelize %></h1>
+<div class="wrapper">
+<table>
+  <thead>
+    <tr>
+      <% @model.list_properties.each do |p| %>
+      <th><%= p.name.to_s.capitalize %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @content.empty? %>
+    <tr>
+      <td colspan="<%= @model.list_properties.size %>">No content has been created yet.</td>
+    </tr>
+    <% else %>
+    <% @content.each do |c| %>
+    <tr>
+      <% @model.list_properties.each_with_index do |p,i| %>
+      <td><% if i == 0 %><a href="/edit/<%= @model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
+      <% end %>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<div class="actions">
+  <a href="/new/<%= @model.name %>" class="action new">New...</a>
+</div>

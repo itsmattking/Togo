@@ -1,0 +1,14 @@
+---
+environment: production
+chdir: /Users/mking/Projects/Togo/examples
+address: 127.0.0.1
+user: mking
+group: staff
+port: 8194
+pid: /Users/mking/Projects/Togo/examples/tmp/thin.pid
+rackup: /Users/mking/Projects/Togo/examples/config.ru
+log: /Users/mking/Projects/Togo/examples/log/production.log
+max_conns: 1024
+timeout: 30
+max_persistent_conns: 512
+daemonize: true

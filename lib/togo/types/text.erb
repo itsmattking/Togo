@@ -1,0 +1,2 @@
+<label for="<%= property.name %>"><%= property.model.property_options[property.name][:label] rescue property.name.to_s.capitalize %></label>
+<textarea name="<%= property.name %>" id="<%= property.name %>" rows="10" cols="50"><%= content.send(property.name.to_sym) %></textarea>
