@@ -7,7 +7,7 @@ body {
     margin: 0;
 }
 #header {
-    background: #68C107;
+    background: #4076c7 url(/img/bg-header.png) repeat-x top left;
     height: 24px;
     color: #FFF;
     line-height: 24px;
@@ -22,6 +22,7 @@ body {
     top: 44px;
     bottom: 0;
     overflow: auto;
+    background: #FFF url(/img/bg-side.png) repeat-x bottom left;
 }
 #nav ul {
     margin: 0;
@@ -38,11 +39,13 @@ body {
     color: #000;
     text-decoration: none;
     border-bottom: 1px solid #CECECE;
+    background: #FFF url(/img/bg-nav.png) repeat-x bottom left;
 }
 #nav ul li a.selected,
 #nav ul li a:hover {
-    background: #1E1E1E;
+    background: #1E1E1E url(/img/bg-nav.png) repeat-x top left;
     color: #FFF;
+    border-bottom: 1px solid #1E1E1E;
 }
 #main {
     position: absolute;
@@ -52,12 +55,12 @@ body {
     bottom: 0;
     background: #F3F3F3;
     margin-left: 200px;
-    border-left: 1px solid #CECECE;
+    border-left: 1px solid #323941;
     overflow: auto;
 }
 #main h1 {
     border-bottom: 1px solid #CECECE;
-    background: #FFF;
+    background: #FFF url(/img/bg-headline.png) repeat-x bottom left;
     font-weight: normal;
     font-size: 24px;
     line-height: 36px;
@@ -66,7 +69,7 @@ body {
 }
 #main h1 a {
     text-decoration: none;
-    color: #68C107;
+    color: #4076c7;
 }
 #main table, #main form {
     width: 100%;
@@ -81,7 +84,7 @@ body {
 #main table th {
     text-align: left;
     padding: 10px 20px;
-    background: #1E1E1E;
+    background: #1E1E1E url(/img/bg-nav.png) repeat-x top left;
     color: #FFF;
 }
 #main table td {
@@ -91,7 +94,7 @@ body {
 }
 #main .wrapper {
     position: absolute;
-    top: 56px;
+    top: 57px;
     bottom: 40px;
     right: 0;
     left: 0;
@@ -134,35 +137,36 @@ div.actions {
     right: 0;
     left: 0;
     z-index: 3;
-    background: #1E1E1E;
+    background: #888;
     text-align: right;
-    height: 40px;
+    height: 46px;
+    border-top: 1px solid #323941;
 }
 div.actions button,
 div.actions a {
     width: 80px;
-    height: 40px;
-    color: #FFF;
+    height: 22px;
+    color: #111;
     text-align: center;
     border: 0;
     cursor: pointer;
+    background: transparent url(/img/btn-bg.png) repeat-x top left;
+    font: 12px "Lucida Grande", verdana;
     position: absolute;
-    right: 0;
-    background: #68C107;
-    font-size: 14px;
-    text-shadow: #1E1E1E 1px 1px 2px;
-    line-height: 36px;
+    top: 12px;
+    right: 10px;
+    line-height: 22px;
 }
 div.actions a {
-    line-height: 40px;
+    line-height: 23px;
     display: block;
     text-decoration: none;
     overflow: hidden;
 }
 div.actions button {
-    font-family: helvetica;
+    font: 12px "Lucida Grande", verdana;
 }
 div.actions button:hover,
 div.actions a:hover {
-    background: #76db09;
+    background: transparent url(/img/btn-bg.png) repeat-x left -22px;
 }

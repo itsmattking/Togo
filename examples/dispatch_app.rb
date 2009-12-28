@@ -1,5 +1,5 @@
 require 'init'
-require "../lib/togo/dispatch"
+require "../lib/togo/dispatch/dispatch"
 DataMapper.auto_migrate!
 c = Category.create(:name => 'Melting')
 c2 = Category.create(:name => 'Exploding')

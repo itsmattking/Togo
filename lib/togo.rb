@@ -8,7 +8,7 @@ module Togo
 
 end
 
-require 'togo/model'
+require 'togo/model/model'
 
 class String
   def uncamelize
