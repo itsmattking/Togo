@@ -27,7 +27,7 @@ class AnotherBlogEntry
   list_properties :date, :title, :category
   form_properties :body, :category, :date
 
-  custom_template_for :body, :template => File.join(File.dirname(__FILE__),'custom_body.erb')
+  configure_property :body, :template => File.join(File.dirname(__FILE__),'custom_body.erb')
 
   configure_property :date, :label => "The Date"
 

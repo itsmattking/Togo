@@ -99,4 +99,9 @@ describe "Togo Datamapper Model" do
     out.should =~ Regexp.new("<input type=\"hidden\".*?value=\"#{b.category.id}\"")
   end
 
+  it "should display humanized and pluralized name" do
+    BlogEntry.display_name.should == 'Blog Entries'
+    Category.display_name.should == 'Categories'
+  end
+
 end

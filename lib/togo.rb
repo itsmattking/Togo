@@ -8,10 +8,4 @@ module Togo
 
 end
 
-require 'togo/model/model'
-
-class String
-  def uncamelize
-    self.gsub(/([a-z])([A-Z])/,"\\1 \\2")
-  end
-end
+%w{model dispatch}.each{|l| require File.join('togo',l,l)}

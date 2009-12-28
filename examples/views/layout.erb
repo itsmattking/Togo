@@ -12,7 +12,7 @@
     <div id="nav">
       <ul>
         <% Togo.models.each do |m| %>
-        <li><a href="/<%= m.name %>" class="<%= @model.name == m.name ? 'selected' : '' %>"><%= m.name.uncamelize %></a></li>
+        <li><a href="/<%= m.name %>" class="<%= @model.name == m.name ? 'selected' : '' %>"><%= m.display_name %></a></li>
         <% end %>
       </ul>
     </div>

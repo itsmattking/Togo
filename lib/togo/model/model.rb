@@ -19,6 +19,7 @@ module Togo
       end
 
       module ClassMethods
+
         # Let the user determine what properties to show in list view
         def list_properties(*args)
           pick_properties(:list,*args)
@@ -29,19 +30,9 @@ module Togo
           pick_properties(:form,*args)
         end
 
-        def property_options
-          class_variable_get(:@@property_options)          
-        end
-
         def configure_property(property,opts = {})
+          custom_template_for(property, opts.delete(:template)) if opts.has_key?(:template)
           class_variable_get(:@@property_options).merge!(property => opts)
-        end
-
-        # Let the user create a custom template for a property
-        def custom_template_for(property,opts = {})
-          if File.exists?(opts[:template])
-            class_variable_get(:@@custom_form_templates)[property] = opts[:template]
-          end
         end
 
         # Display the form template for a property
@@ -63,12 +54,24 @@ module Togo
           content
         end
 
+        def display_name
+          name.gsub(/([a-z])([A-Z])/,"\\1 \\2").pluralize
+        end
+
+        def property_options
+          class_variable_get(:@@property_options)          
+        end
+
         private
+
+        def custom_template_for(property,template)
+          class_variable_get(:@@custom_form_templates)[property] = template if File.exists?(template)
+        end
 
         def type_from_property(property)
           case property
             when ::DataMapper::Property
-              property.type.to_s.gsub(/^(.*?::)+/,'').to_s.downcase
+              Extlib::Inflection.demodulize(property.type).downcase
             when ::DataMapper::Associations::ManyToOne::Relationship
               'belongs_to'
             else
