@@ -1,3 +1,2 @@
-require 'sinatra'
-require 'app'
-run Sinatra::Application 
+require 'dispatch_app'
+run DispatchApp.run!

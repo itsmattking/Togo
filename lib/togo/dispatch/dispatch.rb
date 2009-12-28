@@ -6,10 +6,9 @@ module Togo
     attr_reader :request, :response, :params
 
     def initialize
-      puts 'init...'
+      @me = File.expand_path(ARGV[0] || $0) || '.'
       @routes = {}
       %w{GET POST}.each{|v| @routes[v] = []}
-      puts "Waiting for calls..."
     end
 
     def symbolize_keys(hash)
@@ -29,7 +28,6 @@ module Togo
     end      
 
     def answer(type,path)
-      puts "- Requested URL: #{path}"
       method = nil
       @params = symbolize_keys(@request.GET.dup.merge!(@request.POST.dup))
       self.class.routes[type].each do |p,k,m|
@@ -41,6 +39,7 @@ module Togo
       end
       if method.nil?
         @response.status = 404
+        @response.write("404 Not Found")
       else
         begin
           @response.write(send(method))
@@ -53,7 +52,7 @@ module Togo
     
     def erb(content, opts = {}, &block)
       if content.is_a?(Symbol)
-        content = File.open(File.join(File.dirname(File.expand_path($0)),'views',"#{content}.erb")).read
+        content = File.open(File.join(File.dirname(@me),'views',"#{content}.erb")).read
       end
       result = Erubis::Eruby.new(content).result(binding)
       if not block_given? and opts[:layout] != false
@@ -65,6 +64,7 @@ module Togo
     def redirect(location)
       @response.status = 301
       @response.headers['Location'] = location
+      @response.finish
     end
 
     class << self
