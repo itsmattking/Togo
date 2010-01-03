@@ -62,4 +62,4 @@ class DispatchApp < Togo::Dispatch
 
 end
 
-Rack::Handler::Thin.run(DispatchApp.run!)
+#Rack::Handler::Thin.run(DispatchApp.run!)

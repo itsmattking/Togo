@@ -50,5 +50,9 @@ describe "Togo Dispatch" do
     @browser.last_response.body.should == 'Error: Exception Test'
   end
 
+  it "should have routes" do
+    DispatchTest.routes.should be_a(Hash)
+  end
+
 end
 

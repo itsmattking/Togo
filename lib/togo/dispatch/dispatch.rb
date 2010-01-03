@@ -3,12 +3,10 @@ require 'erubis'
 
 module Togo
   class Dispatch
-    attr_reader :request, :response, :params
+    attr_reader :request, :response, :params, :togo_runner
 
     def initialize
-      @me = File.expand_path(ARGV[0] || $0) || '.'
-      @routes = {}
-      %w{GET POST}.each{|v| @routes[v] = []}
+      @togo_runner = File.expand_path(ARGV[0] || $0) || '.'
     end
 
     def symbolize_keys(hash)
@@ -52,7 +50,7 @@ module Togo
     
     def erb(content, opts = {}, &block)
       if content.is_a?(Symbol)
-        content = File.open(File.join(File.dirname(@me),'views',"#{content}.erb")).read
+        content = File.open(File.join(File.dirname(togo_runner),'views',"#{content}.erb")).read
       end
       result = Erubis::Eruby.new(content).result(binding)
       if not block_given? and opts[:layout] != false
@@ -69,8 +67,9 @@ module Togo
 
     class << self
       attr_accessor :routes
+      
       def inherited(subclass)
-        subclass.routes = @routes || {}
+        subclass.routes = {}
         subclass.send(:include, Rack::Utils)
         %w{GET POST}.each{|v| subclass.routes[v] = []}
       end
@@ -97,7 +96,7 @@ module Togo
 
       def run!
         builder = Rack::Builder.new
-        builder.use Rack::CommonLogger
+        #builder.use Rack::CommonLogger
         builder.use Rack::ShowExceptions
         builder.use Rack::Reloader
         builder.use Rack::Static, :urls => ['/css','/js','/img'], :root => 'public'
