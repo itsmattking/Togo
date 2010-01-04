@@ -117,9 +117,10 @@ module Togo
     
   end # Dispatch
 
+  # Subclass Rack Reloader to call DataMapper.auto_upgrade! on file reload
   class TogoReloader < Rack::Reloader
-    def safe_load(file,mtime,stderr=$stderr)
-      super
+    def safe_load(*args)
+      super(*args)
       ::DataMapper.auto_upgrade!
     end
   end
