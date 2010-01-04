@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 require 'togo'
+require 'togo/admin'
 admin_path = $:.find{|p| p =~ /lib\/togo\/admin/}
 config = {
   :view_path => File.join(admin_path,'views'),
   :public_path => File.join(admin_path,'public')
 }
-Rack::Handler::Thin.run(AdminApp.run!(config))
+Rack::Handler::Thin.run(Togo::Admin.run!(config))
 

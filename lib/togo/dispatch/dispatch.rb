@@ -7,6 +7,7 @@ module Togo
 
     def initialize(config = {})
       @view_path = config[:view_path] || 'views'
+      @togo_environment = ENV['RACK_ENV'] || 'development'
     end
 
     def symbolize_keys(hash)
@@ -40,6 +41,7 @@ module Togo
         @response.write("404 Not Found")
       else
         begin
+          __before if defined? __before
           @response.write(send(method))
         rescue => detail
           @response.status = 500
@@ -63,6 +65,10 @@ module Togo
       @response.status = 301
       @response.headers['Location'] = location
       @response.finish
+    end
+
+    def development?
+      @togo_environment == 'development'
     end
 
     class << self
@@ -90,6 +96,10 @@ module Togo
         define_method(method_name, &block)
       end
 
+      def before(&block)
+        define_method("__before",&block)
+      end
+
       def clean_path(path)
         path.gsub(/\/|\./, '__')
       end
@@ -97,7 +107,7 @@ module Togo
       def run!(config = {})
         builder = Rack::Builder.new
         builder.use Rack::ShowExceptions
-        builder.use Rack::Reloader
+        builder.use TogoReloader
         builder.use Rack::Static, :urls => ['/css','/js','/img'], :root => (config[:public_path] || 'public')
         builder.run new(config)
         builder.to_app
@@ -106,4 +116,12 @@ module Togo
     end
     
   end # Dispatch
+
+  class TogoReloader < Rack::Reloader
+    def safe_load(file,mtime,stderr=$stderr)
+      super
+      ::DataMapper.auto_upgrade!
+    end
+  end
+
 end # Togo

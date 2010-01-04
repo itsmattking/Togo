@@ -1,0 +1,1 @@
+require 'togo/dispatch/dispatch'

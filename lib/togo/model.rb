@@ -1,0 +1,1 @@
+require 'togo/model/model'

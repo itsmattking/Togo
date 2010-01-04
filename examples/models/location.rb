@@ -4,4 +4,7 @@ class Location
   property :id, Serial
   property :name, String
   property :pork, String
+  property :fonk, String
+
+  list_properties :name, :fonk
 end

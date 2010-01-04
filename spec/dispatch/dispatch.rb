@@ -54,5 +54,10 @@ describe "Togo Dispatch" do
     DispatchTest.routes.should be_a(Hash)
   end
 
-end
+  it "should run before method" do
+    @browser.get('/before-test')
+    @browser.last_response.status.should == 200
+    @browser.last_response.body.should == "true"
+  end
 
+end
