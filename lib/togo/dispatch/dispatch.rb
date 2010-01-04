@@ -3,10 +3,10 @@ require 'erubis'
 
 module Togo
   class Dispatch
-    attr_reader :request, :response, :params, :togo_runner
+    attr_reader :request, :response, :params
 
-    def initialize
-      @togo_runner = File.expand_path(ARGV[0] || $0) || '.'
+    def initialize(config = {})
+      @view_path = config[:view_path] || 'views'
     end
 
     def symbolize_keys(hash)
@@ -50,7 +50,7 @@ module Togo
     
     def erb(content, opts = {}, &block)
       if content.is_a?(Symbol)
-        content = File.open(File.join(File.dirname(togo_runner),'views',"#{content}.erb")).read
+        content = File.open(File.join(@view_path,"#{content}.erb")).read
       end
       result = Erubis::Eruby.new(content).result(binding)
       if not block_given? and opts[:layout] != false
@@ -94,13 +94,12 @@ module Togo
         path.gsub(/\/|\./, '__')
       end
 
-      def run!
+      def run!(config = {})
         builder = Rack::Builder.new
-        #builder.use Rack::CommonLogger
         builder.use Rack::ShowExceptions
         builder.use Rack::Reloader
-        builder.use Rack::Static, :urls => ['/css','/js','/img'], :root => 'public'
-        builder.run new
+        builder.use Rack::Static, :urls => ['/css','/js','/img'], :root => (config[:public_path] || 'public')
+        builder.run new(config)
         builder.to_app
       end
 

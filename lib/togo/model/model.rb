@@ -62,6 +62,16 @@ module Togo
           class_variable_get(:@@property_options)          
         end
 
+        def search(opts)
+          q = "%#{opts[:q].gsub(/\s+/,'%')}%"
+          conditions, values = [], []
+          search_properties.each{|l|
+            conditions << "#{l.name} like ?"
+            values << q
+          }
+          all(:conditions => [conditions.join(' OR ')] + values)
+        end
+
         private
 
         def custom_template_for(property,template)
@@ -90,6 +100,12 @@ module Togo
         def shown_properties
           properties.select{|p| not BLACKLIST.include?(p.name) and not p.name =~ /_id$/} + relationships.values
         end
+
+        def search_properties
+          only_properties = [String, ::DataMapper::Types::Text]
+          properties.select{|p| only_properties.include?(p.type)}
+        end
+
       end
 
     end # Model

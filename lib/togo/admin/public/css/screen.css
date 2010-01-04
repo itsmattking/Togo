@@ -67,6 +67,11 @@ body {
     padding: 10px 20px;
     margin: 0;
 }
+#main #search-form {
+    position: absolute;
+    right: 10px;
+    z-index: 3;
+}
 #main h1 a {
     text-decoration: none;
     color: #4076c7;

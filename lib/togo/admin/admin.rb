@@ -1,18 +1,10 @@
-require 'init'
+%w(dm-core rack).each{|l| require l}
+Dir.glob(File.join('models','*.rb')).each{|f| require f}
+DataMapper::Logger.new(STDOUT, :debug)
+DataMapper.setup(:default, "mysql://root@localhost/togo_development")
+DataMapper.auto_upgrade!
 
-DataMapper.auto_migrate!
-c = Category.create(:name => 'Melting')
-c2 = Category.create(:name => 'Exploding')
-c3 = Category.create(:name => 'Gyrating')
-BlogEntry.create(:title => 'My Mammy', :body => '', :date => Time.now, :category => c)
-BlogEntry.create(:title => 'Whammy Bar', :body => '', :date => Time.now, :category => c2)
-BlogEntry.create(:title => 'Kamakaze', :body => '', :date => Time.now, :category => c3)
-BlogEntry.create(:title => 'Smile Bitches', :body => '', :date => Time.now, :category => c)
-Range.new(0,20).each do |i|
-  BlogEntry.create(:title => "Blog Entry #{i}", :body => "#{i} is the number", :date => Time.now, :category => c)
-end
-
-class DispatchApp < Togo::Dispatch
+class AdminApp < Togo::Dispatch
 
   get '/' do
     redirect "/#{Togo.models.first}"
@@ -20,7 +12,7 @@ class DispatchApp < Togo::Dispatch
 
   get '/:model' do
     @model = Togo.const_get(params[:model])
-    @content = @model.all
+    @content = params[:q] ? @model.search(:q => params[:q]) : @model.all
     erb :index
   end
 

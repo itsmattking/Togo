@@ -8,4 +8,4 @@ module Togo
 
 end
 
-%w{model dispatch}.each{|l| require File.join('togo',l,l)}
+%w{model dispatch admin}.each{|l| require File.join('togo',l,l)}
