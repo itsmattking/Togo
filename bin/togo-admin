@@ -1,10 +1,28 @@
 #!/usr/bin/env ruby
+
 require 'togo'
 require 'togo/admin'
-admin_path = $:.find{|p| p =~ /lib\/togo\/admin/}
-config = {
-  :view_path => File.join(admin_path,'views'),
-  :public_path => File.join(admin_path,'public')
-}
-Rack::Handler::Thin.run(Togo::Admin.run!(config))
 
+$:.push('.')
+
+admin_path = $:.find{|p| p =~ /lib\/togo\/admin/}
+
+if ARGV.first == 'init'
+  puts "Creating togo-config.ru...";
+  FileUtils.cp(File.join(admin_path,'togo-admin.ru.default'),'./togo-admin.ru')
+  exit
+end
+
+Togo::Admin.configure({
+  :view_path => File.join(admin_path,'views'),
+  :public_path => File.join(admin_path,'public'),
+  :environment => :development,
+  :handler => Togo::Admin.handler,
+  :reloader => Togo::TogoReloader
+})
+
+begin
+  load 'togo-admin.ru'
+rescue LoadError
+  puts "Missing config file: togo-admin.ru. Run 'togo-admin init' to generate the file."
+end

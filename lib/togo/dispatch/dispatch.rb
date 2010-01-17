@@ -3,11 +3,14 @@ require 'erubis'
 
 module Togo
   class Dispatch
+
+    HANDLERS = %w(thin mongrel webrick)
+
     attr_reader :request, :response, :params
 
-    def initialize(config = {})
-      @view_path = config[:view_path] || 'views'
-      @togo_environment = ENV['RACK_ENV'] || 'development'
+    def initialize(opts = {})
+      @view_path = opts[:view_path] || 'views'
+      ENV['RACK_ENV'] = (opts[:environment] || :development) if not ENV['RACK_ENV']
     end
 
     def symbolize_keys(hash)
@@ -61,23 +64,40 @@ module Togo
       result
     end
 
-    def redirect(location)
-      @response.status = 301
+    def redirect(location, opts = {})
+      @response.status = (opts[:status] || 301)
       @response.headers['Location'] = location
       @response.finish
     end
 
-    def development?
-      @togo_environment == 'development'
+    def environment?(name)
+      ENV['RACK_ENV'] == name.to_sym
+    end
+
+    def self.handler
+      HANDLERS.each do |h|
+        begin
+          return Rack::Handler.get(h)
+        rescue
+        end
+      end
+      puts "Could not find any handlers to run. Please be sure your requested handler is installed."
     end
 
     class << self
-      attr_accessor :routes
+      attr_accessor :routes, :config
       
       def inherited(subclass)
         subclass.routes = {}
         subclass.send(:include, Rack::Utils)
         %w{GET POST}.each{|v| subclass.routes[v] = []}
+        subclass.config = {
+          :public_path => 'public',
+          :static_urls => ['/css','/js','/img'],
+          :port => 8080,
+          :host => '127.0.0.1',
+          :environment => :development
+        }
       end
       
       def get(route, &block)
@@ -104,25 +124,25 @@ module Togo
         path.gsub(/\/|\./, '__')
       end
 
-      def run!(config = {})
+      def configure(opts = {})
+        config.merge!(opts)
+      end
+
+      def run!(opts = {})
+        opts = config.dup.merge!(opts)
         builder = Rack::Builder.new
-        builder.use Rack::ShowExceptions
-        builder.use TogoReloader
-        builder.use Rack::Static, :urls => ['/css','/js','/img'], :root => (config[:public_path] || 'public')
-        builder.run new(config)
-        builder.to_app
+        if opts[:environment].to_sym == :development
+          puts "Showing exceptions and using reloader for Development..."
+          builder.use Rack::ShowExceptions
+          builder.use opts[:reloader] if opts[:reloader]
+        end
+        builder.use Rack::Static, :urls => opts[:static_urls], :root => opts[:public_path]
+        builder.run new(opts)
+        opts[:handler].run(builder.to_app, :Port => opts[:port], :Host => opts[:host])
       end
 
     end
     
   end # Dispatch
-
-  # Subclass Rack Reloader to call DataMapper.auto_upgrade! on file reload
-  class TogoReloader < Rack::Reloader
-    def safe_load(*args)
-      super(*args)
-      ::DataMapper.auto_upgrade!
-    end
-  end
 
 end # Togo
