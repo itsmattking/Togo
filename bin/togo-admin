@@ -11,12 +11,14 @@ config = {
   :standalone => true
 }
 
+files_to_require = []
+
 OptionParser.new{|opt|
   opt.on("-p port"){|port| config[:port] = port}
   opt.on("-h host"){|host| config[:host] = host}
   opt.on("-e env"){|env| config[:environment] = env.to_sym}
   opt.on("-a handler"){|handler| config[:handler] = Module.const_get(handler) if defined?(handler)}
-  opt.on("-r req"){|req| require req}
+  opt.on("-r req"){|req| files_to_require << req}
   opt.on("--help") do
     puts "Usage: togo-admin [options]"
     puts "Options: "
@@ -30,9 +32,13 @@ OptionParser.new{|opt|
   end
 }.parse!
 
+Togo::Admin.configure(config)
+
 begin
+  files_to_require.each{|f| require f}
   require 'togo-admin-config'
-rescue LoadError
+rescue LoadError => detail
+  puts "Warning: #{detail}"
 end
 
-Togo::Admin.run!(config)
+Togo::Admin.run!
