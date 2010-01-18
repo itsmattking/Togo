@@ -138,7 +138,11 @@ module Togo
         end
         builder.use Rack::Static, :urls => opts[:static_urls], :root => opts[:public_path]
         builder.run new(opts)
-        opts[:handler].run(builder.to_app, :Port => opts[:port], :Host => opts[:host])
+        if opts[:standalone]
+          opts[:handler].run(builder.to_app, :Port => opts[:port], :Host => opts[:host])
+        else
+          builder.to_app
+        end
       end
 
     end

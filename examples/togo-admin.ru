@@ -1,3 +1,6 @@
+require 'togo'
+require 'togo/admin'
+
 # Togo Admin Configuration/Rackup File
 # You should require any extras needed for your models here. You should also set up
 # any database connections here that would be required to load your models.
@@ -24,5 +27,9 @@ DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, "mysql://root@localhost/togo_development")
 DataMapper.auto_upgrade!
 
-config = {}
-Togo::Admin.run!(config)
+config = {:port => 8081}
+if Togo::Admin.config[:standalone]
+  Togo::Admin.run!(config)
+else
+  run Togo::Admin.run!(config)
+end

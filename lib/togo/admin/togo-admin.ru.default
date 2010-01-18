@@ -1,3 +1,6 @@
+require 'togo'
+require 'togo/admin'
+
 # Togo Admin Configuration/Rackup File
 # ====================================
 # You should require any extras needed for your models here. You should also
@@ -31,4 +34,8 @@
 # subclasses Rack::Reloader and overrides the safe_load method.
 
 config = {}
-Togo::Admin.run!(config)
+if Togo::Admin.config[:standalone]
+  Togo::Admin.run!(config)
+else
+  run Togo::Admin.run!(config)
+end

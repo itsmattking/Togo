@@ -3,22 +3,18 @@
 require 'togo'
 require 'togo/admin'
 
-$:.push('.')
-
-admin_path = $:.find{|p| p =~ /lib\/togo\/admin/}
-
 if ARGV.first == 'init'
-  puts "Creating togo-config.ru...";
-  FileUtils.cp(File.join(admin_path,'togo-admin.ru.default'),'./togo-admin.ru')
+  $:.push('.')
+  puts "Creating togo-admin.ru...";
+  FileUtils.cp(File.join($:.find{|p| p =~ /lib\/togo\/admin/},'togo-admin.ru.default'),'./togo-admin.ru')
   exit
 end
 
 Togo::Admin.configure({
-  :view_path => File.join(admin_path,'views'),
-  :public_path => File.join(admin_path,'public'),
   :environment => :development,
   :handler => Togo::Admin.handler,
-  :reloader => Togo::TogoReloader
+  :reloader => Togo::TogoReloader,
+  :standalone => true
 })
 
 begin
