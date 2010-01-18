@@ -1,24 +1,38 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
 require 'togo'
 require 'togo/admin'
 
-if ARGV.first == 'init'
-  $:.push('.')
-  puts "Creating togo-admin.ru...";
-  FileUtils.cp(File.join($:.find{|p| p =~ /lib\/togo\/admin/},'togo-admin.ru.default'),'./togo-admin.ru')
-  exit
-end
-
-Togo::Admin.configure({
+config = {
   :environment => :development,
   :handler => Togo::Admin.handler,
   :reloader => Togo::TogoReloader,
   :standalone => true
-})
+}
+
+OptionParser.new{|opt|
+  opt.on("-p port"){|port| config[:port] = port}
+  opt.on("-h host"){|host| config[:host] = host}
+  opt.on("-e env"){|env| config[:environment] = env.to_sym}
+  opt.on("-a handler"){|handler| config[:handler] = Module.const_get(handler) if defined?(handler)}
+  opt.on("-r req"){|req| require req}
+  opt.on("--help") do
+    puts "Usage: togo-admin [options]"
+    puts "Options: "
+    puts "\t-p [port]: which port to run on"
+    puts "\t-p [host]: which host to run on"
+    puts "\t-e [environment]: which environment to boot in"
+    puts "\t-r [file]: which file to require before running."
+    puts "\t--help: what you're seeing"
+    puts "TIP: To load code automatically before running togo-admin, create a file called togo-admin-config.rb."
+    exit
+  end
+}.parse!
 
 begin
-  load 'togo-admin.ru'
+  require 'togo-admin-config'
 rescue LoadError
-  puts "Missing config file: togo-admin.ru. Run 'togo-admin init' to generate the file."
 end
+
+Togo::Admin.run!(config)
