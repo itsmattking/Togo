@@ -13,6 +13,15 @@ class BlogEntry
   belongs_to :category, :required => false
 end
 
+class Category
+  include DataMapper::Resource
+  include Togo::DataMapper::Model
+  property :id, Serial
+  property :name, String
+  has n, :another_blog_entries
+  has n, :blog_entries
+end
+
 def setup_browser
   Rack::Test::Session.new(Rack::MockSession.new(Togo::Admin.run!))
 end

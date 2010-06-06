@@ -54,6 +54,10 @@ module Togo
           content
         end
 
+        def delete_content(content)
+          content.destroy!
+        end
+
         def display_name
           name.gsub(/([a-z])([A-Z])/,"\\1 \\2").pluralize
         end

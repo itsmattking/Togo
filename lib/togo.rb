@@ -9,3 +9,4 @@ module Togo
 end
 
 require 'togo/model'
+require 'togo/support'

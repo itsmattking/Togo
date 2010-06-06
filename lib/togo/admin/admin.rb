@@ -49,6 +49,18 @@ module Togo
       end
     end
 
+    post '/delete/:model/:id' do
+      @content = @model.get(params[:id])
+      begin
+        raise "Could not delete content" if not @model.delete_content(@content)
+        redirect "/#{@model.name}"
+      rescue => detail
+        puts $!.backtrace
+        @errors = detail.to_s
+        erb :edit
+      end
+    end
+
   end
 
   # Subclass Rack Reloader to call DataMapper.auto_upgrade! on file reload

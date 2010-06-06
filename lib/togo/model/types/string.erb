@@ -1,2 +1,2 @@
-<label for="<%= property.name %>"><%= property.model.property_options[property.name][:label] rescue property.name.to_s.capitalize %></label>
+<label for="<%= property.name %>"><%= property.model.property_options[property.name][:label] rescue property.name.to_s.humanize.titleize %></label>
 <input type="text" name="<%= property.name %>" id="<%= property.name %>" value="<%= content.send(property.name.to_sym) %>" />

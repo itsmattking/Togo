@@ -104,4 +104,10 @@ describe "Togo Datamapper Model" do
     Category.display_name.should == 'Categories'
   end
 
+  it "should delete an item" do
+    @blog_entry = BlogEntry.create(:title => 'test 1', :body => 'body')
+    @blog_entry.id.should_not be_nil
+    BlogEntry.delete_content(@blog_entry)
+    BlogEntry.first(:id => @blog_entry.id).should be_nil
+  end
 end

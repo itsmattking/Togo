@@ -9,7 +9,7 @@
   <thead>
     <tr>
       <% @model.list_properties.each do |p| %>
-      <th><%= p.name.to_s.capitalize %></th>
+      <th><%= p.name.to_s.humanize.titleize %></th>
       <% end %>
     </tr>
   </thead>
