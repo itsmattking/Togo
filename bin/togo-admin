@@ -3,6 +3,11 @@
 require 'optparse'
 files_to_require = []
 
+config = {
+  :environment => :development,
+  :standalone => true
+}
+
 OptionParser.new{|opt|
   opt.on("-p port"){|port| config[:port] = port}
   opt.on("-h host"){|host| config[:host] = host}
@@ -32,12 +37,10 @@ end
 require 'togo'
 require 'togo/admin'
 
-config = {
-  :environment => :development,
+config.merge!({
   :handler => Togo::Admin.handler,
-  :reloader => Togo::TogoReloader,
-  :standalone => true
-}
+  :reloader => Togo::TogoReloader
+})
 
 Togo::Admin.configure(config)
 Togo::Admin.run!
