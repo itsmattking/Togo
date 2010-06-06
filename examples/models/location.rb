@@ -8,5 +8,5 @@ class Location
   property :fonk, String
 
   list_properties :fonk, :name, :midget
-  form_properties :name, :pork, :midget
+  form_properties :name, :pork, :midget, :fonk
 end

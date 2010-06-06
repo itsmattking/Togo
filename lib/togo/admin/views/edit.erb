@@ -12,3 +12,9 @@
     <button type="submit" class="save">Save</button>
   </div>
 </form>
+<div class="actions external">
+  <form action="/delete/<%= @model.name %>" method="post" id="delete-form">
+    <input type="hidden" id="delete-list" name="id" value="<%= @content.id %>" />
+    <button type="submit" id="delete-button">Delete</button>
+  </form>
+</div>

@@ -1,13 +1,16 @@
 <h1><%= @model.display_name %></h1>
-<!-- <form method="get" id="search-form"> -->
-<!--   <fieldset> -->
-<!--     <input type="text" name="q" value="<%= params[:q] rescue '' %>" size="40" /> <button type="submit">Search</button> -->
-<!--   </fieldset> -->
+<form method="get" id="search-form">
+  <fieldset>
+    <input type="text" name="q" value="<%= params[:q] rescue '' %>" size="40" /> <button type="submit">Search</button>
+  </fieldset>
 </form>
 <div class="wrapper">
-<table>
+<table id="list-table">
   <thead>
     <tr>
+      <% if not @content.empty? %>
+      <th></th>
+      <% end %>
       <% @model.list_properties.each do |p| %>
       <th><%= p.name.to_s.humanize.titleize %></th>
       <% end %>
@@ -16,13 +19,14 @@
   <tbody>
     <% if @content.empty? %>
     <tr>
-      <td colspan="<%= @model.list_properties.size %>">No content has been created yet.</td>
+      <td colspan="<%= @model.list_properties.size %>"><% if params[:q] %>No results for '<%= params[:q] %>'<% else %>No content has been created yet.<% end %></td>
     </tr>
     <% else %>
     <% @content.each do |c| %>
     <tr>
+      <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="1" id="selection_<%= c.id %>" /></td>
       <% @model.list_properties.each_with_index do |p,i| %>
-      <td><% if i == 0 %><a href="/edit/<%= @model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
+      <td><% if i == 0 %><a href="/edit/<%= @model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
       <% end %>
     </tr>
     <% end %>
@@ -31,5 +35,10 @@
 </table>
 </div>
 <div class="actions">
-  <a href="/new/<%= @model.name %>" class="action new">New</a>
+  <a href="/new/<%= @model.name %>" class="action new" id="new-button">New</a>
+  <form action="/delete/<%= @model.name %>" method="post" id="delete-form">
+    <input type="hidden" id="delete-list" name="id" value="" />
+    <button type="submit" id="delete-button" disabled="disabled">Delete</button>
+  </form>
 </div>
+<script type="text/javascript" src="/js/index.js"></script>

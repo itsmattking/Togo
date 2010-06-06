@@ -1,17 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
-require 'togo-admin-config'
-require 'togo'
-require 'togo/admin'
-
-config = {
-  :environment => :development,
-  :handler => Togo::Admin.handler,
-  :reloader => Togo::TogoReloader,
-  :standalone => true
-}
-
 files_to_require = []
 
 OptionParser.new{|opt|
@@ -33,12 +22,22 @@ OptionParser.new{|opt|
   end
 }.parse!
 
-Togo::Admin.configure(config)
-
 begin
   files_to_require.each{|f| require f}
+  require 'togo-admin-config'
 rescue LoadError => detail
   puts "Warning: #{detail}"
 end
 
+require 'togo'
+require 'togo/admin'
+
+config = {
+  :environment => :development,
+  :handler => Togo::Admin.handler,
+  :reloader => Togo::TogoReloader,
+  :standalone => true
+}
+
+Togo::Admin.configure(config)
 Togo::Admin.run!

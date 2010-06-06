@@ -69,8 +69,16 @@ body {
 }
 #main #search-form {
     position: absolute;
-    right: 10px;
+    right: 0;
     z-index: 3;
+    width: 270px;
+    top: 0;
+}
+#main #search-form fieldset {
+    padding: 15px 0;
+}
+#main #search-form input[type=text] {
+    width: 190px;
 }
 #main h1 a {
     text-decoration: none;
@@ -97,6 +105,12 @@ body {
     border-bottom: 1px solid #CECECE;
     background: #FFF;
 }
+#main table td.checkbox {
+    width: 10px;
+    text-align: center;
+    padding-right: 0;
+}
+    
 #main .wrapper {
     position: absolute;
     top: 57px;
@@ -159,8 +173,8 @@ div.actions a {
     font: 12px "Lucida Grande", verdana;
     position: absolute;
     top: 12px;
-    right: 10px;
     line-height: 22px;
+    right: 10px;
 }
 div.actions a {
     line-height: 23px;
@@ -174,4 +188,21 @@ div.actions button {
 div.actions button:hover,
 div.actions a:hover {
     background: transparent url(/img/btn-bg.png) repeat-x left -22px;
+}
+div.actions button:disabled {
+    color: #999;
+}
+div.actions button:disabled:hover {
+    cursor: text;
+    background: transparent url(/img/btn-bg.png) repeat-x top left;
+}
+div.actions button#delete-button {
+    right: 100px;
+}
+div.external {
+    right: 100px;
+    background: transparent;
+}
+div.external button#delete-button {
+    right: 0;
 }

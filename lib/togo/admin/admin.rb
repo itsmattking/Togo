@@ -49,15 +49,17 @@ module Togo
       end
     end
 
-    post '/delete/:model/:id' do
-      @content = @model.get(params[:id])
+    post '/delete/:model' do
+      @items = @model.all(:id => params[:id].split(','))
       begin
-        raise "Could not delete content" if not @model.delete_content(@content)
+        @items.each do |i|
+          @model.delete_content(i)
+        end
         redirect "/#{@model.name}"
       rescue => detail
-        puts $!.backtrace
         @errors = detail.to_s
-        erb :edit
+        @content = params[:q] ? @model.search(:q => params[:q]) : @model.all
+        erb :index
       end
     end
 
