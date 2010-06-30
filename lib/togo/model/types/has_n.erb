@@ -4,7 +4,7 @@
 <table id="association-table">
   <thead>
     <tr>
-      <% if related_content %>
+      <% if related_content.empty? %>
       <th></th>
       <% end %>
       <% related_model.list_properties.each do |p| %>
@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <% if not related_content %>
+    <% if not related_content.empty? %>
     <tr>
       <td colspan="<%= related_model.list_properties.size %>">No Content Associated.</td>
     </tr>
