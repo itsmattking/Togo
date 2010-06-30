@@ -1,6 +1,6 @@
-<% related_content = content.send(property.name.to_sym)  %>
+<% related_content = content.send(property.name.to_sym) %>
 <% related_model = property.parent_key.first.model %>
-<label for="<%= property.name %>"><%= property.name.to_s.humanize.titleize %></label>
+<label for="<%= property.name %>"><%= property.name.to_s.humanize.titleize %> (<a href="/new/<%= related_model.name %>">New...</a>)</label>
 <table id="association-table">
   <thead>
     <tr>
