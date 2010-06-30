@@ -4,4 +4,5 @@ $:.push(SITE_ROOT+'/../lib/togo')
 %w(dm-core togo).each{|l| require l}
 Dir.glob(File.join(SITE_ROOT,'models','*.rb')).each{|f| require f}
 DataMapper::Logger.new(STDOUT, :debug)
-DataMapper.setup(:default, "mysql://root:1nt3rfac3@localhost/togo_development")
+DataMapper.setup(:default, "mysql://root@localhost/togo_development")
+DataMapper.auto_upgrade!
