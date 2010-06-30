@@ -2,8 +2,8 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = %q{togo}
-  s.version = "0.2.0"
-  s.date = %q{2010-01-03}
+  s.version = "0.3.0"
+  s.date = %q{2010-06-30}
   s.authors = ["Matt King"]
   s.email = %q{matt@mattking.org}
   s.summary = %q{Automatic Content Admin Tool for Ruby ORMs}
@@ -21,4 +21,5 @@ Gem::Specification.new do |s|
                      'bin/*'
                     ]
   s.add_dependency('dm-core','= 0.10.2')
+  s.add_dependency('erubis','> 0.0.0')
 end
