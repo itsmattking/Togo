@@ -76,6 +76,10 @@ module Togo
           all(:conditions => [conditions.join(' OR ')] + values)
         end
 
+        def field_class_for(property)
+          type_from_property(property)
+        end
+
         private
 
         def custom_template_for(property,template)
@@ -88,6 +92,8 @@ module Togo
               Extlib::Inflection.demodulize(property.type).downcase
             when ::DataMapper::Associations::ManyToOne::Relationship
               'belongs_to'
+            when ::DataMapper::Associations::OneToMany::Relationship
+              'has_n'
             else
               'string'
           end

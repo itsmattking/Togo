@@ -150,6 +150,10 @@ body {
 #main form fieldset input[type=text]:focus {
     border: 1px solid #ABABAB;
 }
+#main form fieldset.belongs_to,
+#main form fieldset.has_n  {
+    padding-right: 20px;
+}
 div.actions {
     position: absolute;
     bottom: 0;

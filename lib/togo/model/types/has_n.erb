@@ -1,6 +1,6 @@
 <% related_content = content.send(property.name.to_sym)  %>
-<% related_model = property.parent_key.first.model %>
-<label for="<%= property.name %>"><%= property.name.to_s.humanize.titleize %></label>
+<% related_model = property.child_key.first.model %>
+<label for="<%= property.name %>"><%= related_model.display_name %></label>
 <table id="association-table">
   <thead>
     <tr>
@@ -18,12 +18,14 @@
       <td colspan="<%= related_model.list_properties.size %>">No Content Associated.</td>
     </tr>
     <% else %>
+    <% related_content.each do |c| %>
     <tr>
-      <td class="checkbox"><input type="checkbox" name="selection[<%= related_content.id %>]" value="1" id="selection_<%= related_content.id %>" /></td>
+      <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="1" id="selection_<%= c.id %>" /></td>
       <% related_model.list_properties.each_with_index do |p,i| %>
-      <td><% if i == 0 %><a href="/edit/<%= @model.name %>/<%= c.id %>"><%= related_content.send(p.name.to_sym) || '-' %></a><% else %><%= related_content.send(p.name.to_sym) %><% end %></td>
+      <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
       <% end %>
-    </tr>
+    </tr>   
+    <% end -%>
     <% end %>
   </tbody>
 </table>
