@@ -21,7 +21,7 @@
     <tr>
       <td class="checkbox"><input type="checkbox" name="selection[<%= related_content.id %>]" value="1" id="selection_<%= related_content.id %>" /></td>
       <% related_model.list_properties.each_with_index do |p,i| %>
-      <td><% if i == 0 %><a href="/edit/<%= @model.name %>/<%= c.id %>"><%= related_content.send(p.name.to_sym) || '-' %></a><% else %><%= related_content.send(p.name.to_sym) %><% end %></td>
+      <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= related_content.id %>"><%= related_content.send(p.name.to_sym) || '-' %></a><% else %><%= related_content.send(p.name.to_sym) %><% end %></td>
       <% end %>
     </tr>
     <% end %>

@@ -3,7 +3,7 @@
   <div class="wrapper">
     <% if @errors %><div id="save_errors" class="errors"><%= @errors %></div><% end %>
     <% @model.form_properties.each do |p| %>
-    <fieldset id="field_<%= p.name %>">
+    <fieldset id="field_<%= p.name %>" class="<%= @model.field_class_for(p) %>">
       <%= @model.form_for(p,@content) %>
     </fieldset>
     <% end %>
