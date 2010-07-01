@@ -2,7 +2,7 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = %q{togo}
-  s.version = "0.3.0"
+  s.version = "0.3.1"
   s.date = %q{2010-06-30}
   s.authors = ["Matt King"]
   s.email = %q{matt@mattking.org}
