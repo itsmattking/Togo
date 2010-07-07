@@ -1,17 +1,32 @@
 <% related_content = content.send(property.name.to_sym) %>
 <% related_model = property.parent_key.first.model %>
-<label for="<%= property.name %>"><%= property.name.to_s.humanize.titleize %> (<a href="/new/<%= related_model.name %>">New...</a>)</label>
-<table id="association-table">
+<input type="hidden" name="related_<%= property.name %>" class="related_ids" value="" />
+<label for="<%= property.name %>"><%= property.name.to_s.humanize.titleize %></label>
+<div class="search" id="search-<%= related_model.name %>">
+  <input type="text" name="search-<%= property.name %>" value="Search..." />
+  <div class="paging">
+    Page 1 of 1
+    <a href="#">&laquo; Previous</a> <a href="#">Next &raquo;</a>
+  </div>
+</div>
+<table>
   <thead>
     <tr>
       <% if related_content %>
-      <th></th>
+      <th class="checkbox"></th>
       <% end %>
       <% related_model.list_properties.each do |p| %>
       <th><%= p.name.to_s.humanize.titleize %></th>
       <% end %>
     </tr>
   </thead>
+  <tfoot>
+    <tr>
+      <td colspan="<%= related_model.form_properties.size+1 %>">
+        <button class="association-modify">Modify</button>
+      </td>
+    </tr>
+  </tfoot>
   <tbody>
     <% if not related_content %>
     <tr>
@@ -19,7 +34,7 @@
     </tr>
     <% else %>
     <tr>
-      <td class="checkbox"><input type="checkbox" name="selection[<%= related_content.id %>]" value="1" id="selection_<%= related_content.id %>" /></td>
+      <td class="checkbox"><input type="checkbox" name="selection[<%= related_content.id %>]" value="1" id="selection_<%= related_content.id %>" checked="checked" /></td>
       <% related_model.list_properties.each_with_index do |p,i| %>
       <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= related_content.id %>"><%= related_content.send(p.name.to_sym) || '-' %></a><% else %><%= related_content.send(p.name.to_sym) %><% end %></td>
       <% end %>
@@ -27,3 +42,6 @@
     <% end %>
   </tbody>
 </table>
+<script type="text/javascript">
+  new AssociationManager({name: '<%= property.name %>', model: '<%= related_model.name %>'});
+</script>

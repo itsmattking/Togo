@@ -1,4 +1,4 @@
-%w(dm-core rack).each{|l| require l}
+%w(dm-core rack dm-serializer).each{|l| require l}
 Dir.glob(File.join('models','*.rb')).each{|f| require f}
 
 module Togo
@@ -61,6 +61,11 @@ module Togo
         @content = params[:q] ? @model.search(:q => params[:q]) : @model.all
         erb :index
       end
+    end
+
+    get '/search/:model' do
+      @items = @model.search(:q => params[:q])
+      {:fields => @model.list_properties.inject([]){|m,p| m.push(p.name)}, :results => @items}.to_json
     end
 
   end

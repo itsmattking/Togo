@@ -43,13 +43,13 @@ module Togo
         @response.status = 404
         @response.write("404 Not Found")
       else
-#         begin
+        begin
           __before if defined? __before
           @response.write(send(method))
-#         rescue => detail
-#           @response.status = 500
-#           @response.write(["Error: #{detail}",$!.backtrace.join("<br />\n")].join("<br />\n"))
-#         end
+        rescue => detail
+          @response.status = 500
+         @response.write(["Error: #{detail}",$!.backtrace.join("<br />\n")].join("<br />\n"))
+        end
       end
     end
     

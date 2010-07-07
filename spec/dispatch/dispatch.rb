@@ -47,7 +47,7 @@ describe "Togo Dispatch" do
   it "should rescue and display exceptions" do
     @browser.get('/exception-test')
     @browser.last_response.status.should == 500
-    @browser.last_response.body.should == 'Error: Exception Test'
+    @browser.last_response.body.should =~ /Error: Exception Test/
   end
 
   it "should have routes" do

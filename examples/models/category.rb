@@ -5,11 +5,11 @@ class Category
   
   property :id, Serial
   property :name, String, :length => 255
-  property :positions, String
   
   list_properties :name
 
   has n, :blog_entries
+  has n, :locations
 
   def to_s
     name

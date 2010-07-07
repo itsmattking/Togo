@@ -105,7 +105,8 @@ body {
     border-bottom: 1px solid #CECECE;
     background: #FFF;
 }
-#main table td.checkbox {
+#main table td.checkbox,
+#main table th.checkbox {
     width: 10px;
     text-align: center;
     padding-right: 0;
@@ -154,9 +155,37 @@ body {
 #main form fieldset.has_n  {
     padding-right: 20px;
 }
+#main form fieldset.belongs_to input[type=text],
+#main form fieldset.has_n input[type=text] {
+    width: 190px;
+}
+#main form fieldset.belongs_to label,
+#main form fieldset.has_n label {
+    float: left;
+}
+#main form fieldset.belongs_to div.search,
+#main form fieldset.has_n div.search {
+    display: none;
+    width: 100%;
+    text-align: right;
+}
+#main form fieldset.belongs_to div.paging,
+#main form fieldset.has_n div.paging {
+    float: right;
+    margin-left: 10px;
+    line-height: 30px;
+}
+#main form fieldset.belongs_to .checkbox,
+#main form fieldset.has_n .checkbox {
+    display: none;
+}
 #main form fieldset table th,
 #main form fieldset table td {
     padding: 5px;
+}
+#main form fieldset table tfoot td {
+    background: #DDD;
+    text-align: right;
 }
 
 div.actions {

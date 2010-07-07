@@ -95,8 +95,7 @@ describe "Togo Datamapper Model" do
     b.category = Category.create(:name => 'blah')
     b.save
     out = AnotherBlogEntry.form_for(BlogEntry.form_properties.select{|f| f.name == :category}.first, b)
-    out.should =~ Regexp.new("<input type=\"text\".*?value=\"#{b.category}\"")
-    out.should =~ Regexp.new("<input type=\"hidden\".*?value=\"#{b.category.id}\"")
+    out.should =~ Regexp.new("<td>.*?#{b.category.name}.*?</td>")
   end
 
   it "should display humanized and pluralized name" do

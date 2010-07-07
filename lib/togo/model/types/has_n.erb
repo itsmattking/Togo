@@ -1,31 +1,49 @@
 <% related_content = content.send(property.name.to_sym)  %>
 <% related_model = property.child_key.first.model %>
+<input type="hidden" name="related_<%= property.name %>" class="related_ids" value="" />
 <label for="<%= property.name %>"><%= related_model.display_name %></label>
-<table id="association-table">
+<div class="search" id="search-<%= related_model.name %>">
+  <input type="text" name="search-<%= property.name %>" value="Search..." />
+  <div class="paging">
+    Page 1 of 1
+    <a href="#">&laquo; Previous</a> <a href="#">Next &raquo;</a>
+  </div>
+</div>
+<table>
   <thead>
     <tr>
-      <% if related_content.empty? %>
-      <th></th>
+      <% if not related_content.empty? %>
+      <th class="checkbox"></th>
       <% end %>
       <% related_model.list_properties.each do |p| %>
       <th><%= p.name.to_s.humanize.titleize %></th>
       <% end %>
     </tr>
   </thead>
-  <tbody>
-    <% if not related_content.empty? %>
+  <tfoot>
     <tr>
-      <td colspan="<%= related_model.list_properties.size %>">No Content Associated.</td>
+      <td colspan="<%= related_model.form_properties.size+1 %>">
+        <button class="association-modify">Modify</button>
+      </td>
+    </tr>
+  </tfoot>
+  <tbody>
+    <% if related_content.empty? %>
+    <tr>
+      <td colspan="<%= related_model.form_properties.size %>">No Content Associated.</td>
     </tr>
     <% else %>
     <% related_content.each do |c| %>
     <tr>
-      <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="1" id="selection_<%= c.id %>" /></td>
+      <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= c.id %>" checked="checked" /></td>
       <% related_model.list_properties.each_with_index do |p,i| %>
       <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
       <% end %>
     </tr>   
-    <% end -%>
+    <% end %>
     <% end %>
   </tbody>
 </table>
+<script type="text/javascript">
+  new AssociationManager({name: '<%= property.name %>', model: '<%= related_model.name %>'});
+</script>
