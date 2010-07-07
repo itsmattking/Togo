@@ -179,6 +179,10 @@ body {
 #main form fieldset.has_n .checkbox {
     display: none;
 }
+#main form fieldset.belongs_to .active,
+#main form fieldset.has_n .active {
+    display: table-cell;
+}
 #main form fieldset table th,
 #main form fieldset table td {
     padding: 5px;
