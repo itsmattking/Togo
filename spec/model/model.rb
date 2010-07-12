@@ -98,6 +98,12 @@ describe "Togo Datamapper Model" do
     out.should =~ Regexp.new("<td>.*?#{b.category.name}.*?</td>")
   end
 
+  it "should choose correct template based on property" do
+    BlogEntry.send(:type_from_property, BlogEntry.list_properties.find{|p| p.name == :title}).should == 'string'
+    BlogEntry.send(:type_from_property, BlogEntry.list_properties.find{|p| p.name == :category}).should == 'belongs_to'
+    Category.send(:type_from_property, Category.form_properties.find{|p| p.name == :blog_entries}).should == 'has_n'
+  end
+
   it "should display humanized and pluralized name" do
     BlogEntry.display_name.should == 'Blog Entries'
     Category.display_name.should == 'Categories'
@@ -109,4 +115,29 @@ describe "Togo Datamapper Model" do
     BlogEntry.delete_content(@blog_entry)
     BlogEntry.first(:id => @blog_entry.id).should be_nil
   end
+
+  it "should search items" do
+    @blog_entry1 = BlogEntry.create(:title => 'search test 1', :body => 'body')
+    @blog_entry2 = BlogEntry.create(:title => 'search test 2', :body => 'body')
+    @results = BlogEntry.search(:q => 'search test')
+    @results.size.should == 2
+    @results.map(&:title).should include 'search test 1'
+    @results.map(&:title).should include 'search test 2'
+    @results = BlogEntry.search(:q => 'non-search test')
+    @results.size.should == 0
+  end
+
+  it "should page search items" do
+    @results = BlogEntry.search(:q => 'search test', :limit => 1, :offset => 1)
+    @results.size.should == 1
+    @results.map(&:title).should_not include 'search test 1'
+    @results.map(&:title).should include 'search test 2'
+  end
+
+  it "should not search non-text fields" do
+    @blog_entry = BlogEntry.create(:title => 'search field test 1', :body => 'body', :random_number => 45678)
+    @results = BlogEntry.search(:q => '45678')
+    @results.size.should == 0
+  end
+
 end

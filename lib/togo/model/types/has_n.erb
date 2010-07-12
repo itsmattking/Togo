@@ -1,4 +1,5 @@
-<% related_content = content.send(property.name.to_sym)  %>
+<% content_count = content.send(property.name.to_sym).size %>
+<% related_content = content.send(property.name.to_sym)[0...10] %>
 <% related_model = property.child_key.first.model %>
 <input type="hidden" name="related_<%= property.name %>" class="related_ids" value="" />
 <label for="<%= property.name %>"><%= related_model.display_name %></label>
@@ -6,7 +7,7 @@
   <input type="text" name="search-<%= property.name %>" value="Search..." />
   <div class="paging">
     Page 1 of 1
-    <a href="#">&laquo; Previous</a> <a href="#">Next &raquo;</a>
+    <a href="#" rel="prev">&laquo; Previous</a> <a href="#" rel="next">Next &raquo;</a>
   </div>
 </div>
 <table>
@@ -22,7 +23,15 @@
   </thead>
   <tfoot>
     <tr>
-      <td colspan="<%= related_model.form_properties.size+1 %>">
+      <% if not related_content.empty? %>
+      <td class="checkbox"></td>
+      <% end %>
+      <td>
+        <% if content_count > 0 %>
+        <span class="associated-count">...and <%= content_count-related_content.size %> more associated items</span>
+        <% end %>
+      </td>
+      <td colspan="<%= related_model.form_properties.size-1 %>">
         <button class="association-modify">Modify</button>
       </td>
     </tr>
@@ -45,5 +54,5 @@
   </tbody>
 </table>
 <script type="text/javascript">
-  new AssociationManager({name: '<%= property.name %>', model: '<%= related_model.name %>'});
+  new AssociationManager({name: '<%= property.name %>', model: '<%= related_model.name %>', fields: <%= related_model.list_properties.map(&:name).to_json %>, relationships: <%= related_model.relationships.keys.to_json %>});
 </script>

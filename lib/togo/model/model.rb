@@ -68,12 +68,14 @@ module Togo
 
         def search(opts)
           q = "%#{opts[:q].gsub(/\s+/,'%')}%"
+          limit = opts[:limit] || 10
+          offset = opts[:offset] || 0
           conditions, values = [], []
           search_properties.each{|l|
             conditions << "#{l.name} like ?"
             values << q
           }
-          all(:conditions => [conditions.join(' OR ')] + values)
+          all(:conditions => [conditions.join(' OR ')] + values, :limit => limit.to_i, :offset => offset.to_i)
         end
 
         def field_class_for(property)

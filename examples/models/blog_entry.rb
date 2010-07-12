@@ -7,12 +7,13 @@ class BlogEntry
   property :title, String, :length => 255
   property :date, DateTime, :default => DateTime.now
   property :body, Text
+  property :tags, String, :length => 255
   property :enabled, Boolean, :default => false
 
   belongs_to :category, :required => false
 
-  list_properties :title, :category, :date, :enabled
-  form_properties :title, :category, :date, :body, :enabled
+  list_properties :title, :date, :category, :enabled
+  form_properties :title, :date, :body, :category, :tags, :enabled
 
   configure_property :title, :label => "The Title"
 end

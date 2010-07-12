@@ -15,4 +15,8 @@ class Category
     name
   end
 
+  def to_json
+    name.to_json
+  end
+
 end

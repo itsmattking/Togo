@@ -189,9 +189,10 @@ body {
 }
 #main form fieldset table tfoot td {
     background: #DDD;
-    text-align: right;
 }
-
+#main form fieldset table tfoot td button {
+    float: right;
+}
 div.actions {
     position: absolute;
     bottom: 0;

@@ -56,4 +56,28 @@ describe "Togo Admin" do
     @current_count.should == BlogEntry.all.size
   end
 
+  it "should search model content" do
+    b = BlogEntry.create(:title => "test 1234")
+    @browser.get "/search/BlogEntry", :q => "test 1234"
+    @browser.last_response.status.should == 200
+    @browser.last_response.body.should == BlogEntry.search(:q => "test 1234").to_json
+  end
+
+  it "should search model content and show relationship methods in JSON" do
+    b = BlogEntry.create(:title => "test 1234")
+    b.category = Category.create(:name => "test")
+    b.save
+    @browser.get "/search/BlogEntry", :q => "test 1234", :r => "category"
+    @browser.last_response.status.should == 200
+    @browser.last_response.body.should == BlogEntry.search(:q => "test 1234").to_json(:methods => [:category])
+  end
+
+  it "should search model content and allow paging" do
+    b1 = BlogEntry.create(:title => "paging test blog entry 1")
+    b2 = BlogEntry.create(:title => "paging test blog entry 2")
+    @browser.get "/search/BlogEntry", :q => "paging test blog entry", :limit => 1, :offset => 1
+    @browser.last_response.status.should == 200
+    @browser.last_response.body.should == [b2].to_json
+  end
+
 end

@@ -2,7 +2,7 @@ $TESTING=true
 $:.push File.join(File.dirname(__FILE__), '..', '..', 'lib')
 $:.push File.join(File.dirname(__FILE__), '..', '..', 'lib','togo')
 %w(dm-core togo).each{|l| require l}
-DataMapper.setup(:default, "mysql://root@localhost/togo_model_test")
+DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/model.db")
 
 class BlogEntry
   include DataMapper::Resource
@@ -10,6 +10,7 @@ class BlogEntry
   property :id, Serial
   property :title, String, :default => 'Hi'
   property :body, Text
+  property :random_number, Integer
   belongs_to :category, :required => false
 end
 
