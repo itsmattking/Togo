@@ -66,10 +66,8 @@ module Togo
     get '/search/:model' do
       @limit = params[:limit] || 10
       @offset = params[:offset] || 0
-      @items = @model.search(:q => params[:q], :offset => @offset, :limit => @limit)
-      @relationships = @model.relationships.keys
-      @requested_relationships = (params[:r] || '').split(',')
-      @items.to_json(:methods => @relationships.select{|r| @requested_relationships.include?(r.to_s)})
+      @items = @model.search(:q => params[:q] || '', :offset => @offset, :limit => @limit)
+      @items.to_json
     end
 
   end
