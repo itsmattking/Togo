@@ -9,6 +9,7 @@ describe "Togo Dispatch" do
   it "should respond ok on request" do
     @browser.get '/'
     @browser.last_response.status.should == 200
+    @browser.last_response.body.should =~ /<h1>Index<\/h1>/
   end
 
   it "should render layout with erb" do
@@ -58,6 +59,26 @@ describe "Togo Dispatch" do
     @browser.get('/before-test')
     @browser.last_response.status.should == 200
     @browser.last_response.body.should == "true"
+  end
+
+  it "should accept routes in config" do
+    config = {:routes => [
+                          {:type => 'get', :path => '/configured-route', :template => 'configured_route'}
+                         ]}
+    @configured_browser = Rack::Test::Session.new(Rack::MockSession.new(DispatchTest.run!(config)))
+    @configured_browser.get('/configured-route')
+    @configured_browser.last_response.status.should == 200
+    @configured_browser.last_response.body.should =~ /<h1>Configured Route<\/h1>/
+  end
+
+  it "should accept routes and not add if already defined in class" do
+    config = {:routes => [
+                          {:type => 'get', :path => '/', :template => 'configured_route'}
+                         ]}
+    @configured_browser = Rack::Test::Session.new(Rack::MockSession.new(DispatchTest.run!(config)))
+    @configured_browser.get('/')
+    @configured_browser.last_response.status.should == 200
+    @configured_browser.last_response.body.should =~ /<h1>Index<\/h1>/ # instead of configured route
   end
 
 end

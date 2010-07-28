@@ -39,7 +39,11 @@ require 'togo/admin'
 
 config.merge!({
   :handler => Togo::Admin.handler,
-  :reloader => Togo::TogoReloader
+  :reloader => Togo::TogoReloader,
+  :routes => [
+              {:type => 'get', :path => '/testes', :template => 'testes'},
+              {:type => 'get', :path => '/tracker', :template => 'tracker'}
+             ]
 })
 
 Togo::Admin.configure(config)

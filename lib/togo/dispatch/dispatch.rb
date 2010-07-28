@@ -112,8 +112,11 @@ module Togo
         method_name = "__#{type.downcase}#{clean_path(route)}"
         k = []
         p = route.gsub(/(:\w+)/){|m| k << m[1..-1]; "([^?/#&]+)"}
-        routes[type].push([/^#{p}$/,k,method_name])
-        define_method(method_name, &block)
+        r = [/^#{p}$/,k,method_name]
+        if not routes[type].rindex{|t| t[0] == r[0]}
+          routes[type].push(r)
+          define_method(method_name, &block)
+        end
       end
 
       def before(&block)
@@ -135,6 +138,13 @@ module Togo
           puts "Showing exceptions and using reloader for Development..."
           builder.use Rack::ShowExceptions
           builder.use opts[:reloader] if opts[:reloader]
+        end
+        if opts[:routes] and opts[:routes].is_a?(Array)
+          opts[:routes].each do |r|
+            send(r[:type].to_sym, r[:path]) do
+              erb r[:template].to_sym
+            end
+          end
         end
         builder.use Rack::Static, :urls => opts[:static_urls], :root => opts[:public_path]
         builder.run new(opts)
