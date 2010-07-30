@@ -91,7 +91,7 @@ module Togo
         def type_from_property(property)
           case property
             when ::DataMapper::Property
-              Extlib::Inflection.demodulize(property.type).downcase
+              Extlib::Inflection.demodulize(property.type || property.class).downcase # type seems to be deprecated in 1.0
             when ::DataMapper::Associations::ManyToOne::Relationship
               'belongs_to'
             when ::DataMapper::Associations::OneToMany::Relationship
@@ -114,8 +114,9 @@ module Togo
         end
 
         def search_properties
-          only_properties = [String, ::DataMapper::Types::Text]
-          properties.select{|p| only_properties.include?(p.type)}
+          # Support dm 0.10.x and 1.x by checking for deprecated(?) types
+          only_properties = [::DataMapper::Property::String, ::DataMapper::Property::Text, String, ::DataMapper::Types::Text]
+          properties.select{|p| only_properties.include?(p.type || p.class)} # type seems to be depracated in 1.0
         end
 
       end
