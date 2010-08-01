@@ -67,8 +67,9 @@ module Togo
       @limit = params[:limit] || 10
       @offset = params[:offset] || 0
       @q = params[:q] || ''
+      @count = (@q.blank? ? @model.all : @model.search(:q => @q)).size
       @items = @model.search(:q => @q, :offset => @offset, :limit => @limit)
-      @items.to_json
+      {:count => @count, :results => @items}.to_json
     end
 
   end

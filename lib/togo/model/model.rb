@@ -68,14 +68,16 @@ module Togo
 
         def search(opts)
           q = "%#{opts[:q].gsub(/\s+/,'%')}%"
-          limit = opts[:limit] || 10
-          offset = opts[:offset] || 0
+          limit = opts[:limit]
+          offset = opts[:offset]
           conditions, values = [], []
           search_properties.each{|l|
             conditions << "#{l.name} like ?"
             values << q
           }
-          all(:conditions => [conditions.join(' OR ')] + values, :limit => limit.to_i, :offset => offset.to_i)
+          params = {:conditions => [conditions.join(' OR ')] + values}
+          params.merge!(:limit => limit.to_i, :offset => offset.to_i) if limit and offset
+          all(params)
         end
 
         def field_class_for(property)
@@ -115,7 +117,11 @@ module Togo
 
         def search_properties
           # Support dm 0.10.x and 1.x by checking for deprecated(?) types
-          only_properties = [::DataMapper::Property::String, ::DataMapper::Property::Text, String, ::DataMapper::Types::Text]
+          only_properties = [String, ::DataMapper::Types::Text]
+          begin # rescue exception when not using dm-core 1.0, these don't exist in the 0.10.x series
+            only_properties.concat([::DataMapper::Property::String, ::DataMapper::Property::Text])
+          rescue
+          end
           properties.select{|p| only_properties.include?(p.type || p.class)} # type seems to be depracated in 1.0
         end
 

@@ -7,7 +7,7 @@
 <div class="search" id="search-<%= related_model.name %>">
   <input type="text" name="search-<%= property.name %>" value="Search..." />
   <div class="paging">
-    Page <span id="page-number">1</span> of <%= (content_count/10).ceil %>
+    Page <span class="page-number">1</span> of <span class="page-count"><%= (content_count/10).ceil %></span>
     <a href="#" rel="prev">&laquo; Previous</a> <a href="#" rel="next">Next &raquo;</a>
   </div>
 </div>
@@ -45,7 +45,7 @@
     <% else %>
     <% related_content.each do |c| %>
     <tr>
-      <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= c.id %>" checked="checked" /></td>
+      <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= related_model.name %>_<%= c.id %>" checked="checked" /></td>
       <% related_model.list_properties.each_with_index do |p,i| %>
       <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
       <% end %>

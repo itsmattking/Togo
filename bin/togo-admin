@@ -18,9 +18,10 @@ OptionParser.new{|opt|
     puts "Usage: togo-admin [options]"
     puts "Options: "
     puts "\t-p [port]: which port to run on"
-    puts "\t-p [host]: which host to run on"
+    puts "\t-h [host]: which host to run on"
     puts "\t-e [environment]: which environment to boot in"
-    puts "\t-r [file]: which file to require before running."
+    puts "\t-r [file]: specify a file to require before running"
+    puts "\t-a [handler]: which handler to run the server with (e.g. Thin, Webrick, etc)"
     puts "\t--help: what you're seeing"
     puts "TIP: To load code automatically before running togo-admin, create a file called togo-admin-config.rb."
     exit
@@ -39,12 +40,7 @@ require 'togo/admin'
 
 config.merge!({
   :handler => Togo::Admin.handler,
-  :reloader => Togo::TogoReloader,
-  :routes => [
-              {:type => 'get', :path => '/testes', :template => 'testes'},
-              {:type => 'get', :path => '/tracker', :template => 'tracker'}
-             ]
+  :reloader => Togo::TogoReloader
 })
 
-Togo::Admin.configure(config)
-Togo::Admin.run!
+Togo::Admin.run!(config)
