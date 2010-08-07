@@ -28,9 +28,11 @@
       <td class="checkbox"></td>
       <% end %>
       <td>
-        <% if content_count > 0 %>
-        <span class="associated-count">...and <%= content_count-related_content.size %> more associated items</span>
-        <% end %>
+        <span class="associated-count-display">
+          <% if content_count > 10 %>
+            ...and <span class="associated-count"><%= content_count-related_content.size %></span> more associated items
+          <% end %>
+        </span>
       </td>
       <td colspan="<%= related_model.form_properties.size-1 %>">
         <button class="association-modify">Modify</button>

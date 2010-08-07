@@ -1,8 +1,9 @@
-%w(dm-core rack dm-serializer).each{|l| require l}
-Dir.glob(File.join('models','*.rb')).each{|f| require f}
+%w(helpers).each{|l| require l}
 
 module Togo
   class Admin < Dispatch
+
+    include Helpers
 
     before do
       @model = Togo.const_get(params[:model]) if params[:model]
@@ -18,7 +19,7 @@ module Togo
       @limit = 5
       @offset = @limit*(@p-1)
       @count = (@q.blank? ? @model.all : @model.search(:q => @q)).size
-      @page_count = (@count.to_f/@limit.to_f).ceil
+      @page_count = @count == 0 ? 1 : (@count.to_f/@limit.to_f).ceil
       @criteria = {:limit => @limit, :offset => @offset}
       @content = @q.blank? ? @model.all(@criteria) : @model.search(@criteria.merge(:q => @q))
       erb :index
@@ -75,7 +76,12 @@ module Togo
       @offset = params[:offset] || 0
       @q = params[:q] || ''
       @count = (@q.blank? ? @model.all : @model.search(:q => @q)).size
-      @items = @model.search(:q => @q, :offset => @offset, :limit => @limit)
+      @criteria = {:offset => @offset, :limit => @limit}
+      if params[:ids]
+        @items = @model.all(@criteria.merge(:id => params[:ids].split(',').map(&:to_i)))
+      else
+        @items = @model.search(@criteria.merge(:q => @q))
+      end
       {:count => @count, :results => @items}.to_json
     end
 

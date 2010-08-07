@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
-files_to_require = []
+files_to_require = %w( dm-core dm-serializer )
 
 config = {
   :environment => :development,
