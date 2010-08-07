@@ -13,7 +13,14 @@ module Togo
     end
 
     get '/:model' do
-      @content = params[:q] ? @model.search(:q => params[:q]) : @model.all
+      @q = params[:q] || ''
+      @p = (params[:p] || 1).to_i
+      @limit = 5
+      @offset = @limit*(@p-1)
+      @count = (@q.blank? ? @model.all : @model.search(:q => @q)).size
+      @page_count = (@count.to_f/@limit.to_f).ceil
+      @criteria = {:limit => @limit, :offset => @offset}
+      @content = @q.blank? ? @model.all(@criteria) : @model.search(@criteria.merge(:q => @q))
       erb :index
     end
 

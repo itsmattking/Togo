@@ -80,6 +80,12 @@ body {
 #main #search-form input[type=text] {
     width: 190px;
 }
+#main #paging {
+    position: absolute;
+    right: 280px;
+    z-index: 3;
+    top: 22px;
+}
 #main h1 a {
     text-decoration: none;
     color: #4076c7;

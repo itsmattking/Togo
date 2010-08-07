@@ -1,4 +1,9 @@
 <h1><%= @model.display_name %></h1>
+<div id="paging">
+  Page <span class="page-number"><%= @p %></span> of <span class="page-count"><%= @page_count %></span>
+  <% if not @p == 1 %><a href="?p=<%= @p-1 %>" rel="prev">&laquo; Previous</a><% end %>
+  <% if not @p == @page_count and @page_count > 1 %><a href="?p=<%= @p+1 %>" rel="next">Next &raquo;</a><% end %>
+</div>
 <form method="get" id="search-form">
   <fieldset>
     <input type="text" name="q" value="<%= params[:q] rescue '' %>" size="40" /> <button type="submit">Search</button>
