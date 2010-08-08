@@ -60,7 +60,8 @@ describe "Togo Admin" do
     b = BlogEntry.create(:title => "test 1234")
     @browser.get "/search/BlogEntry", :q => "test 1234"
     @browser.last_response.status.should == 200
-    @browser.last_response.body.should == BlogEntry.search(:q => "test 1234").to_json
+    @results = BlogEntry.search(:q => "test 1234")
+    @browser.last_response.body.should == {:count => @results.size, :results => @results}.to_json
   end
 
   it "should search model content and allow paging" do
@@ -68,7 +69,7 @@ describe "Togo Admin" do
     b2 = BlogEntry.create(:title => "paging test blog entry 2")
     @browser.get "/search/BlogEntry", :q => "paging test blog entry", :limit => 1, :offset => 1
     @browser.last_response.status.should == 200
-    @browser.last_response.body.should == [b2].to_json
+    @browser.last_response.body.should == {:count => 2, :results => [b2]}.to_json
   end
 
 end

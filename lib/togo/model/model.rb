@@ -51,6 +51,11 @@ module Togo
 
         def stage_content(content,attrs)
           content.attributes = properties.inject({}){|m,p| attrs[p.name.to_sym] ? m.merge!(p.name.to_sym => attrs[p.name.to_sym]) : m}
+          relationships.each do |r| 
+            key = "related_#{r[0]}".to_sym
+            next if not attrs[key] or attrs[key] == 'unset'
+            content = RelationshipManager.new(content, r, :ids => attrs[key]).relate
+          end
           content
         end
 
@@ -128,5 +133,38 @@ module Togo
       end
 
     end # Model
+
+    class RelationshipManager
+      def initialize(content, relationship, opts = {})
+        @content = content
+        @relationship = relationship[1]
+        @relationship_name = relationship[0]
+        @ids = (opts[:ids] || '').split(',').map(&:to_i)
+        define_values
+      end
+
+      def relate
+        @content.send("#{@relationship_name}=", find_for_assignment)
+        @content
+      end
+      
+      def define_values
+        case @relationship
+          when ::DataMapper::Associations::ManyToOne::Relationship
+            @unset_value = nil
+            @related_model = @relationship.parent_model
+            @find_op = Proc.new{|p| p.get(@ids.first)}
+          when ::DataMapper::Associations::OneToMany::Relationship
+            @unset_value = []
+            @related_model = @relationship.child_model
+            @find_op = Proc.new{|p| p.all(:id => @ids)}
+        end
+      end
+
+      def find_for_assignment
+        return @unset_value if @ids.blank?
+        @find_op.call(@related_model)
+      end
+    end # RelationshipManager
   end # DataMapper
 end # Togo

@@ -1,7 +1,7 @@
 $TESTING=true
 $:.push File.join(File.dirname(__FILE__), '..', '..', 'lib')
 $:.push File.join(File.dirname(__FILE__), '..', '..', 'lib','togo')
-%w(do_sqlite3 togo togo/admin rack rack/test dm-migrations).each{|l| require l}
+%w(do_sqlite3 togo togo/admin rack rack/test dm-core dm-serializer).each{|l| require l}
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/admin.db")
 
 class BlogEntry

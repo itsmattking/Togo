@@ -1,6 +1,7 @@
 <h1><%= @model.display_name %></h1>
 <div id="paging">
-  <% if @count > 0 %>
+    <%= @count %> items
+  <% if @page_count > 1 %>
     Page <span class="page-number"><%= @p %></span> of <span class="page-count"><%= @page_count %></span>
     <% prev_link, next_link = paging_links(@p, @page_count, :q => params[:q]) %>
     <%= prev_link %>
