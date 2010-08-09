@@ -56,6 +56,14 @@ describe "Togo Admin" do
     @current_count.should == BlogEntry.all.size
   end
 
+  it "should page list results" do
+    Range.new(1,60).each do |i|
+      BlogEntry.create(:title => "Blog Entry #{i}")
+    end
+    @browser.get "/BlogEntry", :p => 1
+    @browser.last_response.status.should == 200
+  end
+
   it "should search model content" do
     b = BlogEntry.create(:title => "test 1234")
     @browser.get "/search/BlogEntry", :q => "test 1234"
@@ -70,6 +78,29 @@ describe "Togo Admin" do
     @browser.get "/search/BlogEntry", :q => "paging test blog entry", :limit => 1, :offset => 1
     @browser.last_response.status.should == 200
     @browser.last_response.body.should == {:count => 2, :results => [b2]}.to_json
+  end
+
+  it "should return count of all items on search" do
+    items = BlogEntry.search(:q => "Blog Entry")
+    returned_items = items[0..9]
+    @browser.get "/search/BlogEntry", :q => "Blog Entry"
+    @browser.last_response.status.should == 200
+    @browser.last_response.body.should == {:count => items.size, :results => returned_items}.to_json
+  end
+
+  it "should page properly on search" do
+    items = BlogEntry.search(:q => "Blog Entry")
+    returned_items = items[10..19]
+    @browser.get "/search/BlogEntry", :q => "Blog Entry", :offset => 10
+    @browser.last_response.status.should == 200
+    @browser.last_response.body.should == {:count => items.size, :results => returned_items}.to_json
+  end
+
+  it "should return items when ids passed in" do
+    items = BlogEntry.all(:limit => 10)
+    @browser.get "/search/BlogEntry", :ids => items.map(&:id).join(',')
+    @browser.last_response.status.should == 200
+    @browser.last_response.body.should == {:count => BlogEntry.all.size, :results => items}.to_json
   end
 
 end

@@ -47,6 +47,58 @@ describe "Togo Datamapper Model" do
     BlogEntry.first(:title => "Blog Title 2").body.should == 'Hi There'
   end
 
+  it "should add related content on creation" do
+    c = Category.create(:name => "Relationship Category Test")
+    BlogEntry.create_content!(:title => "Blog Entry Relationship Test", :body => "Test", :related_category => c.id.to_s)
+    b = BlogEntry.first(:title => "Blog Entry Relationship Test")
+    b.should_not be_nil
+    b.category.id.should == c.id
+  end
+
+  it "should add multiple related content on creation" do
+    BlogEntry.create_content!(:title => "Blog Entry Relationship Test 2", :body => "Test")
+    BlogEntry.create_content!(:title => "Blog Entry Relationship Test 3", :body => "Test")
+    b1 = BlogEntry.first(:title => "Blog Entry Relationship Test 2")
+    b2 = BlogEntry.first(:title => "Blog Entry Relationship Test 3")
+    b1.should_not be_nil
+    b2.should_not be_nil
+    Category.create_content!(:name => "Relationship Category Test 2", :related_blog_entries => [b1.id,b2.id].join(','))
+    c = Category.first(:name => "Relationship Category Test 2")
+    c.blog_entries.map(&:id).should include(b1.id)
+    c.blog_entries.map(&:id).should include(b2.id)
+  end
+
+  it "should not clear related content on 'unset' string" do
+    c = Category.first(:name => "Relationship Category Test 2")
+    c.blog_entries.size.should == 2
+    Category.update_content!(c.id, :related_blog_entries => "unset")
+    c = Category.first(:name => "Relationship Category Test 2")
+    c.blog_entries.size.should == 2
+  end
+
+  it "should update related content" do
+    BlogEntry.create_content!(:title => "Blog Entry Relationship Test 4")
+    b1 = BlogEntry.first(:title => "Blog Entry Relationship Test 4")
+    b2 = BlogEntry.first(:title => "Blog Entry Relationship Test 2")
+    b3 = BlogEntry.first(:title => "Blog Entry Relationship Test 3")
+    c = Category.first(:name => "Relationship Category Test 2")
+    c.blog_entries.size.should == 2
+    c.blog_entries.map(&:id).should include b2.id
+    Category.update_content!(c.id, :related_blog_entries => [b1.id, b3.id].join(','))
+    c = Category.first(:name => "Relationship Category Test 2")
+    c.blog_entries.size.should == 2
+    c.blog_entries.map(&:id).should_not include b2.id
+    c.blog_entries.map(&:id).should include b3.id
+  end
+
+  it "should clear related content on empty string" do
+    c = Category.first(:name => "Relationship Category Test 2")
+    c.blog_entries.size.should == 2
+    Category.update_content!(c.id, :related_blog_entries => "")
+    c = Category.first(:name => "Relationship Category Test 2")
+    c.blog_entries.size.should == 0
+  end
+
   it "should render form template with content" do
     b = BlogEntry.first
     out = BlogEntry.form_for(BlogEntry.form_properties.first, b)
