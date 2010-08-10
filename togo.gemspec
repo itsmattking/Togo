@@ -2,8 +2,8 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = %q{togo}
-  s.version = "0.3.1"
-  s.date = %q{2010-06-30}
+  s.version = "0.4"
+  s.date = %q{2010-08-10}
   s.authors = ["Matt King"]
   s.email = %q{matt@mattking.org}
   s.summary = %q{Automatic Content Admin Tool for Ruby ORMs}

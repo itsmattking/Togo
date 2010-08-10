@@ -14,9 +14,7 @@
 <table>
   <thead>
     <tr>
-      <% if not related_content.empty? %>
       <th class="checkbox"></th>
-      <% end %>
       <% related_model.list_properties.each do |p| %>
       <th><%= p.name.to_s.humanize.titleize %></th>
       <% end %>
@@ -27,9 +25,7 @@
   </thead>
   <tfoot>
     <tr>
-      <% if not related_content.empty? %>
       <td class="checkbox"></td>
-      <% end %>
       <td>
         <span class="associated-count-display" style="<%= (content_count == 0 or content_count < 10) ? 'display: none;' : '' %>">
           ...and <span class="associated-count"><%= content_count-related_content.size %></span> more associated items
