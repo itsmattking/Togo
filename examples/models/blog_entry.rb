@@ -16,4 +16,5 @@ class BlogEntry
   form_properties :title, :date, :body, :category, :tags, :enabled
 
   configure_property :title, :label => "The Title"
+  configure_property :body, :template => File.join(SITE_ROOT, 'body.erb')
 end

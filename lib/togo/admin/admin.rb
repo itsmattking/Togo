@@ -57,7 +57,7 @@ module Togo
         redirect "/#{@model.name}"
       rescue => detail
         @errors = detail.to_s
-        erb :edit
+        erb :new
       end
     end
 
