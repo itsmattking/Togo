@@ -16,7 +16,7 @@ describe "Togo Datamapper Model" do
   it "should hide list and form properties not set" do
     list_props = AnotherBlogEntry.list_properties.map(&:name)
     form_props = AnotherBlogEntry.form_properties.map(&:name)
-    AnotherBlogEntry.send(:shown_properties).map(&:name).should == [:title, :body, :date, :category, :another_category]
+    AnotherBlogEntry.send(:shown_properties).map(&:name).should == [:title, :body, :date, :category, :another_category, :tags, :another_blog_entry_tags]
     list_props.should include :title
     list_props.should include :category
     list_props.should_not include :body
@@ -28,7 +28,7 @@ describe "Togo Datamapper Model" do
   end
 
   it "should order list and form properties as requested" do
-    AnotherBlogEntry.send(:shown_properties).map(&:name).should == [:title, :body, :date, :category, :another_category]
+    AnotherBlogEntry.send(:shown_properties).map(&:name).should == [:title, :body, :date, :category, :another_category, :tags, :another_blog_entry_tags]
     AnotherBlogEntry.list_properties.map(&:name).should == [:date, :title, :category]
     AnotherBlogEntry.form_properties.map(&:name).should == [:body, :category, :date]
   end
@@ -153,6 +153,7 @@ describe "Togo Datamapper Model" do
   it "should choose correct template based on property" do
     BlogEntry.send(:type_from_property, BlogEntry.list_properties.find{|p| p.name == :title}).should == 'string'
     BlogEntry.send(:type_from_property, BlogEntry.list_properties.find{|p| p.name == :category}).should == 'belongs_to'
+    BlogEntry.send(:type_from_property, BlogEntry.form_properties.find{|p| p.name == :tags}).should == 'many_to_many'
     Category.send(:type_from_property, Category.form_properties.find{|p| p.name == :blog_entries}).should == 'has_n'
   end
 

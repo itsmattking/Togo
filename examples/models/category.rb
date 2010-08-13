@@ -9,7 +9,6 @@ class Category
   list_properties :name
 
   has n, :blog_entries
-  has n, :locations
 
   def to_s
     name

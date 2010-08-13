@@ -6,9 +6,9 @@ class Location
   property :pork, String
   property :midget, String
   property :fonk, String
-  property :category_id, Integer
-  belongs_to :category
+   
+  has n, :blog_entries, :through => Resource
 
   list_properties :fonk, :name, :midget
-  form_properties :name, :pork, :midget, :fonk
+  form_properties :name, :pork, :midget, :fonk, :blog_entries
 end

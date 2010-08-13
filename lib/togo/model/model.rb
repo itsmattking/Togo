@@ -37,6 +37,7 @@ module Togo
 
         # Display the form template for a property
         def form_for(property,content)
+          return if join_model(property)
           template = class_variable_get(:@@custom_form_templates)[property.name] || File.join(File.dirname(__FILE__),'types',"#{type_from_property(property)}.erb")
           Erubis::TinyEruby.new(File.open(template).read).result(binding)
         end
@@ -91,6 +92,12 @@ module Togo
 
         private
 
+        def join_model(property)
+          return false if property.respond_to?(:model) and MODELS.include?(property.model)
+          return false if property.respond_to?(:child_model) and MODELS.include?(property.child_model)
+          return true
+        end
+
         def custom_template_for(property,template)
           class_variable_get(:@@custom_form_templates)[property] = template if File.exists?(template)
         end
@@ -99,6 +106,8 @@ module Togo
           case property
             when ::DataMapper::Property
               Extlib::Inflection.demodulize(property.type || property.class).downcase # type seems to be deprecated in 1.0
+            when ::DataMapper::Associations::ManyToMany::Relationship
+              'many_to_many'
             when ::DataMapper::Associations::ManyToOne::Relationship
               'belongs_to'
             when ::DataMapper::Associations::OneToMany::Relationship

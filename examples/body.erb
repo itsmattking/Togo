@@ -1,0 +1,3 @@
+<label for="<%= property.name %>">Body for things</label>
+<p>Integer blandit velit quis est aliquet rhoncus hendrerit sit amet tellus. Morbi rhoncus arcu sit amet ligula aliquam sollicitudin. Aenean massa nisl, vestibulum a malesuada eget, interdum ut orci. Quisque sit amet tellus dolor. Fusce arcu tellus, dignissim et bibendum non, iaculis vel magna.</p>
+<textarea name="<%= property.name %>" id="<%= property.name %>" rows="30" cols="50"><%= content.send(property.name.to_sym) %></textarea>

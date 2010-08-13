@@ -12,6 +12,7 @@ class BlogEntry
   property :body, Text
   property :random_number, Integer
   belongs_to :category, :required => false
+  has n, :tags, :through => Resource
 end
 
 class AnotherBlogEntry
@@ -24,6 +25,7 @@ class AnotherBlogEntry
 
   belongs_to :category, :required => false
   belongs_to :another_category, :required => false
+  has n, :tags, :through => Resource
 
   list_properties :date, :title, :category
   form_properties :body, :category, :date
@@ -49,6 +51,15 @@ class AnotherCategory
   property :id, Serial
   property :name, String
   has n, :another_blog_entries
+end
+
+class Tag
+  include DataMapper::Resource
+  include Togo::DataMapper::Model
+  property :id, Serial
+  property :name, String
+  has n, :blog_entries, :through => Resource
+  has n, :another_blog_entries, :through => Resource
 end
 
 DataMapper.auto_migrate!

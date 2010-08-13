@@ -1,0 +1,63 @@
+<% content_count = content.send(property.name.to_sym).size %>
+<% related_ids = content.send(property.name.to_sym).map(&:id) %>
+<% related_content = content.send(property.name.to_sym)[0...10] %>
+<% related_model = property.child_model %>
+<input type="hidden" name="related_<%= property.name %>" class="related_ids" value="unset" />
+<label for="<%= property.name %>"><%= related_model.display_name %></label>
+<div class="search" id="search-<%= related_model.name %>">
+  <input type="text" name="search-<%= property.name %>" value="Search..." />
+  <div class="paging">
+    Page <span class="page-number">1</span> of <span class="page-count"><%= (content_count/10).ceil %></span>
+    <a href="#" rel="prev">&laquo; Previous</a> <a href="#" rel="next">Next &raquo;</a>
+  </div>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th class="checkbox"></th>
+      <% related_model.list_properties.each do |p| %>
+      <th><%= p.name.to_s.humanize.titleize %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <td class="checkbox"></td>
+      <td>
+        <span class="associated-count-display" style="<%= (content_count == 0 or content_count < 10) ? 'display: none;' : '' %>">
+          ...and <span class="associated-count"><%= content_count-related_content.size %></span> more associated items
+        </span>
+      </td>
+      <td colspan="<%= related_model.form_properties.size-1 %>">
+        <button class="association-modify">Modify</button>
+      </td>
+    </tr>
+  </tfoot>
+  <tbody>
+    <% if related_content.empty? %>
+    <tr>
+      <td colspan="<%= related_model.form_properties.size %>">No Content Associated.</td>
+    </tr>
+    <% else %>
+    <% related_content.each do |c| %>
+    <tr>
+      <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= related_model.name %>_<%= c.id %>" checked="checked" /></td>
+      <% related_model.list_properties.each_with_index do |p,i| %>
+      <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
+      <% end %>
+    </tr>   
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+<script type="text/javascript">
+  new AssociationManager({
+    relationship: 'many_to_many',
+    name: '<%= property.name %>',
+    model: '<%= related_model.name %>',
+    fields: <%= related_model.list_properties.map(&:name).to_json %>,
+    count: <%= content_count %>,
+    related_ids: <%= related_ids.to_json %>
+  });
+</script>
+

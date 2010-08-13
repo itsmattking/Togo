@@ -1,2 +1,2 @@
 <label for="<%= property.name %>"><%= property.model.property_options[property.name][:label] rescue property.name.to_s.humanize.titleize %></label>
-<input type="text" name="<%= property.name %>" id="<%= property.name %>" value="<%= content.send(property.name.to_sym).strftime("%B %d, %Y %I:%M%p") rescue '' %>" />
+<input type="text" name="<%= property.name %>" id="<%= property.name %>" value="<%= (content.send(property.name.to_sym) || Time.now).strftime("%B %d, %Y %I:%M%p") %>" />
