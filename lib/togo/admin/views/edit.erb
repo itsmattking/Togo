@@ -2,7 +2,7 @@
 <form action="/update/<%= @model.name %>/<%= @content.id %>" method="post" id="edit-form">
   <div class="wrapper">
     <% if @errors %><div id="save_errors" class="errors"><%= @errors %></div><% end %>
-    <% @model.form_properties.each do |p| %>
+    <% @model.get_form_properties.each do |p| %>
     <fieldset id="property-<%= p.name %>" class="<%= @model.field_class_for(p) %>">
       <%= @model.form_for(p,@content) %>
     </fieldset>

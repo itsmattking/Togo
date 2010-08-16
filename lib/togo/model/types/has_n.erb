@@ -15,7 +15,7 @@
   <thead>
     <tr>
       <th class="checkbox"></th>
-      <% related_model.list_properties.each do |p| %>
+      <% related_model.get_list_properties.each do |p| %>
       <th><%= p.name.to_s.humanize.titleize %></th>
       <% end %>
     </tr>
@@ -28,7 +28,7 @@
           ...and <span class="associated-count"><%= content_count-related_content.size %></span> more associated items
         </span>
       </td>
-      <td colspan="<%= related_model.form_properties.size-1 %>">
+      <td colspan="<%= related_model.get_form_properties.size-1 %>">
         <button class="association-modify">Modify</button>
       </td>
     </tr>
@@ -36,13 +36,13 @@
   <tbody>
     <% if related_content.empty? %>
     <tr>
-      <td colspan="<%= related_model.form_properties.size %>">No Content Associated.</td>
+      <td colspan="<%= related_model.get_form_properties.size %>">No Content Associated.</td>
     </tr>
     <% else %>
     <% related_content.each do |c| %>
     <tr>
       <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= related_model.name %>_<%= c.id %>" checked="checked" /></td>
-      <% related_model.list_properties.each_with_index do |p,i| %>
+      <% related_model.get_list_properties.each_with_index do |p,i| %>
       <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
       <% end %>
     </tr>   
@@ -55,7 +55,7 @@
     relationship: 'has_n',
     name: '<%= property.name %>',
     model: '<%= related_model.name %>',
-    fields: <%= related_model.list_properties.map(&:name).to_json %>,
+    fields: <%= related_model.get_list_properties.map(&:name).to_json %>,
     count: <%= content_count %>,
     related_ids: <%= related_ids.to_json %>
   });

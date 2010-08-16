@@ -20,7 +20,7 @@
       <% if not @content.empty? %>
       <th></th>
       <% end %>
-      <% @model.list_properties.each do |p| %>
+      <% @model.get_list_properties.each do |p| %>
       <th><%= p.name.to_s.humanize.titleize %></th>
       <% end %>
     </tr>
@@ -28,13 +28,13 @@
   <tbody>
     <% if @content.empty? %>
     <tr>
-      <td colspan="<%= @model.list_properties.size %>"><% if params[:q] %>No results for '<%= params[:q] %>'<% else %>No content has been created yet.<% end %></td>
+      <td colspan="<%= @model.get_list_properties.size %>"><% if params[:q] %>No results for '<%= params[:q] %>'<% else %>No content has been created yet.<% end %></td>
     </tr>
     <% else %>
     <% @content.each do |c| %>
     <tr>
       <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="1" id="selection_<%= c.id %>" /></td>
-      <% @model.list_properties.each_with_index do |p,i| %>
+      <% @model.get_list_properties.each_with_index do |p,i| %>
       <td><% if i == 0 %><a href="/edit/<%= @model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
       <% end %>
     </tr>

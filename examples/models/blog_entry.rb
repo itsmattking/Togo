@@ -14,9 +14,14 @@ class BlogEntry
   belongs_to :category
   has n, :locations, :through => Resource
 
-  list_properties :title, :date, :enabled
+  list_properties :title, :date
   form_properties :title, :date, :body, :category, :locations, :tags, :enabled
 
   configure_property :title, :label => "The Title"
   configure_property :body, :template => File.join(SITE_ROOT, 'body.erb')
+
+  def to_s
+    title
+  end
+
 end

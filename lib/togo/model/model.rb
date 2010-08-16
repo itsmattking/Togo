@@ -9,6 +9,8 @@ module Togo
         base.extend ClassMethods
         base.send(:class_variable_set, :@@list_properties, [])
         base.send(:class_variable_set, :@@form_properties, [])
+        base.send(:class_variable_set, :@@user_list_properties, [])
+        base.send(:class_variable_set, :@@user_form_properties, [])
         base.send(:class_variable_set, :@@custom_form_templates, {})
         base.send(:class_variable_set, :@@property_options, {})
         if MODELS.include?(base) # support code reloading
@@ -22,12 +24,12 @@ module Togo
 
         # Let the user determine what properties to show in list view
         def list_properties(*args)
-          pick_properties(:list,*args)
+          class_variable_set(:@@user_list_properties, args.to_a)
         end
         
         # Let the user determine what properties to show in form view
         def form_properties(*args)
-          pick_properties(:form,*args)
+          class_variable_set(:@@user_form_properties, args.to_a)
         end
 
         def configure_property(property,opts = {})
@@ -37,7 +39,6 @@ module Togo
 
         # Display the form template for a property
         def form_for(property,content)
-          return if join_model(property)
           template = class_variable_get(:@@custom_form_templates)[property.name] || File.join(File.dirname(__FILE__),'types',"#{type_from_property(property)}.erb")
           Erubis::TinyEruby.new(File.open(template).read).result(binding)
         end
@@ -53,9 +54,9 @@ module Togo
         def stage_content(content,attrs)
           content.attributes = properties.inject({}){|m,p| attrs[p.name.to_sym] ? m.merge!(p.name.to_sym => attrs[p.name.to_sym]) : m}
           relationships.each do |r| 
-            key = "related_#{r[0]}".to_sym
-            next if not attrs[key] or attrs[key] == 'unset'
-            content = RelationshipManager.new(content, r, :ids => attrs[key]).relate
+            val = attrs["related_#{r[0]}".to_sym]
+            next if not val or val == 'unset'
+            content = RelationshipManager.new(content, r, :ids => val).relate
           end
           content
         end
@@ -90,13 +91,15 @@ module Togo
           type_from_property(property)
         end
 
-        private
-
-        def join_model(property)
-          return false if property.respond_to?(:model) and MODELS.include?(property.model)
-          return false if property.respond_to?(:child_model) and MODELS.include?(property.child_model)
-          return true
+        def get_list_properties
+          pick_properties(:list, class_variable_get(:@@user_list_properties))
         end
+        
+        def get_form_properties
+          pick_properties(:form, class_variable_get(:@@user_form_properties))
+        end
+
+        private
 
         def custom_template_for(property,template)
           class_variable_get(:@@custom_form_templates)[property] = template if File.exists?(template)
@@ -117,7 +120,7 @@ module Togo
           end
         end
 
-        def pick_properties(selection,*args)
+        def pick_properties(selection, args)
           if class_variable_get(:"@@#{selection}_properties").empty?
             args = shown_properties.map{|p| p.name} if args.empty?
             class_variable_set(:"@@#{selection}_properties", args.collect{|a| shown_properties.select{|s| s.name == a}.first}.compact)
@@ -126,7 +129,8 @@ module Togo
         end
 
         def shown_properties
-          properties.select{|p| not BLACKLIST.include?(p.name) and not p.name =~ /_id$/} + relationships.values
+          skip = relationships.values.collect{|r| r.through if r.respond_to?(:through) }.compact.uniq # don't include join models
+          properties.select{|p| not BLACKLIST.include?(p.name) and not p.name =~ /_id$/} + relationships.values.select{|r| not skip.include?(r)}
         end
 
         def search_properties
