@@ -38,9 +38,10 @@ module Togo
       @p = (params[:p] || 1).to_i
       @limit = 50
       @offset = @limit*(@p-1)
+      @order = (params[:o] || "id.desc").split('.').map(&:to_sym)
       @count = (@q.blank? ? @model.all : @model.search(:q => @q)).size
       @page_count = @count == 0 ? 1 : (@count.to_f/@limit.to_f).ceil
-      @criteria = {:limit => @limit, :offset => @offset}
+      @criteria = {:limit => @limit, :offset => @offset, :order => @order[0].send(@order[1])}
       @content = @q.blank? ? @model.all(@criteria) : @model.search(@criteria.merge(:q => @q))
       erb :index
     end

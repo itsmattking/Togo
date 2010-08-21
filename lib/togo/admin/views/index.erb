@@ -3,7 +3,7 @@
     <%= @count %> item<%= @count != 1 ? 's' : '' %>
   <% if @page_count > 1 %>
     Page <span class="page-number"><%= @p %></span> of <span class="page-count"><%= @page_count %></span>
-    <% prev_link, next_link = paging_links(@p, @page_count, :q => params[:q]) %>
+    <% prev_link, next_link = paging_links(@p, @page_count, :q => params[:q], :o => params[:o]) %>
     <%= prev_link %>
     <%= next_link %>
   <% end %>
@@ -21,7 +21,7 @@
       <th></th>
       <% end %>
       <% @model.get_list_properties.each do |p| %>
-      <th><%= p.name.to_s.humanize.titleize %></th>
+      <th><a href="?o=<%= p.name %>.<%= @order[0] == p.name.to_sym ? (@order[1] == :asc ? "desc" : "asc") : "asc" %>"><%= p.name.to_s.humanize.titleize %></a></th>
       <% end %>
     </tr>
   </thead>

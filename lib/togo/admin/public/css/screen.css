@@ -106,6 +106,10 @@ body {
     background: #1E1E1E url(/img/bg-nav.png) repeat-x top left;
     color: #FFF;
 }
+#main table th a {
+    color: #FFF;
+    text-decoration: none;
+}
 #main table td {
     padding: 10px 20px;
     border-bottom: 1px solid #CECECE;
