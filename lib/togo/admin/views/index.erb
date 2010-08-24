@@ -18,7 +18,7 @@
   <thead>
     <tr>
       <% if not @content.empty? %>
-      <th></th>
+      <th>&nbsp;</th>
       <% end %>
       <% @model.get_list_properties.each do |p| %>
       <th><a href="?o=<%= p.name %>.<%= @order[0] == p.name.to_sym ? (@order[1] == :asc ? "desc" : "asc") : "asc" %>"><%= p.name.to_s.humanize.titleize %></a></th>
