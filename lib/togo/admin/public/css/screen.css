@@ -244,6 +244,7 @@ div.actions a {
 }
 div.actions button {
     font: 12px "Lucida Grande", verdana;
+    padding-bottom: 2px;
 }
 div.actions button:hover,
 div.actions a:hover {
