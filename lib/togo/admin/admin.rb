@@ -1,13 +1,17 @@
 module Helpers
   
+  def qs_to_hash(qs)
+    return nil if qs.blank?
+    qs = qs.keys.collect{|k|
+      [k,escape(qs[k])].join('=') if not qs[k].blank?
+    }.compact.join('&')
+    qs = nil if qs.blank?
+    qs
+  end
+
   def paging_links(page, count, qs = {})
     prev_link, next_link = 'Previous', 'Next'
-    if not qs.blank?
-      qs = qs.keys.collect{|k|
-        [k,escape(qs[k])].join('=') if not qs[k].blank?
-      }.compact.join('&')
-      qs = nil if qs.blank?
-    end
+    qs = qs_to_hash(qs)
       
     if not page == 1
       prev_link = "<a href=\"?p=#{[page-1, qs].compact.join('&')}\" rel=\"previous\">#{prev_link}</a>"
@@ -16,6 +20,12 @@ module Helpers
       next_link = "<a href=\"?p=#{[page+1, qs].compact.join('&')}\" rel=\"next\">#{next_link}</a>"
     end
     [prev_link, next_link]
+  end
+
+  def column_head_link(property, current_order, qs = {})
+    qs = qs_to_hash(qs)
+    new_order = (current_order[0] == property.name.to_sym ? (current_order[1] == :asc ? "desc" : "asc") : "asc")
+    "<a href=\"?o=#{[(property.name.to_s+'.'+new_order.to_s),qs].compact.join('&')}\">#{property.name.to_s.humanize.titleize}</a>"
   end
 
 end
@@ -36,7 +46,6 @@ module Togo
     get '/:model' do
       @q = params[:q] || ''
       @p = (params[:p] || 1).to_i
-      @limit = 50
       @offset = @limit*(@p-1)
       @order = (params[:o] || "id.desc").split('.').map(&:to_sym)
       @count = (@q.blank? ? @model.all : @model.search(:q => @q)).size
