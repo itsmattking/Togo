@@ -1,6 +1,6 @@
 module Helpers
   
-  def qs_to_hash(qs)
+  def hash_to_qs(qs)
     return nil if qs.blank?
     qs = qs.keys.collect{|k|
       [k,escape(qs[k])].join('=') if not qs[k].blank?
@@ -11,7 +11,7 @@ module Helpers
 
   def paging_links(page, count, qs = {})
     prev_link, next_link = 'Previous', 'Next'
-    qs = qs_to_hash(qs)
+    qs = hash_to_qs(qs)
       
     if not page == 1
       prev_link = "<a href=\"?p=#{[page-1, qs].compact.join('&')}\" rel=\"previous\">#{prev_link}</a>"
@@ -23,7 +23,7 @@ module Helpers
   end
 
   def column_head_link(property, current_order, qs = {})
-    qs = qs_to_hash(qs)
+    qs = hash_to_qs(qs)
     new_order = (current_order[0] == property.name.to_sym ? (current_order[1] == :asc ? "desc" : "asc") : "asc")
     "<a href=\"?o=#{[(property.name.to_s+'.'+new_order.to_s),qs].compact.join('&')}\">#{property.name.to_s.humanize.titleize}</a>"
   end
