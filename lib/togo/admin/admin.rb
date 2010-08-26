@@ -1,9 +1,9 @@
 module Helpers
   
-  def hash_to_qs(qs)
-    return nil if qs.blank?
-    qs = qs.keys.collect{|k|
-      [k,escape(qs[k])].join('=') if not qs[k].blank?
+  def hash_to_qs(h)
+    return nil if h.blank?
+    qs = h.keys.collect{|k|
+      [k,escape(h[k])].join('=') if not h[k].blank?
     }.compact.join('&')
     qs = nil if qs.blank?
     qs
@@ -25,7 +25,8 @@ module Helpers
   def column_head_link(property, current_order, qs = {})
     qs = hash_to_qs(qs)
     new_order = (current_order[0] == property.name.to_sym ? (current_order[1] == :asc ? "desc" : "asc") : "asc")
-    "<a href=\"?o=#{[(property.name.to_s+'.'+new_order.to_s),qs].compact.join('&')}\">#{property.name.to_s.humanize.titleize}</a>"
+    link_class = current_order[0] == property.name.to_sym ? new_order : ''
+    "<a href=\"?o=#{[(property.name.to_s+'.'+new_order.to_s),qs].compact.join('&')}\" class=\"#{link_class}\">#{property.name.to_s.humanize.titleize}</a>"
   end
 
 end
@@ -46,6 +47,7 @@ module Togo
     get '/:model' do
       @q = params[:q] || ''
       @p = (params[:p] || 1).to_i
+      @limit = 50
       @offset = @limit*(@p-1)
       @order = (params[:o] || "id.desc").split('.').map(&:to_sym)
       @count = (@q.blank? ? @model.all : @model.search(:q => @q)).size

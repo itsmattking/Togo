@@ -109,7 +109,15 @@ body {
 #main table th a {
     color: #FFF;
     text-decoration: none;
+    padding-right: 15px;
 }
+#main table th a.desc {
+    background: transparent url(/img/arrows.png) no-repeat 2px right;
+}
+#main table th a.asc {
+    background: transparent url(/img/arrows.png) no-repeat right -16px;
+}
+
 #main table td {
     padding: 10px 20px;
     border-bottom: 1px solid #CECECE;
@@ -119,7 +127,8 @@ body {
 #main table th.checkbox {
     width: 10px;
     text-align: center;
-    padding-right: 0;
+    padding-right: 0px;
+    padding-left: 15px;
 }
     
 #main .wrapper {
@@ -194,6 +203,7 @@ body {
 #main form fieldset.belongs_to .checkbox,
 #main form fieldset.has_n .checkbox {
     display: none;
+    padding: 5px 5px 5px 10px;
 }
 #main form fieldset.many_to_many .active,
 #main form fieldset.belongs_to .active,

@@ -77,6 +77,7 @@ module Togo
           q = "%#{opts[:q].gsub(/\s+/,'%')}%"
           limit = opts[:limit]
           offset = opts[:offset]
+          order = opts[:order]
           conditions, values = [], []
           search_properties.each{|l|
             conditions << "#{l.name} like ?"
@@ -84,6 +85,7 @@ module Togo
           }
           params = {:conditions => [conditions.join(' OR ')] + values}
           params.merge!(:limit => limit.to_i, :offset => offset.to_i) if limit and offset
+          params.merge!(:order => order) if order
           all(params)
         end
 
