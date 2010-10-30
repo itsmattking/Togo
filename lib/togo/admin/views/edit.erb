@@ -1,6 +1,8 @@
 <form action="/update/<%= @model.name %>/<%= @content.id %>" method="post" id="edit-form">
   <input type="hidden" name="return_url" value="<%= request.referer || '/locations' %>" />
-  <h1><a href="/<%= @model.name %>"><%= @model.display_name %></a> / Edit</h1>
+  <div id="subhead">
+    <h1><a href="/<%= @model.name %>"><%= @model.display_name %></a> / Edit</h1>
+  </div>
   <div id="main">
     <% if @errors %><div id="save_errors" class="errors"><%= @errors %></div><% end %>
     <% @model.get_form_properties.each do |p| %>

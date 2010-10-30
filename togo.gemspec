@@ -2,7 +2,7 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = %q{togo}
-  s.version = "0.4.1"
+  s.version = "0.5.1"
   s.date = %q{2010-08-16}
   s.authors = ["Matt King"]
   s.email = %q{matt@mattking.org}
@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.executables = ['togo-admin']
   s.files = FileList[
-                     'README',
+                     'README.md',
                      'Changelog',
                      'LICENSE',
                      'lib/**/*',

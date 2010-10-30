@@ -1,6 +1,8 @@
 <form action="/create/<%= @model.name %>" method="post" id="edit-form">
   <input type="hidden" name="return_url" value="<%= request.referer || '/locations' %>" />
-  <h1><a href="/<%= @model.name %>"><%= @model.display_name %></a> / New</h1>
+  <div id="subhead">
+    <h1><a href="/<%= @model.name %>"><%= @model.display_name %></a> / New</h1>
+  </div>
   <div id="main">
     <% if @errors %><div id="save_errors" class="errors"><%= @errors %></div><% end %>
     <% @model.get_form_properties.each do |p| %>
@@ -10,7 +12,7 @@
     <% end %>
   </div>
   <div class="actions">
-    <button type="submit" class="create">Create <%= @model.display_name.singularize %></button>
+    <button type="submit" class="create">Create</button>
   </div>
 </form>
 <script type="text/javascript" src="/js/edit.js"></script>

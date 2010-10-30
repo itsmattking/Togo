@@ -1,4 +1,15 @@
-<h1><%= @model.display_name %></h1>
+<div id="subhead">
+  <h1><%= @model.display_name %>
+  <div id="model-select">
+    <ul>
+      <% Togo.models.each do |m| %>
+        <% next if m == @model %>
+        <li><a href="/<%= m.name %>"><%= m.display_name %></a></li>
+      <% end %>
+    </ul>
+  </div>
+  </h1>
+</div>
 <div id="main">
   <%= partial :_paging %>
   <div class="list-table-wrapper">
@@ -37,6 +48,6 @@
     <input type="hidden" id="delete-list" name="id" value="" />
     <button type="submit" id="delete-button" disabled="disabled" onclick="return confirm('Are you sure you want to delete these items?');">Delete</button>
   </form>
-  <button onclick="window.location='/new/<%= @model.name %>'; return false;">New <%= @model.display_name.singularize %></button>
+  <button onclick="window.location='/new/<%= @model.name %>'; return false;">New...</button>
 </div>
 <script type="text/javascript" src="/js/index.js"></script>

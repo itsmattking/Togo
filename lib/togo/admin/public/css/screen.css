@@ -50,6 +50,54 @@ h3.error {
     margin: 0;
     padding: 0 20px;
 }
+#header #system-menu {
+    background: #353c42;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 150px;
+    color: #FFF;
+    -webkit-border-radius: 3px;
+    padding: 5px;
+    font-size: 11px;
+}
+#model-select {
+    font-size: 16px;
+    position: absolute;
+    left: 21px;
+    top: 45px;
+    background: #FFF;
+    z-index: 99;
+    -webkit-box-shadow: -2px 0 20px rgba(51,51,51,0.3);
+    min-width: 200px;
+    -webkit-border-radius: 3px;
+    display: none;
+}
+#model-select ul {
+    margin: 0;
+    padding: 0;
+}
+#model-select ul li {
+    list-style: none;
+    margin: 0;
+}
+#model-select ul li a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    color: #5e6a76;
+    font-weight: bold;
+    line-height: 16px;
+}
+#model-select ul li a:hover {
+    background: #F1F1F1;
+}
+h1:hover > #model-select {
+    display: block;
+}
+#model-select:hover {
+    display: block;
+}
 #nav {
     position: absolute;
     top: 120px;
@@ -106,13 +154,13 @@ h3.error {
     left: 0;
     right: 0;
     bottom: 0;
-    margin-left: 179px;
+/*     margin-left: 179px; */
     overflow: auto;
     border-left: 1px solid #dedddd;
     font-size: 11px;
     -webkit-box-shadow: -2px 0 20px rgba(51,51,51,0.3);
 }
-#content h1 {
+#content #subhead {
 background: -webkit-gradient(
     linear,
     left bottom,
@@ -125,16 +173,38 @@ background: -moz-linear-gradient(
     rgb(241,241,241) 8%,
     rgb(255,255,255) 100%
 );
-    font-size: 16px;
+    border-bottom: 1px solid #dedddd;
+    padding-left: 20px;
+}
+#content #subhead h1 {
+    font-size: 17px;
     padding: 0 20px;
     line-height: 44px;
     margin: 0;
-    border-bottom: 1px solid #dedddd;
     color: #5e6a76;
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(224,224,224)),
+        color-stop(1, rgb(255,255,255))
+    );
+    background-image: url(/img/arrow-down.png);
+    background-position: 91% 50%;
+    background-repeat: no-repeat;
+    border-right: 1px solid #dedddd;
+    border-left: 1px solid #dedddd;
+    display: inline-block;
+    line-height: 44px;
+    padding: 0 40px 0 10px;
 }
 #content h1 a {
     color: #8cc400;
     text-decoration: none;
+}
+#content #subhead h1:hover {
+    cursor: pointer;
+    background-color: #FFF;
 }
 #content div.list-table-wrapper {
   margin-top: 20px;
