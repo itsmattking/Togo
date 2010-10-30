@@ -1,0 +1,14 @@
+<div id="paging">
+  <%= @count %> result<%= @count != 1 ? 's' : '' %>
+  <% if @page_count > 1 %>
+    / Page <span class="page-number"><%= @p %></span> of <span class="page-count"><%= @page_count %></span> /
+    <% prev_link, next_link = paging_links(@p, @page_count, :q => params[:q], :o => params[:o]) %> 
+    <%= prev_link %>
+    <%= next_link %>
+  <% end %>
+  <form method="get" id="search-form">
+    <fieldset>
+      <input type="text" name="q" value="<%= params[:q].blank? ? 'Search...' : params[:q] %>" size="40" />
+    </fieldset>
+  </form>
+</div>

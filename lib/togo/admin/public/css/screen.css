@@ -2,278 +2,644 @@
     outline: none;
 }
 body {
-    font: 76% helvetica;
-    padding: 0;
+    background: #fdfdfd;
+    font: 100% helvetica, arial, sans-serif;
     margin: 0;
+    padding: 0;
+}
+.error {
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, #800000),
+        color-stop(1, #C00000)
+    );
+    text-shadow: 0 1px 1px #710000;
+    border: 1px solid #a12f19;
+    -webkit-border-radius: 2px;
+    color: #FFF;
+}
+h3.error {
+    margin: 0;
+    padding: 10px;
+}
+#container {
+    background: #f5f5f5;
 }
 #header {
-    background: #4076c7 url(/img/bg-header.png) repeat-x top left;
-    height: 24px;
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.02, #434950),
+        color-stop(1, #5e6a76)
+    );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(139,149,180) 2%,
+        rgb(195,207,235) 100%
+    );
+}
+#header h1 {
+    font-size: 24px;
     color: #FFF;
-    line-height: 24px;
-    font-size: 18px;
-    padding: 10px 20px;
-    text-shadow: #1E1E1E 1px 1px 2px;
+    text-shadow: 1px 1px 1px #5e6a76;
+    font-weight: normal;
+    line-height: 60px;
+    margin: 0;
+    padding: 0 20px;
 }
 #nav {
-    width: 200px;
     position: absolute;
+    top: 120px;
     left: 0;
-    top: 44px;
-    bottom: 0;
-    overflow: auto;
-    background: #FFF url(/img/bg-side.png) repeat-x bottom left;
+    width: 142px;
 }
 #nav ul {
     margin: 0;
     padding: 0;
 }
 #nav ul li {
+    list-style: none;
     margin: 0;
     padding: 0;
-    list-style-type: none;
+}
+#nav ul li:first-child a {
+    border-top: 1px solid #dedddd;
 }
 #nav ul li a {
-    padding: 10px 20px;
     display: block;
-    color: #000;
+    font-size: 13px;
+    font-weight: bold;
     text-decoration: none;
-    border-bottom: 1px solid #CECECE;
-    background: #FFF url(/img/bg-nav.png) repeat-x bottom left;
+    color: #515151;
+    width: 140px;
+    padding: 15px 20px;
+    border-top: 0;
+    border-bottom: 1px solid #dedddd;
+    border-left: 0;
+    position: relative;
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.02, rgb(238,238,238)),
+        color-stop(1, rgb(248,248,248))
+    );
+    background: -moz-linear-gradient(
+        center bottom,
+        rgb(238,238,238) 2%,
+        rgb(248,248,248) 100%
+    );
 }
-#nav ul li a.selected,
-#nav ul li a:hover {
-    background: #1E1E1E url(/img/bg-nav.png) repeat-x top left;
+
+#nav ul li.active a {
+    background: #FFF;
+    border-right: 1px solid #FFF;
+    z-index: 3;
+}
+#content {
+    background: #FFF;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-left: 179px;
+    overflow: auto;
+    border-left: 1px solid #dedddd;
+    font-size: 11px;
+    -webkit-box-shadow: -2px 0 20px rgba(51,51,51,0.3);
+}
+#content h1 {
+background: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(241,241,241)),
+    color-stop(1, rgb(255,255,255))
+);
+background: -moz-linear-gradient(
+    center bottom,
+    rgb(241,241,241) 8%,
+    rgb(255,255,255) 100%
+);
+    font-size: 16px;
+    padding: 0 20px;
+    line-height: 44px;
+    margin: 0;
+    border-bottom: 1px solid #dedddd;
+    color: #5e6a76;
+}
+#content h1 a {
+    color: #8cc400;
+    text-decoration: none;
+}
+#content div.list-table-wrapper {
+  margin-top: 20px;
+  padding: 1px;
+  background: #dedddd;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+#content table {
+    width: 100%;
+    border: 3px solid #F1F1F1;
+    border-bottom: 2px solid #F1F1F1;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+#content table th {
+    text-align: left;
+    padding: 5px;
+    font-size: 13px;
+    background: #F1F1F1;
+}
+#content table th a {
+    color: #393939;
+    text-decoration: none;
+    padding-right: 15px;
+}
+#content table th a.desc {
+    background: transparent url(/img/arrows.png) no-repeat 2px right;
+}
+#content table th a.asc {
+    background: transparent url(/img/arrows.png) no-repeat right -16px;
+}
+#content table td {
+    padding: 5px;
+    color: #393939;
+    border-bottom: 1px solid #eaeaf4;
+    background: #FFF;
+}
+#content table td a {
+    text-decoration: none;
+    color: #393939;
+    text-decoration: none;
+    font-weight: bold;
+}
+#content table a:hover {
+    color: #8cc400;
+}
+#content table td span.address {
+    display: block;
+    color: #5b5b5b;
+}
+#content table tr.disabled td {
+    color: #888;
+    background: transparent url(/img/disabled.png);
+}
+#content table tr.disabled td span.address,
+#content table tr.disabled td a {
+    color: #888;
+}
+#content table td.checkbox {
+    text-align: center;
+    padding: 5px 0 5px 5px;
+    width: 20px;
+}
+#content div.actions {
+    background: #f7f8f9;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 31px;
+    overflow: auto;
+    border-top: 1px solid #dedddd;
+    padding: 15px 20px;
+    text-align: right;
+}
+#content div.actions button {
+    border: 1px solid #549300;
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, #61a801),
+        color-stop(1, #8cc400)
+    );
+    -webkit-border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: bold;
+    text-shadow: 0 1px 1px #538A00;
     color: #FFF;
-    border-bottom: 1px solid #1E1E1E;
 }
-#main {
+#content div.actions button:hover {
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, #69b802),
+        color-stop(1, #98d400)
+    );
+    text-shadow: 0 1px 1px #538A00;
+    cursor: pointer;
+}
+#content div.actions button#delete-button {
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, #800000),
+        color-stop(1, #C00000)
+    );
+    text-shadow: 0 1px 1px #710000;
+    border: 1px solid #a12f19;
+}
+#content div.actions button#delete-button:disabled {
+    color: #888;
+    background: #EFEFEF;
+    border: 1px solid #dedddd;
+    text-shadow: none;
+}
+#content div.actions button#delete-button:hover {
+    background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, #910000),
+        color-stop(1, #DD0000)
+    );
+    text-shadow: 0 1px 1px #A12F19;
+}
+#content div.actions button#delete-button:disabled:hover {
+    background: #EFEFEF;
+    cursor: text;
+    text-shadow: none;
+}
+
+#content div.actions form {
+    display: inline;
+}
+#content div.actions div.filter {
+    float: left;
+    line-height: 31px;
+}
+
+#content #main {
+    padding: 20px;
     position: absolute;
     top: 44px;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: #F3F3F3;
-    margin-left: 200px;
-    border-left: 1px solid #323941;
+    bottom: 62px;
     overflow: auto;
 }
-#main h1 {
-    border-bottom: 1px solid #CECECE;
-    background: #FFF url(/img/bg-headline.png) repeat-x bottom left;
-    font-weight: normal;
-    font-size: 24px;
-    line-height: 36px;
-    padding: 10px 20px;
-    margin: 0;
-}
-#main #search-form {
-    position: absolute;
-    right: 0;
-    z-index: 3;
-    width: 220px;
-    top: 0;
-}
-#main #search-form fieldset {
-    padding: 15px 0;
-}
-#main #search-form input[type=text] {
-    width: 190px;
-}
-#main #paging {
-    position: absolute;
-    right: 240px;
-    z-index: 3;
-    top: 22px;
-}
-#main h1 a {
-    text-decoration: none;
-    color: #4076c7;
-}
-#main table, #main form {
-    width: 100%;
-}
-#main table {
-    border-collapse: collapse;
-}
-#main table a {
-    color: #000;
-    text-decoration: none;
-}
-#main table th {
-    text-align: left;
-    padding: 10px 20px;
-    background: #1E1E1E url(/img/bg-nav.png) repeat-x top left;
-    color: #FFF;
-}
-#main table th a {
-    color: #FFF;
-    text-decoration: none;
-    padding-right: 15px;
-}
-#main table th a.desc {
-    background: transparent url(/img/arrows.png) no-repeat 2px right;
-}
-#main table th a.asc {
-    background: transparent url(/img/arrows.png) no-repeat right -16px;
+#account #content #main {
+    bottom: 0;
 }
 
-#main table td {
-    padding: 10px 20px;
-    border-bottom: 1px solid #CECECE;
-    background: #FFF;
+#content #main fieldset {
+    border: 0;
+    padding: 10px 20px 10px 0;
 }
-#main table td.checkbox,
-#main table th.checkbox {
-    width: 10px;
-    text-align: center;
-    padding-right: 0px;
-    padding-left: 15px;
-}
-    
-#main .wrapper {
-    position: absolute;
-    top: 57px;
-    bottom: 47px;
-    right: 0;
-    left: 0;
-    overflow: auto;
-}
-#main form .wrapper {
-    padding-top: 20px;
-}
-#main .wrapper .errors {
-    padding: 0 20px 10px 20px;
-    color: #F00;
-}
-#main form fieldset {
-    border: none;
-    padding: 0 30px 20px 20px;
-    margin: 0;
-}
-#main form fieldset label {
-    display: block;
+#content #main fieldset label {
+    font-size: 13px;
     font-weight: bold;
-    padding: 0 0 6px 0;
+    color: #515151;
+    display: block;
+    padding-bottom: 10px;
 }
-#main form fieldset label.inline {
+#content #main fieldset label.inline {
     display: inline;
     font-weight: normal;
 }
-#main form fieldset textarea,
-#main form fieldset input[type=text] {
-    border: 1px solid #CECECE;
+#content #main fieldset textarea,
+#content #main fieldset input[type=password],
+#content #main fieldset input[type=text] {
+    border: 1px solid #dedddd;
+    border-top: 2px solid #CCC;
+    border-left: 2px solid #CCC;
+    background: #f9f9f9;
+    padding: 7px;
     width: 100%;
-    padding: 5px;
+    margin-right: 20px;
+    font-size: 13px;
 }
-#main form fieldset textarea:focus,
-#main form fieldset input[type=text]:focus {
-    border: 1px solid #ABABAB;
+#content #main fieldset input[type=text].half-left {
+    width: 44%;
 }
-#main form fieldset.many_to_many,
-#main form fieldset.belongs_to,
-#main form fieldset.has_n  {
+#content #main fieldset input[type=text].half-right {
+    float: right;
+    width: 48%;
+    margin-right: -15px;
+}
+#content #main #paging {
+    border: 1px solid #dedddd;
+    background: rgb(241,241,241);
+    padding: 15px;
+    color: #888;
+    font-weight: bold;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    position: relative;
+    text-align: right;
+}
+#content #main #paging a {
+    color: #8cc400;
+}
+
+#content #main #paging form {
+    position: absolute;
+    top: 9px;
+    left: 12px;
+    text-align: right;
+    padding: 0;
+}
+#content #main #paging form fieldset {
+    padding: 0;
+    margin: 0;
+}
+#content #main #paging form input {
+    width: 200px;
+    padding: 3px;
+    font-size: 11px;
+}
+h2 {
+    font-size: 24px;
+    color: #5e6a76;
+    font-weight: bold;
+}
+.account-item {
+    font-size: 24px;
+    color: #888;
+    background: #EFEFEF;
+    border: 1px solid #dedddd;
+    padding: 15px;
+    margin: 10px 0 20px 0;
+}
+/* * { */
+/*     outline: none; */
+/* } */
+/* body { */
+/*     font: 76% helvetica; */
+/*     padding: 0; */
+/*     margin: 0; */
+/* } */
+/* #header { */
+/*     background: #4076c7 url(/img/bg-header.png) repeat-x top left; */
+/*     height: 24px; */
+/*     color: #FFF; */
+/*     line-height: 24px; */
+/*     font-size: 18px; */
+/*     padding: 10px 20px; */
+/*     text-shadow: #1E1E1E 1px 1px 2px; */
+/* } */
+/* #nav { */
+/*     width: 200px; */
+/*     position: absolute; */
+/*     left: 0; */
+/*     top: 44px; */
+/*     bottom: 0; */
+/*     overflow: auto; */
+/*     background: #FFF url(/img/bg-side.png) repeat-x bottom left; */
+/* } */
+/* #nav ul { */
+/*     margin: 0; */
+/*     padding: 0; */
+/* } */
+/* #nav ul li { */
+/*     margin: 0; */
+/*     padding: 0; */
+/*     list-style-type: none; */
+/* } */
+/* #nav ul li a { */
+/*     padding: 10px 20px; */
+/*     display: block; */
+/*     color: #000; */
+/*     text-decoration: none; */
+/*     border-bottom: 1px solid #CECECE; */
+/*     background: #FFF url(/img/bg-nav.png) repeat-x bottom left; */
+/* } */
+/* #nav ul li a.selected, */
+/* #nav ul li a:hover { */
+/*     background: #1E1E1E url(/img/bg-nav.png) repeat-x top left; */
+/*     color: #FFF; */
+/*     border-bottom: 1px solid #1E1E1E; */
+/* } */
+/* #main { */
+/*     position: absolute; */
+/*     top: 44px; */
+/*     left: 0; */
+/*     right: 0; */
+/*     bottom: 0; */
+/*     background: #F3F3F3; */
+/*     margin-left: 200px; */
+/*     border-left: 1px solid #323941; */
+/*     overflow: auto; */
+/* } */
+/* #main h1 { */
+/*     border-bottom: 1px solid #CECECE; */
+/*     background: #FFF url(/img/bg-headline.png) repeat-x bottom left; */
+/*     font-weight: normal; */
+/*     font-size: 24px; */
+/*     line-height: 36px; */
+/*     padding: 10px 20px; */
+/*     margin: 0; */
+/* } */
+/* #main #search-form { */
+/*     position: absolute; */
+/*     right: 0; */
+/*     z-index: 3; */
+/*     width: 220px; */
+/*     top: 0; */
+/* } */
+/* #main #search-form fieldset { */
+/*     padding: 15px 0; */
+/* } */
+/* #main #search-form input[type=text] { */
+/*     width: 190px; */
+/* } */
+/* #main #paging { */
+/*     position: absolute; */
+/*     right: 240px; */
+/*     z-index: 3; */
+/*     top: 22px; */
+/* } */
+/* #main h1 a { */
+/*     text-decoration: none; */
+/*     color: #4076c7; */
+/* } */
+/* #main table, #main form { */
+/*     width: 100%; */
+/* } */
+/* #main table { */
+/*     border-collapse: collapse; */
+/* } */
+/* #main table a { */
+/*     color: #000; */
+/*     text-decoration: none; */
+/* } */
+/* #main table th { */
+/*     text-align: left; */
+/*     padding: 10px 20px; */
+/*     background: #1E1E1E url(/img/bg-nav.png) repeat-x top left; */
+/*     color: #FFF; */
+/* } */
+/* #main table th a { */
+/*     color: #FFF; */
+/*     text-decoration: none; */
+/*     padding-right: 15px; */
+/* } */
+/* #main table td { */
+/*     padding: 10px 20px; */
+/*     border-bottom: 1px solid #CECECE; */
+/*     background: #FFF; */
+/* } */
+/* #main table td.checkbox, */
+/* #main table th.checkbox { */
+/*     width: 10px; */
+/*     text-align: center; */
+/*     padding-right: 0px; */
+/*     padding-left: 15px; */
+/* } */
+    
+/* #main .wrapper { */
+/*     position: absolute; */
+/*     top: 57px; */
+/*     bottom: 47px; */
+/*     right: 0; */
+/*     left: 0; */
+/*     overflow: auto; */
+/* } */
+/* #main form .wrapper { */
+/*     padding-top: 20px; */
+/* } */
+/* #main .wrapper .errors { */
+/*     padding: 0 20px 10px 20px; */
+/*     color: #F00; */
+/* } */
+/* #main form fieldset { */
+/*     border: none; */
+/*     padding: 0 30px 20px 20px; */
+/*     margin: 0; */
+/* } */
+/* #main form fieldset label { */
+/*     display: block; */
+/*     font-weight: bold; */
+/*     padding: 0 0 6px 0; */
+/* } */
+/* #main form fieldset label.inline { */
+/*     display: inline; */
+/*     font-weight: normal; */
+/* } */
+/* #main form fieldset textarea, */
+/* #main form fieldset input[type=text] { */
+/*     border: 1px solid #CECECE; */
+/*     width: 100%; */
+/*     padding: 5px; */
+/* } */
+/* #main form fieldset textarea:focus, */
+/* #main form fieldset input[type=text]:focus { */
+/*     border: 1px solid #ABABAB; */
+/* } */
+#content #main fieldset.many_to_many,
+#content #main fieldset.belongs_to,
+#content #main fieldset.has_n  {
     padding-right: 20px;
 }
-#main form fieldset.many_to_many input[type=text],
-#main form fieldset.belongs_to input[type=text],
-#main form fieldset.has_n input[type=text] {
+#content #main fieldset.many_to_many input[type=text],
+#content #main fieldset.belongs_to input[type=text],
+#content #main fieldset.has_n input[type=text] {
     width: 190px;
 }
-#main form fieldset.many_to_many label,
-#main form fieldset.belongs_to label,
-#main form fieldset.has_n label {
+#content #main fieldset.many_to_many label,
+#content #main fieldset.belongs_to label,
+#content #main fieldset.has_n label {
     float: left;
 }
-#main form fieldset.many_to_many div.search,
-#main form fieldset.belongs_to div.search,
-#main form fieldset.has_n div.search {
+#content #main fieldset.many_to_many div.search,
+#content #main fieldset.belongs_to div.search,
+#content #main fieldset.has_n div.search {
     display: none;
     width: 100%;
     text-align: right;
 }
-#main form fieldset.many_to_many div.paging,
-#main form fieldset.belongs_to div.paging,
-#main form fieldset.has_n div.paging {
+#content #main fieldset.many_to_many div.paging,
+#content #main fieldset.belongs_to div.paging,
+#content #main fieldset.has_n div.paging {
     float: right;
     margin-left: 10px;
     line-height: 30px;
 }
-#main form fieldset.many_to_many .checkbox,
-#main form fieldset.belongs_to .checkbox,
-#main form fieldset.has_n .checkbox {
+#content #main fieldset.many_to_many .checkbox,
+#content #main fieldset.belongs_to .checkbox,
+#content #main fieldset.has_n .checkbox {
     display: none;
     padding: 5px 5px 5px 10px;
 }
-#main form fieldset.many_to_many .active,
-#main form fieldset.belongs_to .active,
-#main form fieldset.has_n .active {
+#content #main fieldset.many_to_many .active,
+#content #main fieldset.belongs_to .active,
+#content #main fieldset.has_n .active {
     display: table-cell;
 }
-#main form fieldset table th,
-#main form fieldset table td {
+#content #main fieldset table th,
+#content #main fieldset table td {
     padding: 5px;
 }
-#main form fieldset table tfoot td {
-    background: #DDD;
+#content #main fieldset table tfoot td {
+    background: #F1F1F1;
 }
-#main form fieldset table tfoot td button {
+#content #main fieldset table tfoot td button {
     float: right;
 }
-div.actions {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    z-index: 3;
-    background: #888;
-    text-align: right;
-    height: 46px;
-    border-top: 1px solid #323941;
-}
-div.actions button,
-div.actions a {
-    width: 80px;
-    height: 22px;
-    color: #111;
-    text-align: center;
-    border: 0;
-    cursor: pointer;
-    background: transparent url(/img/btn-bg.png) repeat-x top left;
-    font: 12px "Lucida Grande", verdana;
-    position: absolute;
-    top: 12px;
-    line-height: 22px;
-    right: 10px;
-}
-div.actions a {
-    line-height: 23px;
-    display: block;
-    text-decoration: none;
-    overflow: hidden;
-}
-div.actions button {
-    font: 12px "Lucida Grande", verdana;
-    padding-bottom: 2px;
-}
-div.actions button:hover,
-div.actions a:hover {
-    background: transparent url(/img/btn-bg.png) repeat-x left -22px;
-}
-div.actions button:disabled {
-    color: #999;
-}
-div.actions button:disabled:hover {
-    cursor: text;
-    background: transparent url(/img/btn-bg.png) repeat-x top left;
-}
-div.actions button#delete-button {
-    right: 100px;
-}
-div.external {
-    right: 100px;
-    background: transparent;
-}
-div.external button#delete-button {
-    right: 0;
-}
+/* div.actions { */
+/*     position: absolute; */
+/*     bottom: 0; */
+/*     right: 0; */
+/*     left: 0; */
+/*     z-index: 3; */
+/*     background: #888; */
+/*     text-align: right; */
+/*     height: 46px; */
+/*     border-top: 1px solid #323941; */
+/* } */
+/* div.actions button, */
+/* div.actions a { */
+/*     width: 80px; */
+/*     height: 22px; */
+/*     color: #111; */
+/*     text-align: center; */
+/*     border: 0; */
+/*     cursor: pointer; */
+/*     background: transparent url(/img/btn-bg.png) repeat-x top left; */
+/*     font: 12px "Lucida Grande", verdana; */
+/*     position: absolute; */
+/*     top: 12px; */
+/*     line-height: 22px; */
+/*     right: 10px; */
+/* } */
+/* div.actions a { */
+/*     line-height: 23px; */
+/*     display: block; */
+/*     text-decoration: none; */
+/*     overflow: hidden; */
+/* } */
+/* div.actions button { */
+/*     font: 12px "Lucida Grande", verdana; */
+/*     padding-bottom: 2px; */
+/* } */
+/* div.actions button:hover, */
+/* div.actions a:hover { */
+/*     background: transparent url(/img/btn-bg.png) repeat-x left -22px; */
+/* } */
+/* div.actions button:disabled { */
+/*     color: #999; */
+/* } */
+/* div.actions button:disabled:hover { */
+/*     cursor: text; */
+/*     background: transparent url(/img/btn-bg.png) repeat-x top left; */
+/* } */
+/* div.actions button#delete-button { */
+/*     right: 100px; */
+/* } */
+/* div.external { */
+/*     right: 100px; */
+/*     background: transparent; */
+/* } */
+/* div.external button#delete-button { */
+/*     right: 0; */
+/* } */

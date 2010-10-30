@@ -1,53 +1,42 @@
 <h1><%= @model.display_name %></h1>
-<div id="paging">
-    <%= @count %> item<%= @count != 1 ? 's' : '' %>
-  <% if @page_count > 1 %>
-    Page <span class="page-number"><%= @p %></span> of <span class="page-count"><%= @page_count %></span>
-    <% prev_link, next_link = paging_links(@p, @page_count, :q => params[:q], :o => params[:o]) %>
-    <%= prev_link %>
-    <%= next_link %>
-  <% end %>
-</div>
-<form method="get" id="search-form">
-  <fieldset>
-    <input type="text" name="q" value="<%= params[:q].blank? ? 'Search...' : params[:q] %>" size="40" />
-  </fieldset>
-</form>
-<div class="wrapper">
-<table id="list-table">
-  <thead>
-    <tr>
-      <% if not @content.empty? %>
-      <th>&nbsp;</th>
-      <% end %>
-      <% @model.get_list_properties.each do |p| %>
-      <th><%= column_head_link(p, @order, :q => params[:q], :p => params[:p]) %></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% if @content.empty? %>
-    <tr>
-      <td colspan="<%= @model.get_list_properties.size %>"><% if params[:q] %>No results for '<%= params[:q] %>'<% else %>No content has been created yet.<% end %></td>
-    </tr>
-    <% else %>
-    <% @content.each do |c| %>
-    <tr>
-      <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="1" id="selection_<%= c.id %>" /></td>
-      <% @model.get_list_properties.each_with_index do |p,i| %>
-      <td><% if i == 0 %><a href="/edit/<%= @model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
-      <% end %>
-    </tr>
-    <% end %>
-    <% end %>
-  </tbody>
-</table>
+<div id="main">
+  <%= partial :_paging %>
+  <div class="list-table-wrapper">
+    <table cellspacing="0" id="list-table">
+      <thead>
+        <tr>
+          <% if not @content.empty? %>
+            <th>&nbsp;</th>
+          <% end %>
+          <% @model.get_list_properties.each do |p| %>
+            <th><%= column_head_link(p, @order, :q => params[:q], :p => params[:p]) %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @content.empty? %>
+          <tr>
+            <td colspan="<%= @model.get_list_properties.size %>"><% if params[:q] %>No results for '<%= params[:q] %>'<% else %>No content has been created yet.<% end %></td>
+          </tr>
+        <% else %>
+          <% @content.each do |c| %>
+            <tr>
+              <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="1" id="selection_<%= c.id %>" /></td>
+              <% @model.get_list_properties.each_with_index do |p,i| %>
+                <td><% if i == 0 %><a href="/edit/<%= @model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 <div class="actions">
-  <a href="/new/<%= @model.name %>" class="action new" id="new-button">New</a>
   <form action="/delete/<%= @model.name %>" method="post" id="delete-form">
     <input type="hidden" id="delete-list" name="id" value="" />
     <button type="submit" id="delete-button" disabled="disabled" onclick="return confirm('Are you sure you want to delete these items?');">Delete</button>
   </form>
+  <button onclick="window.location='/new/<%= @model.name %>'; return false;">New <%= @model.display_name.singularize %></button>
 </div>
 <script type="text/javascript" src="/js/index.js"></script>

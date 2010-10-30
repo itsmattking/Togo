@@ -11,43 +11,45 @@
     <a href="#" rel="prev">&laquo; Previous</a> <a href="#" rel="next">Next &raquo;</a>
   </div>
 </div>
-<table>
-  <thead>
-    <tr>
-      <th class="checkbox">&nbsp;</th>
-      <% related_model.get_list_properties.each do |p| %>
-      <th><%= p.name.to_s.humanize.titleize %></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tfoot>
-    <tr>
-      <td class="checkbox"></td>
-      <td colspan="<%= related_model.get_form_properties.size-2 %>">
-        <span class="associated-count-display" style="display: none;">
-          ...and <span class="associated-count"><%= content_count-related_content.size %></span> more associated items
-        </span>
-        <button class="association-modify">Modify</button>
-      </td>
-    </tr>
-  </tfoot>
-  <tbody>
-    <% if related_content.empty? %>
-    <tr>
-      <td colspan="<%= related_model.get_form_properties.size %>">No Content Associated.</td>
-    </tr>
-    <% else %>
-    <% related_content.each do |c| %>
-    <tr>
-      <td class="checkbox"><input type="radio" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= related_model.name %>_<%= c.id %>" checked="checked" /></td>
-      <% related_model.get_list_properties.each_with_index do |p,i| %>
-      <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
-      <% end %>
-    </tr>   
-    <% end %>
-    <% end %>
-  </tbody>
-</table>
+  <div class="list-table-wrapper">
+    <table cellspacing="0">
+      <thead>
+        <tr>
+          <th class="checkbox">&nbsp;</th>
+          <% related_model.get_list_properties.each do |p| %>
+            <th><%= p.name.to_s.humanize.titleize %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td class="checkbox"></td>
+          <td colspan="<%= related_model.get_form_properties.size-2 %>">
+            <span class="associated-count-display" style="display: none;">
+              ...and <span class="associated-count"><%= content_count-related_content.size %></span> more associated items
+            </span>
+            <button class="association-modify">Modify</button>
+          </td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <% if related_content.empty? %>
+          <tr>
+            <td colspan="<%= related_model.get_form_properties.size %>">No Content Associated.</td>
+          </tr>
+        <% else %>
+          <% related_content.each do |c| %>
+            <tr>
+              <td class="checkbox"><input type="radio" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= related_model.name %>_<%= c.id %>" checked="checked" /></td>
+              <% related_model.get_list_properties.each_with_index do |p,i| %>
+                <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
+              <% end %>
+            </tr>   
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+</div>
 <script type="text/javascript">
   new AssociationManager({
     relationship: 'belongs_to',
