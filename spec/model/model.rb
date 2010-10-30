@@ -193,6 +193,4 @@ describe "Togo Datamapper Model" do
     @results.size.should == 0
   end
 
-
-
 end

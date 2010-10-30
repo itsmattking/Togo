@@ -1,4 +1,7 @@
 require 'erubis/tiny'
+%w( relationship_manager many_to_one one_to_many ).each{|l|
+  require "togo/model/relationship_manager/#{l}"
+}
 
 module Togo
   module DataMapper
@@ -13,6 +16,8 @@ module Togo
         base.send(:class_variable_set, :@@user_form_properties, [])
         base.send(:class_variable_set, :@@custom_form_templates, {})
         base.send(:class_variable_set, :@@property_options, {})
+        base.send(:class_variable_set, :@@inflector, (Extlib::Inflection rescue ActiveSupport::Inflector))
+
         if MODELS.include?(base) # support code reloading
           MODELS[MODELS.index(base)] = base # preserve order of which models were loaded
         else
@@ -44,11 +49,11 @@ module Togo
         end
 
         def update_content!(id,attrs)
-          stage_content(get(id),attrs).save!
+          stage_content(get(id),attrs).save
         end
 
         def create_content!(attrs)
-          stage_content(new,attrs).save!
+          stage_content(new,attrs).save
         end
 
         def stage_content(content,attrs)
@@ -56,7 +61,7 @@ module Togo
           relationships.each do |r| 
             val = attrs["related_#{r[0]}".to_sym]
             next if not val or val == 'unset'
-            content = RelationshipManager.new(content, r, :ids => val).relate
+            content = RelationshipManager.create(content, r, :ids => val).relate
           end
           content
         end
@@ -110,7 +115,7 @@ module Togo
         def type_from_property(property)
           case property
             when ::DataMapper::Property
-              Extlib::Inflection.demodulize(property.type || property.class).downcase # type seems to be deprecated in 1.0
+              class_variable_get(:@@inflector).demodulize(property.type || property.class).downcase # type seems to be deprecated in 1.0
             when ::DataMapper::Associations::ManyToMany::Relationship
               'many_to_many'
             when ::DataMapper::Associations::ManyToOne::Relationship
@@ -148,38 +153,5 @@ module Togo
       end
 
     end # Model
-
-    class RelationshipManager
-      def initialize(content, relationship, opts = {})
-        @content = content
-        @relationship = relationship[1]
-        @relationship_name = relationship[0]
-        @ids = (opts[:ids] || '').split(',').map(&:to_i)
-        define_values
-      end
-
-      def relate
-        @content.send("#{@relationship_name}=", find_for_assignment)
-        @content
-      end
-      
-      def define_values
-        case @relationship
-          when ::DataMapper::Associations::ManyToOne::Relationship
-            @unset_value = nil
-            @related_model = @relationship.parent_model
-            @find_op = Proc.new{|p| p.get(@ids.first)}
-          when ::DataMapper::Associations::OneToMany::Relationship
-            @unset_value = []
-            @related_model = @relationship.child_model
-            @find_op = Proc.new{|p| p.all(:id => @ids)}
-        end
-      end
-
-      def find_for_assignment
-        return @unset_value if @ids.blank?
-        @find_op.call(@related_model)
-      end
-    end # RelationshipManager
   end # DataMapper
 end # Togo
