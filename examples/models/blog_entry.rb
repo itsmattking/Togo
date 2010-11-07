@@ -15,7 +15,7 @@ class BlogEntry
   has n, :locations, :through => Resource
 
   list_properties :title, :date
-  form_properties :title, :date, :body, :category, :locations, :tags, :enabled
+  form_properties :title, :date, :body, :tags, :category, :locations, :enabled
 
   configure_property :title, :label => "The Title"
   configure_property :body, :template => File.join(SITE_ROOT, 'body.erb')

@@ -5,10 +5,10 @@
 <input type="hidden" name="related_<%= property.name %>" class="related_ids" value="unset" />
 <label for="<%= property.name %>"><%= related_model.display_name %></label>
 <div class="search" id="search-<%= related_model.name %>">
-  <input type="text" name="search-<%= property.name %>" value="Search..." />
   <div class="paging">
-    Page <span class="page-number">1</span> of <span class="page-count"><%= (content_count/10).ceil %></span>
-    <a href="#" rel="prev">&laquo; Previous</a> <a href="#" rel="next">Next &raquo;</a>
+    <input type="text" name="search-<%= property.name %>" value="Search..." />
+    Page <span class="page-number">1</span> of <span class="page-count"><%= (content_count/10).ceil %></span> /
+    <a href="#" rel="prev">Previous</a> <a href="#" rel="next">Next</a>
   </div>
 </div>
   <div class="list-table-wrapper">

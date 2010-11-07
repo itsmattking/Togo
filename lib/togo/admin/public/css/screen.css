@@ -32,6 +32,9 @@ h3.error {
         linear,
         left bottom,
         left top,
+/*         color-stop(0.02, #b2b2b2), */
+/*         color-stop(1, #e9e9e9) */
+
         color-stop(0.02, #434950),
         color-stop(1, #5e6a76)
     );
@@ -198,6 +201,12 @@ background: -moz-linear-gradient(
     line-height: 44px;
     padding: 0 40px 0 10px;
 }
+#content #new-form #subhead h1,
+#content #edit-form #subhead h1 {
+    background: transparent;
+    border: 0;
+    padding-left: 0;
+}
 #content h1 a {
     color: #8cc400;
     text-decoration: none;
@@ -212,6 +221,7 @@ background: -moz-linear-gradient(
   background: #dedddd;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
+  clear: both;
 }
 #content table {
     width: 100%;
@@ -222,7 +232,7 @@ background: -moz-linear-gradient(
 }
 #content table th {
     text-align: left;
-    padding: 5px;
+    padding: 5px 10px;
     font-size: 13px;
     background: #F1F1F1;
 }
@@ -238,7 +248,7 @@ background: -moz-linear-gradient(
     background: transparent url(/img/arrows.png) no-repeat right -16px;
 }
 #content table td {
-    padding: 5px;
+    padding: 10px;
     color: #393939;
     border-bottom: 1px solid #eaeaf4;
     background: #FFF;
@@ -266,7 +276,7 @@ background: -moz-linear-gradient(
 }
 #content table td.checkbox {
     text-align: center;
-    padding: 5px 0 5px 5px;
+    padding: 5px 0 5px 10px;
     width: 20px;
 }
 #content div.actions {
@@ -397,7 +407,7 @@ background: -moz-linear-gradient(
     width: 48%;
     margin-right: -15px;
 }
-#content #main #paging {
+#content #main div.paging {
     border: 1px solid #dedddd;
     background: rgb(241,241,241);
     padding: 15px;
@@ -408,22 +418,22 @@ background: -moz-linear-gradient(
     position: relative;
     text-align: right;
 }
-#content #main #paging a {
+#content #main div.paging a {
     color: #8cc400;
 }
 
-#content #main #paging form {
+#content #main div.paging form {
     position: absolute;
     top: 9px;
     left: 12px;
     text-align: right;
     padding: 0;
 }
-#content #main #paging form fieldset {
+#content #main div.paging form fieldset {
     padding: 0;
     margin: 0;
 }
-#content #main #paging form input {
+#content #main div.paging form input {
     width: 200px;
     padding: 3px;
     font-size: 11px;
@@ -609,7 +619,7 @@ h2 {
 #content #main fieldset.many_to_many,
 #content #main fieldset.belongs_to,
 #content #main fieldset.has_n  {
-    padding-right: 20px;
+    padding-right: 2px;
 }
 #content #main fieldset.many_to_many input[type=text],
 #content #main fieldset.belongs_to input[type=text],
@@ -619,42 +629,58 @@ h2 {
 #content #main fieldset.many_to_many label,
 #content #main fieldset.belongs_to label,
 #content #main fieldset.has_n label {
-    float: left;
+/*     float: left; */
 }
 #content #main fieldset.many_to_many div.search,
 #content #main fieldset.belongs_to div.search,
 #content #main fieldset.has_n div.search {
     display: none;
-    width: 100%;
-    text-align: right;
 }
-#content #main fieldset.many_to_many div.paging,
-#content #main fieldset.belongs_to div.paging,
-#content #main fieldset.has_n div.paging {
-    float: right;
-    margin-left: 10px;
-    line-height: 30px;
+#content #main fieldset div.paging {
+    margin-bottom: 17px;
+}
+#content #main fieldset.many_to_many div.paging input,
+#content #main fieldset.belongs_to div.paging input,
+#content #main fieldset.has_n div.paging input {
+    position: absolute;
+    top: 9px;
+    left: 12px;
+    padding: 0;
+    width: 200px;
+    padding: 3px;
+    font-size: 11px;
+/*     float: right; */
+/*     margin-left: 10px; */
+/*     line-height: 30px; */
 }
 #content #main fieldset.many_to_many .checkbox,
 #content #main fieldset.belongs_to .checkbox,
 #content #main fieldset.has_n .checkbox {
     display: none;
-    padding: 5px 5px 5px 10px;
+    padding: 10px 0 10px 5px;
+}
+#content #main fieldset.many_to_many th.checkbox,
+#content #main fieldset.belongs_to th.checkbox,
+#content #main fieldset.has_n th.checkbox {
+    padding: 0;
 }
 #content #main fieldset.many_to_many .active,
 #content #main fieldset.belongs_to .active,
 #content #main fieldset.has_n .active {
     display: table-cell;
 }
-#content #main fieldset table th,
-#content #main fieldset table td {
-    padding: 5px;
-}
 #content #main fieldset table tfoot td {
     background: #F1F1F1;
+    border-bottom: none;
+    padding: 5px;
 }
 #content #main fieldset table tfoot td button {
     float: right;
+}
+#content #main fieldset.many_to_many div.list-table-wrapper,
+#content #main fieldset.belongs_to div.list-table-wrapper,
+#content #main fieldset.has_n div.list-table-wrapper {
+    margin-top: 3px;
 }
 /* div.actions { */
 /*     position: absolute; */
