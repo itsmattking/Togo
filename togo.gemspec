@@ -2,10 +2,10 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = %q{togo}
-  s.version = "0.5.1"
-  s.date = %q{2010-08-16}
+  s.version = "0.6.0"
+  s.date = %q{2010-11-15}
   s.authors = ["Matt King"]
-  s.email = %q{matt@mattking.org}
+  s.email = %q{matt@mking.me}
   s.summary = %q{Automatic Content Admin Tool for Ruby ORMs}
   s.homepage = %q{http://github.com/mattking17/Togo/}
   s.description = %q{With a few lines of code in your Ruby ORMs, you get a highly configurable and extensive content administration tool.}

@@ -29,7 +29,7 @@
               ...and <span class="associated-count"><%= content_count-related_content.size %></span> more associated items
             </span>
           </td>
-          <td colspan="<%= related_model.get_form_properties.size-1 %>">
+          <td colspan="<%= related_model.get_list_properties.size-1 %>">
             <button class="association-modify">Modify</button>
           </td>
         </tr>
@@ -37,7 +37,7 @@
       <tbody>
         <% if related_content.empty? %>
           <tr>
-            <td colspan="<%= related_model.get_form_properties.size %>">No Content Associated.</td>
+            <td colspan="<%= related_model.get_list_properties.size %>">No Content Associated.</td>
           </tr>
         <% else %>
           <% related_content.each do |c| %>

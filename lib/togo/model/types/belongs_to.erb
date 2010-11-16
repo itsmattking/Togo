@@ -24,7 +24,7 @@
       <tfoot>
         <tr>
           <td class="checkbox"></td>
-          <td colspan="<%= related_model.get_form_properties.size-2 %>">
+          <td colspan="<%= related_model.get_list_properties.size %>">
             <span class="associated-count-display" style="display: none;">
               ...and <span class="associated-count"><%= content_count-related_content.size %></span> more associated items
             </span>
@@ -35,7 +35,7 @@
       <tbody>
         <% if related_content.empty? %>
           <tr>
-            <td colspan="<%= related_model.get_form_properties.size %>">No Content Associated.</td>
+            <td colspan="<%= related_model.get_list_properties.size %>">No Content Associated.</td>
           </tr>
         <% else %>
           <% related_content.each do |c| %>

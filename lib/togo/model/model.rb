@@ -114,17 +114,25 @@ module Togo
 
         def type_from_property(property)
           case property
-            when ::DataMapper::Property
-              class_variable_get(:@@inflector).demodulize(property.type || property.class).downcase # type seems to be deprecated in 1.0
+            when ::DataMapper::Property::Text
+              'text'
+            when (defined?(::DataMapper::Property::Enum) and ::DataMapper::Property::Enum)
+              'string'
             when ::DataMapper::Associations::ManyToMany::Relationship
               'many_to_many'
             when ::DataMapper::Associations::ManyToOne::Relationship
               'belongs_to'
             when ::DataMapper::Associations::OneToMany::Relationship
               'has_n'
+            when ::DataMapper::Property
+              class_variable_get(:@@inflector).demodulize(property.type || property.primitive || property.class).downcase # type seems to be deprecated in 1.0
             else
               'string'
           end
+        end
+
+        def is_extended_type?(property)
+          
         end
 
         def pick_properties(selection, args)
