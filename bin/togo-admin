@@ -28,15 +28,15 @@ OptionParser.new{|opt|
   end
 }.parse!
 
+require 'togo'
+require 'togo/admin'
+
 begin
   files_to_require.each{|f| require f}
   require 'togo-admin-config'
 rescue LoadError => detail
   puts "Warning: #{detail}"
 end
-
-require 'togo'
-require 'togo/admin'
 
 config.merge!({
   :handler => Togo::Admin.handler,

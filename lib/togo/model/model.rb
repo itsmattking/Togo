@@ -125,14 +125,10 @@ module Togo
             when ::DataMapper::Associations::OneToMany::Relationship
               'has_n'
             when ::DataMapper::Property
-              class_variable_get(:@@inflector).demodulize(property.type || property.primitive || property.class).downcase # type seems to be deprecated in 1.0
+              class_variable_get(:@@inflector).demodulize(property.type || property.class).downcase # type seems to be deprecated in 1.0
             else
               'string'
           end
-        end
-
-        def is_extended_type?(property)
-          
         end
 
         def pick_properties(selection, args)

@@ -103,4 +103,43 @@ describe "Togo Admin" do
     @browser.last_response.body.should == {:count => BlogEntry.all.size, :results => items}.to_json
   end
 
+  it "should redirect to login when auth_model set" do
+    Togo::Admin.configure({:auth_model => User, :sessions => true})
+    @auth_browser = Rack::Test::Session.new(Rack::MockSession.new(Togo::Admin.run!))
+    @auth_browser.get '/'
+    @auth_browser.last_response.status.should == 301
+    @auth_browser.last_response.headers['Location'].should == '/login'
+  end
+  
+  it "should authenticate if auth_model set" do
+    @auth_browser = Rack::Test::Session.new(Rack::MockSession.new(Togo::Admin.run!))
+    @auth_browser.post "/login", :username => 'test', :password => 'test'
+    @auth_browser.last_response.status.should == 301
+    @auth_browser.last_response.headers['Location'].should == '/'
+    @auth_browser.get(@auth_browser.last_response.headers['Location'])
+    @auth_browser.last_response.status.should == 301
+    @auth_browser.last_response.headers['Location'].should == '/BlogEntry'
+  end
+
+  it "should logout user" do
+    @auth_browser = Rack::Test::Session.new(Rack::MockSession.new(Togo::Admin.run!))
+    @auth_browser.get "/logout"
+    @auth_browser.last_response.status.should == 301
+    @auth_browser.last_response.headers['Location'].should == '/login'
+    @auth_browser.get('/')
+    @auth_browser.last_response.status.should == 301
+    @auth_browser.last_response.headers['Location'].should == '/login'
+  end
+
+  it "should not authenticate invalid user" do
+    @auth_browser = Rack::Test::Session.new(Rack::MockSession.new(Togo::Admin.run!))
+    @auth_browser.post "/login", :username => 'test', :password => 'testtest'
+    @auth_browser.last_response.status.should == 301
+    @auth_browser.last_response.headers['Location'].should == '/'
+    @auth_browser.get(@auth_browser.last_response.headers['Location'])
+    @auth_browser.last_response.status.should == 301
+    @auth_browser.last_response.headers['Location'].should == '/login'
+    Togo::Admin.configure({:auth_model => nil, :sessions => false})
+  end
+
 end

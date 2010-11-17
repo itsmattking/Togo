@@ -1,0 +1,95 @@
+* {
+    outline: none;
+}
+.error {
+    background: #8A0000;
+    text-shadow: 0 1px 1px #710000;
+    border: 1px solid #a12f19;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    color: #FFF;
+}
+h3.error {
+    margin: 0 25px 10px 20px;
+    padding: 10px 0 10px 10px;
+    font-size: 14px;
+}
+body {
+    background: #efefef url(/img/login-bg.png) top left repeat-x;
+    font: 100% helvetica, arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+#container {
+    background: #f5f5f5;
+    width: 400px;
+    margin: 100px auto;
+    border: 1px solid #d4d2d2;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+#container h1 {
+    background: #586069 url(/img/bg-header.png) repeat-x top left;
+    font-size: 24px;
+    color: #FFF;
+    text-shadow: 1px 1px 1px #5e6a76;
+    font-weight: normal;
+    line-height: 60px;
+    margin: 0 0 20px 0;
+    padding: 0 20px;
+    -webkit-border-top-right-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -moz-border-radius: 4px;
+}
+#container form {
+    padding: 0 20px 20px 20px;
+}
+#container fieldset {
+    border: 0;
+    padding: 10px 20px 10px 0;
+}
+#container fieldset label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #515151;
+    display: block;
+    padding-bottom: 10px;
+}
+#container fieldset label.inline {
+    display: inline;
+    font-weight: normal;
+}
+#container fieldset input[type=password],
+#container fieldset input[type=text] {
+    border: 1px solid #dedddd;
+    border-top: 2px solid #CCC;
+    border-left: 2px solid #CCC;
+    background: #f9f9f9;
+    padding: 7px;
+    width: 100%;
+    margin-right: 20px;
+    font-size: 13px;
+}
+#container fieldset input.placeholder {
+    color: #999;
+}
+#container form button {
+    border: 1px solid #549300;
+    background: #61a801 url(/img/button-bg-save.png) repeat-x top left;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: bold;
+    text-shadow: 0 1px 1px #538A00;
+    color: #FFF;
+}
+#container form button:hover {
+    background: #69b802 url(/img/button-bg-save.png) repeat-x -30px left;
+    text-shadow: 0 1px 1px #538A00;
+    cursor: pointer;
+}
+#container fieldset.submit {
+    text-align: right;
+    padding: 0;
+}

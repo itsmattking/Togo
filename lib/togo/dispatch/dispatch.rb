@@ -2,6 +2,24 @@ require 'rack'
 require 'erubis'
 
 module Togo
+
+  class FlashHash
+    def initialize
+      @h = {}
+      @c = {}
+    end
+    def [](key)
+      return @c[key] if @c.keys.include?(key)
+      @c[key] = @h.delete(key) if @h.keys.include?(key)
+    end
+    def []=(key,val)
+      @h[key] = val
+    end
+    def sweep!
+      @c = {}
+    end
+  end
+
   class Dispatch
 
     HANDLERS = %w(thin mongrel webrick)
@@ -45,12 +63,13 @@ module Togo
       else
         begin
           __before if defined? __before
-          @response.write(send(method))
+          @response.write(send(method)) unless [301, 302].include?(@response.status)
         rescue => detail
           @response.status = 500
-         @response.write(["Error: #{detail}",$!.backtrace.join("<br />\n")].join("<br />\n"))
+          @response.write(["Error: #{detail}",$!.backtrace.join("<br />\n")].join("<br />\n"))
         end
       end
+      flash.sweep!
     end
     
     def erb(content, opts = {}, &block)
@@ -74,6 +93,14 @@ module Togo
       ENV['RACK_ENV'] == name.to_sym
     end
 
+    def session
+      @request.session
+    end
+
+    def flash
+      session[:flash] ||= FlashHash.new
+    end
+
     def self.handler
       HANDLERS.each do |h|
         begin
@@ -82,6 +109,10 @@ module Togo
         end
       end
       puts "Could not find any handlers to run. Please be sure your requested handler is installed."
+    end
+
+    def config
+      self.class.send(:config)
     end
 
     class << self
@@ -147,6 +178,7 @@ module Togo
           end
         end
         builder.use Rack::Static, :urls => opts[:static_urls], :root => opts[:public_path]
+        builder.use Rack::Session::Cookie if opts[:sessions]
         builder.run new(opts)
         if opts[:standalone]
           opts[:handler].run(builder.to_app, :Port => opts[:port], :Host => opts[:host])

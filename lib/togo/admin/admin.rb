@@ -1,4 +1,4 @@
-require 'helpers'
+require 'togo/admin/helpers'
 
 module Togo
   class Admin < Dispatch
@@ -6,11 +6,30 @@ module Togo
     include Helpers
 
     before do
-      @model = Togo.const_get(params[:model]) if params[:model]
+      if not logged_in? and request.path != '/login'
+        redirect "/login"
+      else
+        @model = Togo.const_get(params[:model]) if params[:model]
+      end
     end
 
     get '/' do
       redirect "/#{Togo.models.first}"
+    end
+
+    get '/login' do
+      erb :login, :layout => false
+    end
+
+    post '/login' do
+      session[:user] = config[:auth_model].authenticate(params[:username], params[:password])
+      flash[:error] = "Invalid Username or Password" if not logged_in?
+      redirect '/'
+    end
+
+    get '/logout' do
+      session[:user] = nil
+      redirect '/'
     end
 
     get '/:model' do

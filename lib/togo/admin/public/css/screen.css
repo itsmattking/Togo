@@ -46,6 +46,19 @@ h3.error {
     padding: 5px;
     font-size: 11px;
 }
+#header #system-menu ul {
+    margin: 0;
+    padding: 0;
+}
+#header #system-menu ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#header #system-menu ul li a {
+    color: #FFF;
+    text-decoration: none;
+}
 #model-select {
     font-size: 16px;
     position: absolute;

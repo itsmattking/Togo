@@ -1,22 +1,5 @@
 module Helpers
   
-  class FlashHash
-    def initialize
-      @h = {}
-      @c = {}
-    end
-    def [](key)
-      return @c[key] if @c.keys.include?(key)
-      @c[key] = @h.delete(key) if @h.keys.include?(key)
-    end
-    def []=(key,val)
-      @h[key] = val
-    end
-    def sweep!
-      @c = {}
-    end
-  end
-
   def hash_to_qs(h)
     return nil if h.blank?
     qs = h.keys.collect{|k|
@@ -52,6 +35,11 @@ module Helpers
 
   def active_menu(name)
     request.path =~ /#{name}/ ? 'active' : ''
+  end
+
+  def logged_in?
+    return true if not config[:auth_model] or not config[:sessions]
+    config[:auth_model] and session[:user] and session[:user].authenticated?
   end
 
 end

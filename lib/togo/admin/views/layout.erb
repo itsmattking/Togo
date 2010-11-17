@@ -2,17 +2,23 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title>Togo Admin</title>
+    <title><%= config[:site_title] %></title>
     <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
     <script type="text/javascript" src="/js/togo.js"></script>
   </head>
   <body id="<%= @body_id %>">
     <div id="container">
       <div id="header">
-        <h1>Togo Admin</h1>
-        <div id="system-menu">
-          <span>System Menu</span>
-        </div>
+        <h1><%= config[:site_title] %></h1>
+        <% if config[:system_menu] and config[:system_menu].is_a?(Array) %>
+          <div id="system-menu">
+            <ul>
+              <% config[:system_menu].each do |s| %>
+                <li><a href="<%= s[:url] %>"><%= s[:title] %></a></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
       </div>
       <div id="content">
         <%= yield %>
