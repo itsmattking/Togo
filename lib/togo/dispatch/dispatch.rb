@@ -178,7 +178,10 @@ module Togo
           end
         end
         builder.use Rack::Static, :urls => opts[:static_urls], :root => opts[:public_path]
-        builder.use Rack::Session::Cookie if opts[:sessions]
+        if opts[:sessions] or opts[:auth_model]
+          builder.use Rack::Session::Cookie
+          opts[:sessions] = true
+        end
         builder.run new(opts)
         if opts[:standalone]
           opts[:handler].run(builder.to_app, :Port => opts[:port], :Host => opts[:host])
