@@ -143,7 +143,7 @@ module Togo
             when ::DataMapper::Associations::OneToMany::Relationship
               property.child_model
             else
-              self.class
+              self
           end
         end
 

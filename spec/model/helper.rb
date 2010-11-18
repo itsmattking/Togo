@@ -34,6 +34,8 @@ class AnotherBlogEntry
 
   configure_property :date, :label => "The Date"
 
+  configure_property :user_defined_method, :label => "User Defined"
+
   def user_defined_method
     "#{title} - #{date}"
   end

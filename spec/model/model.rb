@@ -213,5 +213,10 @@ describe "Togo Datamapper Model" do
     props = AnotherBlogEntry.get_form_properties
     props.find{|p| p.name == :tags}.type.should == 'many_to_many'
   end
+  
+  it "should get proper model class for property backed by custom instance method" do
+    prop = AnotherBlogEntry.get_list_properties.find{|p| p.name == :user_defined_method}
+    prop.model.should == AnotherBlogEntry
+  end
 
 end

@@ -14,6 +14,7 @@ class PropertyWrapper
   end
 
   def label
+    puts @model.property_options.inspect
     @model.property_options[@name][:label] rescue humanized_name
   end
 

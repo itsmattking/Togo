@@ -2,13 +2,13 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = %q{togo}
-  s.version = "0.6.1"
-  s.date = %q{2010-11-17}
+  s.version = "0.6.2"
+  s.date = %q{2010-11-18}
   s.authors = ["Matt King"]
   s.email = %q{matt@mking.me}
-  s.summary = %q{Automatic Content Admin Tool for Ruby ORMs}
+  s.summary = %q{CMS Framework for Ruby ORMs}
   s.homepage = %q{http://github.com/mattking17/Togo/}
-  s.description = %q{With a few lines of code in your Ruby ORMs, you get a highly configurable and extensive content administration tool.}
+  s.description = %q{With a few lines of code in your Ruby ORMs, you get a highly configurable and extensive content management tool (CMS).}
   s.platform = Gem::Platform::RUBY
   s.require_paths = ['lib','lib/togo/model','lib/togo/dispatch','lib/togo/admin']
   s.bindir = 'bin'
@@ -20,6 +20,5 @@ Gem::Specification.new do |s|
                      'lib/**/*',
                      'bin/*'
                     ]
-  s.add_dependency('dm-core','> 0.10.1')
   s.add_dependency('erubis','> 0.0.0')
 end
