@@ -34,6 +34,10 @@ class AnotherBlogEntry
 
   configure_property :date, :label => "The Date"
 
+  def list_display
+    title
+  end
+
 end
 
 class Category

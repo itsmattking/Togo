@@ -44,7 +44,9 @@
             <tr>
               <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= related_model.name %>_<%= c.id %>" checked="checked" /></td>
               <% related_model.get_list_properties.each_with_index do |p,i| %>
-                <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= c.send(p.name.to_sym) || '-' %></a><% else %><%= c.send(p.name.to_sym) %><% end %></td>
+                <% v = c.send(p.name.to_sym) || '-' %>
+                <% v = v[0...5].map(&:list_display).join(', ') if v.is_a?(Array) %>
+                <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= v %></a><% else %><%= v %><% end %></td>
               <% end %>
             </tr>   
           <% end %>

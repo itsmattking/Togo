@@ -6,9 +6,9 @@ class Category
   property :id, Serial
   property :name, String, :length => 255
   
-  list_properties :name
-
   has n, :blog_entries
+
+  list_properties :name, :blog_entries
 
   def to_s
     name

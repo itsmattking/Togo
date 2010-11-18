@@ -193,4 +193,14 @@ describe "Togo Datamapper Model" do
     @results.size.should == 0
   end
 
+  it "should have list_display set to first item in list_properties by default" do
+    @blog_entry = BlogEntry.first
+    @blog_entry.list_display.should == @blog_entry.send(BlogEntry.get_list_properties.first.name.to_sym)
+  end
+
+  it "should have list_display set to user defined" do
+    @blog_entry = AnotherBlogEntry.first
+    @blog_entry.list_display.should == @blog_entry.title
+  end
+
 end

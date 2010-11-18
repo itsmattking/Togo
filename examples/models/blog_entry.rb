@@ -19,8 +19,8 @@ class BlogEntry
 
   configure_property :title, :label => "The Title"
   configure_property :body, :template => File.join(SITE_ROOT, 'body.erb')
-
-  def to_s
+  
+  def list_display
     title
   end
 

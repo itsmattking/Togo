@@ -10,6 +10,7 @@ module Togo
 
       def self.included(base)
         base.extend ClassMethods
+        base.send(:include, InstanceMethods)
         base.send(:class_variable_set, :@@list_properties, [])
         base.send(:class_variable_set, :@@form_properties, [])
         base.send(:class_variable_set, :@@user_list_properties, [])
@@ -23,6 +24,14 @@ module Togo
         else
           MODELS << base
         end
+      end
+
+      module InstanceMethods
+        
+        def list_display
+          send(self.class.send(:get_list_properties).first.name.to_sym) rescue self
+        end
+
       end
 
       module ClassMethods
