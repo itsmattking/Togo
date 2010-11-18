@@ -14,13 +14,13 @@ class BlogEntry
   belongs_to :category
   has n, :locations, :through => Resource
 
-  list_properties :title, :date
+  list_properties :title, :date, :chunky, :category
   form_properties :title, :date, :body, :tags, :category, :locations, :enabled
 
   configure_property :title, :label => "The Title"
   configure_property :body, :template => File.join(SITE_ROOT, 'body.erb')
   
-  def list_display
+  def chunky
     title
   end
 

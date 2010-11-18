@@ -32,13 +32,12 @@ describe "Togo Datamapper Model" do
     form_props.should include :category
     form_props.should_not include :title
     form_props.should_not include :another_category
-    form_props.should_not include :tags
   end
 
   it "should order list and form properties as requested" do
     AnotherBlogEntry.send(:shown_properties).map(&:name).should == [:title, :body, :date, :category, :another_category, :tags]
-    AnotherBlogEntry.get_list_properties.map(&:name).should == [:date, :title, :category]
-    AnotherBlogEntry.get_form_properties.map(&:name).should == [:body, :category, :date]
+    AnotherBlogEntry.get_list_properties.map(&:name).should == [:date, :title, :category, :user_defined_method]
+    AnotherBlogEntry.get_form_properties.map(&:name).should == [:body, :category, :date, :tags]
   end
 
   it "should create content" do
@@ -140,8 +139,8 @@ describe "Togo Datamapper Model" do
     BlogEntry.send(:shown_properties).map(&:name).should include :category
     BlogEntry.get_form_properties.map(&:name).should include :category
     BlogEntry.get_list_properties.map(&:name).should include :category
-    BlogEntry.get_form_properties.select{|f| f.name == :category}.first.should be_a ::DataMapper::Associations::ManyToOne::Relationship
-    BlogEntry.get_list_properties.select{|f| f.name == :category}.first.should be_a ::DataMapper::Associations::ManyToOne::Relationship
+    BlogEntry.get_form_properties.select{|f| f.name == :category}.first.type.should == 'belongs_to'
+    BlogEntry.get_list_properties.select{|f| f.name == :category}.first.type.should == 'belongs_to'
   end
 
   it "should not include foreign keys in properties" do
@@ -151,10 +150,10 @@ describe "Togo Datamapper Model" do
   end
 
   it "should choose correct template based on property" do
-    BlogEntry.send(:type_from_property, BlogEntry.get_list_properties.find{|p| p.name == :title}).should == 'string'
-    BlogEntry.send(:type_from_property, BlogEntry.get_list_properties.find{|p| p.name == :category}).should == 'belongs_to'
-    BlogEntry.send(:type_from_property, BlogEntry.get_form_properties.find{|p| p.name == :tags}).should == 'many_to_many'
-    Category.send(:type_from_property, Category.get_form_properties.find{|p| p.name == :blog_entries}).should == 'has_n'
+    BlogEntry.send(:type_from_property, BlogEntry.send(:shown_properties).find{|p| p.name == :title}).should == 'string'
+    BlogEntry.send(:type_from_property, BlogEntry.send(:shown_properties).find{|p| p.name == :category}).should == 'belongs_to'
+    BlogEntry.send(:type_from_property, BlogEntry.send(:shown_properties).find{|p| p.name == :tags}).should == 'many_to_many'
+    Category.send(:type_from_property, Category.send(:shown_properties).find{|p| p.name == :blog_entries}).should == 'has_n'
   end
 
   it "should display humanized and pluralized name" do
@@ -193,14 +192,26 @@ describe "Togo Datamapper Model" do
     @results.size.should == 0
   end
 
-  it "should have list_display set to first item in list_properties by default" do
-    @blog_entry = BlogEntry.first
-    @blog_entry.list_display.should == @blog_entry.send(BlogEntry.get_list_properties.first.name.to_sym)
+  it "should be able to define instance methods as display options" do
+    @blog_entry = AnotherBlogEntry.first
+    AnotherBlogEntry.get_list_properties.map(&:name).should include :user_defined_method
+    @blog_entry.send(AnotherBlogEntry.get_list_properties.find{|f| f.name == :user_defined_method}.name).should == "#{@blog_entry.title} - #{@blog_entry.date}"
   end
 
-  it "should have list_display set to user defined" do
-    @blog_entry = AnotherBlogEntry.first
-    @blog_entry.list_display.should == @blog_entry.title
+  it "should include models in property wrappers" do
+    props = AnotherBlogEntry.get_list_properties
+    props.find{|p| p.name == :title}.model.should == AnotherBlogEntry
+    props.find{|p| p.name == :category}.model.should == Category
+    props = AnotherBlogEntry.get_form_properties
+    props.find{|p| p.name == :tags}.model.should == Tag
+  end
+
+  it "should include types in property wrappers" do
+    props = AnotherBlogEntry.get_list_properties
+    props.find{|p| p.name == :title}.type.should == 'string'
+    props.find{|p| p.name == :category}.type.should == 'belongs_to'
+    props = AnotherBlogEntry.get_form_properties
+    props.find{|p| p.name == :tags}.type.should == 'many_to_many'
   end
 
 end

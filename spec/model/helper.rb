@@ -27,15 +27,15 @@ class AnotherBlogEntry
   belongs_to :another_category, :required => false
   has n, :tags, :through => Resource
 
-  list_properties :date, :title, :category
-  form_properties :body, :category, :date
+  list_properties :date, :title, :category, :user_defined_method
+  form_properties :body, :category, :date, :tags
 
   configure_property :body, :template => File.join(File.dirname(__FILE__),'custom_body.erb')
 
   configure_property :date, :label => "The Date"
 
-  def list_display
-    title
+  def user_defined_method
+    "#{title} - #{date}"
   end
 
 end

@@ -8,10 +8,14 @@ class Category
   
   has n, :blog_entries
 
-  list_properties :name, :blog_entries
+  list_properties :name, :blog_count
 
   def to_s
     name
+  end
+
+  def blog_count
+    blog_entries.count
   end
 
 end

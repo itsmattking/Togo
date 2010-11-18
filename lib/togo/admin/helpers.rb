@@ -23,18 +23,18 @@ module Helpers
   end
 
   def column_head_link(property, current_order, qs = {})
-    qs = hash_to_qs(qs)
-    new_order = (current_order[0] == property.name.to_sym ? (current_order[1] == :asc ? "desc" : "asc") : "asc")
-    link_class = current_order[0] == property.name.to_sym ? new_order : ''
-    "<a href=\"?o=#{[(property.name.to_s+'.'+new_order.to_s),qs].compact.join('&')}\" class=\"#{link_class}\">#{property.name.to_s.humanize.titleize}</a>"
+    if property.sortable
+      qs = hash_to_qs(qs)
+      new_order = (current_order[0] == property.name.to_sym ? (current_order[1] == :asc ? "desc" : "asc") : "asc")
+      link_class = current_order[0] == property.name.to_sym ? new_order : ''
+      "<a href=\"?o=#{[(property.name.to_s+'.'+new_order.to_s),qs].compact.join('&')}\" class=\"#{link_class}\">#{property.humanized_name}</a>"
+    else
+      property.humanized_name
+    end
   end
 
   def partial(template, options={})
     erb template, options.merge(:layout => false)
-  end
-
-  def active_menu(name)
-    request.path =~ /#{name}/ ? 'active' : ''
   end
 
   def logged_in?

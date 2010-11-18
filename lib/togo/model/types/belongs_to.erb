@@ -1,7 +1,7 @@
-<% content_count = content.send(property.name.to_sym).blank? ? 0 : 1 %>
-<% related_content = [content.send(property.name.to_sym)].compact %>
+<% content_count = content.send(property.name).blank? ? 0 : 1 %>
+<% related_content = [content.send(property.name)].compact %>
 <% related_ids = related_content.map(&:id) %>
-<% related_model = property.parent_model %>
+<% related_model = property.model %>
 <input type="hidden" name="related_<%= property.name %>" class="related_ids" value="unset" />
 <label for="<%= property.name %>"><%= related_model.display_name %></label>
 <div class="search" id="search-<%= related_model.name %>">
@@ -17,7 +17,7 @@
         <tr>
           <th class="checkbox">&nbsp;</th>
           <% related_model.get_list_properties.each do |p| %>
-            <th><%= p.name.to_s.humanize.titleize %></th>
+            <th><%= p.humanized_name %></th>
           <% end %>
         </tr>
       </thead>
@@ -42,8 +42,7 @@
             <tr>
               <td class="checkbox"><input type="radio" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= related_model.name %>_<%= c.id %>" checked="checked" /></td>
               <% related_model.get_list_properties.each_with_index do |p,i| %>
-                <% v = c.send(p.name.to_sym) || '-' %>
-                <% v = v[0...5].map(&:list_display).join(', ') if v.is_a?(Array) %>
+                <% v = c.send(p.name) || '-' %>
                 <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= v || '-' %></a><% else %><%= v %><% end %></td>
               <% end %>
             </tr>   

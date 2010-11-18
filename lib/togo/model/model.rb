@@ -2,6 +2,7 @@ require 'erubis/tiny'
 %w( relationship_manager many_to_one one_to_many ).each{|l|
   require "togo/model/relationship_manager/#{l}"
 }
+require 'togo/model/property_wrapper/property_wrapper'
 
 module Togo
   module DataMapper
@@ -10,7 +11,6 @@ module Togo
 
       def self.included(base)
         base.extend ClassMethods
-        base.send(:include, InstanceMethods)
         base.send(:class_variable_set, :@@list_properties, [])
         base.send(:class_variable_set, :@@form_properties, [])
         base.send(:class_variable_set, :@@user_list_properties, [])
@@ -24,14 +24,6 @@ module Togo
         else
           MODELS << base
         end
-      end
-
-      module InstanceMethods
-        
-        def list_display
-          send(self.class.send(:get_list_properties).first.name.to_sym) rescue self
-        end
-
       end
 
       module ClassMethods
@@ -53,7 +45,7 @@ module Togo
 
         # Display the form template for a property
         def form_for(property,content)
-          template = class_variable_get(:@@custom_form_templates)[property.name] || File.join(File.dirname(__FILE__),'types',"#{type_from_property(property)}.erb")
+          template = class_variable_get(:@@custom_form_templates)[property.name] || File.join(File.dirname(__FILE__),'types',"#{property.type}.erb")
           Erubis::TinyEruby.new(File.open(template).read).result(binding)
         end
 
@@ -104,7 +96,7 @@ module Togo
         end
 
         def field_class_for(property)
-          type_from_property(property)
+          property.type
         end
 
         def get_list_properties
@@ -140,10 +132,32 @@ module Togo
           end
         end
 
+        def model_from_property(property)
+          case property
+            when ::DataMapper::Property
+              property.model
+            when ::DataMapper::Associations::ManyToMany::Relationship
+              property.child_model
+            when ::DataMapper::Associations::ManyToOne::Relationship
+              property.parent_model
+            when ::DataMapper::Associations::OneToMany::Relationship
+              property.child_model
+            else
+              self.class
+          end
+        end
+
+        def sorting_from_property(property)
+          property.is_a?(::DataMapper::Property)
+        end
+
         def pick_properties(selection, args)
           if class_variable_get(:"@@#{selection}_properties").empty?
             args = shown_properties.map{|p| p.name} if args.empty?
-            class_variable_set(:"@@#{selection}_properties", args.collect{|a| shown_properties.select{|s| s.name == a}.first}.compact)
+            class_variable_set(:"@@#{selection}_properties", args.collect{|a|
+              p = shown_properties.select{|s| s.name == a}.first
+              PropertyWrapper.new({:property => p, :name => a, :type => type_from_property(p), :model => model_from_property(p), :sortable => sorting_from_property(p)})
+            }.compact)
           end
           class_variable_get(:"@@#{selection}_properties")
         end
