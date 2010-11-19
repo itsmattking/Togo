@@ -1,6 +1,8 @@
 # Introducing Togo
 
 Togo is a CMS framework. The goal of Togo is to be a modular system that can be used with any Ruby ORM framework, giving you a complete CMS right out of the box.
+It is built to be as independent as possible from other web frameworks such as Rails or Sinatra, and only needs Rack and your choice of HTTP server to run (such as thin, mongrel or webrick).
+Togo is focused only on making a quick and easy way to manage content, and is less about integrating into your existing web application.
 
 ## Installation
 
