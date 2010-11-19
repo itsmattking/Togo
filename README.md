@@ -228,7 +228,7 @@ Note we used the SITE_ROOT constant we defined in the init.rb file, how you get 
 See the Writing a Form Template Guide for more information. (Coming Soon)
 
 
-### Configuring Togo::Admin
+## Configuring Togo::Admin
 
 There are currently only a couple configuration options for Togo Admin which affect runtime, but you can also pass in any
 arbitrary configuration parameters and access them through custom templates in a global config hash. In our example, let's open
@@ -254,7 +254,7 @@ most likely want to protect it. Luckily you can tell Togo to use any object you 
 
 First, define any object that responds to two methods:
 
-### self.authenticate(username, password)
+#### self.authenticate(username, password)
 
 A class method that Togo Admin will call, passing in a username and password. If successful, You must pass back an instance
 of your object with a property called authenticated? set to true. If authentication fails, you can still pass back an
