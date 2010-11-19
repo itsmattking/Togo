@@ -20,7 +20,7 @@ gives a good idea of how Togo can be used in conjuction with an existing project
 
 You'll need the following gems installed:
 
-pre. dm-core dm-serializer sinatra dm-sqlite3-adapter
+    dm-core dm-serializer sinatra dm-sqlite3-adapter
 
 Next, make a directory for your project like so:
 
@@ -105,8 +105,8 @@ Open up http://0.0.0.0:8080 in your browser and have a blast! Have a look at our
 
 ## Customizing Togo
 
-Now you have a complete CMS system for free, but you can also customize what fields are used, what order they appear, and even 
-use your own templates for complete customization.
+Togo is set up to work with sensible defaults out of the box, but you can customize what fields are used, what order they appear, and even 
+use your own templates to show fields when editing or creating content.
 
 ### Telling Togo which fields to use
 
@@ -131,7 +131,7 @@ If you only want the title and date field to appear in the list view of blog ent
 
 Togo will display the fields in the order given. So if you wanted date first some reason, you could just do
 
-pre. list_properties :date, :title
+    list_properties :date, :title
 
 And date will be listed in the first column.
 
@@ -163,6 +163,24 @@ Associations also can be used in list and form property declarations:
 
       list_properties :title, :date
       form_properties :title, :date, :body, :comments
+
+    end
+
+Togo also allows for displaying values returned from instance methods on your model.
+This opens up customization of the list display even further.
+
+    class BlogEntry
+
+      include DataMapper::Resource
+      include Togo::DataMapper::Model
+      ... snipped ...
+
+      list_properties :title, :date, :number_of_comments
+      form_properties :title, :date, :body, :comments
+
+      def number_of_comments
+        comments.count
+      end
 
     end
 
@@ -208,3 +226,81 @@ Each property type has it's own default form template that can be overridden sim
 Note we used the SITE_ROOT constant we defined in the init.rb file, how you get the full path to your template may vary depending on your setup.
 
 See the Writing a Form Template Guide for more information. (Coming Soon)
+
+
+### Configuring Togo::Admin
+
+There are currently only a couple configuration options for Togo Admin which affect runtime, but you can also pass in any
+arbitrary configuration parameters and access them through custom templates in a global config hash. In our example, let's open
+init.rb and configure Togo::Admin:
+
+    #init.rb:
+
+    SITE_ROOT = File.dirname(File.expand_path(__FILE__))
+    ... snipped ...
+
+    Togo::Admin.configure({:site_title => "My Admin Title", :my_custom_config => "Custom Config Value"})
+
+
+If you had a custom template for your property and wanted to access :my_custom_config:
+
+    <%= config[:my_custom_config] %>
+
+
+### Authentication
+
+By default Togo is not protected by an authentication method. If you're going to run Togo on a public web server, you'll
+most likely want to protect it. Luckily you can tell Togo to use any object you desire to autenticate against.
+
+First, define any object that responds to two methods:
+
+### self.authenticate(username, password)
+
+A class method that Togo Admin will call, passing in a username and password. If successful, You must pass back an instance
+of your object with a property called authenticated? set to true. If authentication fails, you can still pass back an
+instance of your object, but with authenticated? returning false, or can return nil.
+
+#### authenticated?
+
+What Togo Admin will ask an instance of your object before every request. Must return true or false.
+
+If the Togo Admin authenticates the user successfully, it will store the instance of that object in the session and check it 
+before each request to see if the user is authenticated or not.
+
+### Example User object for authentication
+
+Here is an trivial example using a DataMapper object to authenticate a user:
+
+
+    class User
+
+      include DataMapper::Resource
+      property :id, Serial
+      property :username, String
+      property :password, String
+
+      attr_accessor :authenticated
+
+      def authenticated?
+        authenticated || false
+      end
+
+      def self.authenticate(u, p)
+        u = first(:username => u, :password => p)
+        u.authenticated = true if u
+        u
+      end
+
+    end
+
+
+Note that the object does *not* have to have the Togo Model module included to work, unless you want it to.
+
+### Enabling Authentication
+
+Finally tell Togo Admin to authenticate against your User object by configuring the Togo::Admin
+application at runtime, either in your init.rb or togo-admin-config.rb file, like so:
+
+    Togo::Admin.configure({:auth_model => User})
+
+It's up to you how to to authenticate the user: Local Database, LDAP, Kerberos, etc.
