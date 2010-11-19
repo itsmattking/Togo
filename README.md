@@ -6,6 +6,10 @@ Togo is a CMS framework. The goal of Togo is to be a modular system that can be 
 
     gem install togo
 
+## Example Application
+
+An example application is available: [http://github.com/mattking17/Togo-Example-App](http://github.com/mattking17/Togo-Example-App)
+
 ## Tutorial
 
 Togo works by a simply including a line in your model definition (currently, Togo only works for DataMapper). By including Togo in your model,
