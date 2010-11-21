@@ -1,7 +1,7 @@
-<form action="/update/<%= @model.name %>/<%= @content.id %>" method="post" id="edit-form">
-  <input type="hidden" name="return_url" value="<%= request.referer || '/locations' %>" />
+<form action="<%= admin_url('/update/' + @model.name + '/' + @content.id.to_s) %>" method="post" id="edit-form">
+  <input type="hidden" name="return_url" value="<%= return_url %>" />
   <div id="subhead">
-    <h1><a href="/<%= @model.name %>"><%= @model.display_name %></a> / Edit</h1>
+    <h1><a href="<%= admin_url('/' + @model.name) %>"><%= @model.display_name %></a> / Edit</h1>
   </div>
   <div id="main">
     <% if @errors %><div id="save_errors" class="errors"><%= @errors %></div><% end %>
@@ -15,4 +15,4 @@
     <button type="submit" class="save">Save <%= @model.display_name.singularize %></button>
   </div>
 </form>
-<script type="text/javascript" src="/js/edit.js"></script>
+<script type="text/javascript" src="<%= admin_url('/js/edit.js') %>"></script>

@@ -6,7 +6,7 @@ module Togo
     include Helpers
 
     before do
-      if not logged_in? and request.path != '/login'
+      if not logged_in? and request.path != @path_prefix + '/login'
         redirect "/login"
       else
         @model = Togo.const_get(params[:model]) if params[:model]

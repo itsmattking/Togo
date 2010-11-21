@@ -8,7 +8,7 @@ body {
     padding: 0;
 }
 .error {
-    background: #800000 url(/img/button-bg-delete.png) repeat-x top left;
+    background: #800000 url(../img/button-bg-delete.png) repeat-x top left;
     text-shadow: 0 1px 1px #710000;
     border: 1px solid #a12f19;
     -webkit-border-radius: 2px;
@@ -23,7 +23,7 @@ h3.error {
     background: #f5f5f5;
 }
 #header {
-    background: #586069 url(/img/bg-header.png) repeat-x top left;
+    background: #586069 url(../img/bg-header.png) repeat-x top left;
 }
 #header h1 {
     font-size: 24px;
@@ -110,7 +110,7 @@ h1:hover > #model-select {
     -webkit-box-shadow: -2px 0 20px rgba(51,51,51,0.3);
 }
 #content #subhead {
-    background: #e0e0e0 url(/img/subhead-bg.png) repeat-x top left;
+    background: #e0e0e0 url(../img/subhead-bg.png) repeat-x top left;
     border-bottom: 1px solid #d4d2d2;
     padding-left: 20px;
 }
@@ -120,7 +120,7 @@ h1:hover > #model-select {
     line-height: 44px;
     margin: 0;
     color: #5e6a76;
-    background-image: url(/img/arrow-down.png);
+    background-image: url(../img/arrow-down.png);
     background-position: 91% 50%;
     background-repeat: no-repeat;
     border-right: 1px solid #d4d2d2;
@@ -170,10 +170,10 @@ h1:hover > #model-select {
     padding-right: 15px;
 }
 #content table th a.desc {
-    background: transparent url(/img/arrows.png) no-repeat 2px right;
+    background: transparent url(../img/arrows.png) no-repeat 2px right;
 }
 #content table th a.asc {
-    background: transparent url(/img/arrows.png) no-repeat right -16px;
+    background: transparent url(../img/arrows.png) no-repeat right -16px;
 }
 #content table td {
     padding: 10px;
@@ -196,7 +196,7 @@ h1:hover > #model-select {
 }
 #content table tr.disabled td {
     color: #888;
-    background: transparent url(/img/disabled.png);
+    background: transparent url(../img/disabled.png);
 }
 #content table tr.disabled td span.address,
 #content table tr.disabled td a {
@@ -208,7 +208,7 @@ h1:hover > #model-select {
     width: 20px;
 }
 #content div.actions {
-    background: #ccc url(/img/footer-bg.png) repeat-x top left;
+    background: #ccc url(../img/footer-bg.png) repeat-x top left;
     position: absolute;
     left: 0;
     right: 0;
@@ -221,7 +221,7 @@ h1:hover > #model-select {
 }
 #content div.actions button {
     border: 1px solid #549300;
-    background: #61a801 url(/img/button-bg-save.png) repeat-x top left;
+    background: #61a801 url(../img/button-bg-save.png) repeat-x top left;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     padding: 5px 10px;
@@ -231,12 +231,12 @@ h1:hover > #model-select {
     color: #FFF;
 }
 #content div.actions button:hover {
-    background: #69b802 url(/img/button-bg-save.png) repeat-x -30px left;
+    background: #69b802 url(../img/button-bg-save.png) repeat-x -30px left;
     text-shadow: 0 1px 1px #538A00;
     cursor: pointer;
 }
 #content div.actions button#delete-button {
-    background: #800000 url(/img/button-bg-delete.png) repeat-x top left;
+    background: #800000 url(../img/button-bg-delete.png) repeat-x top left;
     text-shadow: 0 1px 1px #710000;
     border: 1px solid #a12f19;
 }
@@ -247,7 +247,7 @@ h1:hover > #model-select {
     text-shadow: none;
 }
 #content div.actions button#delete-button:hover {
-    background: #910000 url(/img/button-bg-delete.png) repeat-x -30px left;
+    background: #910000 url(../img/button-bg-delete.png) repeat-x -30px left;
     text-shadow: 0 1px 1px #A12F19;
 }
 #content div.actions button#delete-button:disabled:hover {

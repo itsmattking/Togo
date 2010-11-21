@@ -4,7 +4,7 @@
     <ul>
       <% Togo.models.each do |m| %>
         <% next if m == @model %>
-        <li><a href="/<%= m.name %>"><%= m.display_name %></a></li>
+        <li><a href="<%= admin_url('/' + m.name) %>"><%= m.display_name %></a></li>
       <% end %>
     </ul>
   </div>
@@ -35,7 +35,7 @@
               <td class="checkbox"><input type="checkbox" name="selection[<%= c.id %>]" value="1" id="selection_<%= c.id %>" /></td>
               <% @model.get_list_properties.each_with_index do |p,i| %>
                 <% v = c.send(p.name.to_sym) || '-' %>
-                <td><% if i == 0 %><a href="/edit/<%= @model.name %>/<%= c.id %>"><%= v %></a><% else %><%= v %><% end %></td>
+                <td><% if i == 0 %><a href="<%= admin_url('/edit/' + @model.name + '/' + c.id.to_s) %>"><%= v %></a><% else %><%= v %><% end %></td>
               <% end %>
             </tr>
           <% end %>
@@ -45,10 +45,10 @@
   </div>
 </div>
 <div class="actions">
-  <form action="/delete/<%= @model.name %>" method="post" id="delete-form">
+  <form action="<%= admin_url('/delete/' + @model.name) %>" method="post" id="delete-form">
     <input type="hidden" id="delete-list" name="id" value="" />
     <button type="submit" id="delete-button" disabled="disabled" onclick="return confirm('Are you sure you want to delete these items?');">Delete</button>
   </form>
-  <button onclick="window.location='/new/<%= @model.name %>'; return false;">New...</button>
+  <button onclick="window.location='<%= admin_url('/new/' + @model.name) %>'; return false;">New...</button>
 </div>
-<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript" src="<%= admin_url('/js/index.js') %>"></script>

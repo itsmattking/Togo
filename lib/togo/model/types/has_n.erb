@@ -60,6 +60,7 @@
     model: '<%= related_model.name %>',
     fields: <%= related_model.get_list_properties.map(&:name).to_json %>,
     count: <%= content_count %>,
-    related_ids: <%= related_ids.to_json %>
+    related_ids: <%= related_ids.to_json %>,
+    pathPrefix: Togo.config.pathPrefix
   });
 </script>

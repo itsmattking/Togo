@@ -15,7 +15,7 @@ h3.error {
     font-size: 14px;
 }
 body {
-    background: #efefef url(/img/login-bg.png) top left repeat-x;
+    background: #efefef url(../img/login-bg.png) top left repeat-x;
     font: 100% helvetica, arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -29,7 +29,7 @@ body {
     -moz-border-radius: 4px;
 }
 #container h1 {
-    background: #586069 url(/img/bg-header.png) repeat-x top left;
+    background: #586069 url(../img/bg-header.png) repeat-x top left;
     font-size: 24px;
     color: #FFF;
     text-shadow: 1px 1px 1px #5e6a76;
@@ -75,7 +75,7 @@ body {
 }
 #container form button {
     border: 1px solid #549300;
-    background: #61a801 url(/img/button-bg-save.png) repeat-x top left;
+    background: #61a801 url(../img/button-bg-save.png) repeat-x top left;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     padding: 5px 10px;
@@ -85,7 +85,7 @@ body {
     color: #FFF;
 }
 #container form button:hover {
-    background: #69b802 url(/img/button-bg-save.png) repeat-x -30px left;
+    background: #69b802 url(../img/button-bg-save.png) repeat-x -30px left;
     text-shadow: 0 1px 1px #538A00;
     cursor: pointer;
 }

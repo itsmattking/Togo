@@ -42,4 +42,16 @@ module Helpers
     config[:auth_model] and session[:user] and session[:user].authenticated?
   end
 
+  def admin_url(url)
+    [@path_prefix, url].join
+  end
+
+  def return_url
+    if request.referer
+      request.referer.gsub(/^http:\/\/.*?\/(.*?)$/,"/\\1").gsub(Regexp.new("^#{@path_prefix}"), '')
+    else
+      admin_url('/' + @model.name)
+    end
+  end
+
 end

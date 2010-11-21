@@ -3,9 +3,9 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title><%= config[:site_title] %> - Login</title>
-    <link rel="stylesheet" href="/css/login.css" type="text/css" media="screen" />
-    <script type="text/javascript" src="/js/togo.js"></script>
-    <script type="text/javascript" src="/js/login.js"></script>
+    <link rel="stylesheet" href="<%= admin_url('/css/login.css') %>" type="text/css" media="screen" />
+    <script type="text/javascript" src="<%= admin_url('/js/togo.js') %>"></script>
+    <script type="text/javascript" src="<%= admin_url('/js/login.js') %>"></script>
   </head>
   <body>
     <div id="container">
@@ -13,7 +13,7 @@
       <% if flash[:error] %>
         <h3 class="error"><%= flash[:error] %></h3>
       <% end %>
-      <form action="/login" method="post">
+      <form action="<%= admin_url('/login') %>" method="post">
         <fieldset>
           <input type="text" name="username" value="Username" id="username" class="placeholder" />
         </fieldset>
@@ -28,6 +28,6 @@
         login.init();
       </script>
     </div>
-    <img src="/img/shadow.png" alt="" style="display: block; margin: 0 auto;" />
+    <img src="<%= admin_url('/img/shadow.png') %>" alt="" style="display: block; margin: 0 auto;" />
   </body>
 </html>

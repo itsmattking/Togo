@@ -1,7 +1,7 @@
-<form action="/create/<%= @model.name %>" method="post" id="edit-form">
-  <input type="hidden" name="return_url" value="<%= request.referer || '/locations' %>" />
+<form action="<%= admin_url('/create/' + @model.name) %>" method="post" id="edit-form">
+  <input type="hidden" name="return_url" value="<%= return_url %>" />
   <div id="subhead">
-    <h1><a href="/<%= @model.name %>"><%= @model.display_name %></a> / New</h1>
+    <h1><a href="<%= admin_url('/' + @model.name) %>"><%= @model.display_name %></a> / New</h1>
   </div>
   <div id="main">
     <% if @errors %><div id="save_errors" class="errors"><%= @errors %></div><% end %>
@@ -15,5 +15,5 @@
     <button type="submit" class="create">Create</button>
   </div>
 </form>
-<script type="text/javascript" src="/js/edit.js"></script>
+<script type="text/javascript" src="<%= admin_url('/js/edit.js') %>"></script>
 

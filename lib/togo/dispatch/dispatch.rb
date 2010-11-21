@@ -28,6 +28,8 @@ module Togo
 
     def initialize(opts = {})
       @view_path = opts[:view_path] || 'views'
+      @path_prefix = opts[:path_prefix]
+      @path_prefix_regexp = Regexp.new("^#{@path_prefix}")
       ENV['RACK_ENV'] = (opts[:environment] || :development) if not ENV['RACK_ENV']
     end
 
@@ -50,6 +52,8 @@ module Togo
     def answer(type,path)
       method = nil
       @params = symbolize_keys(@request.GET.dup.merge!(@request.POST.dup))
+      path = path.gsub(@path_prefix_regexp,'')
+      path = '/' if path == ''
       self.class.routes[type].each do |p,k,m|
         if match = p.match(path)
           method = m
@@ -85,7 +89,7 @@ module Togo
 
     def redirect(location, opts = {})
       @response.status = (opts[:status] || 301)
-      @response.headers['Location'] = location
+      @response.headers['Location'] = [@path_prefix, location].join
       @response.finish
     end
 
@@ -123,6 +127,7 @@ module Togo
         subclass.send(:include, Rack::Utils)
         %w{GET POST}.each{|v| subclass.routes[v] = []}
         subclass.config = {
+          :path_prefix => '',
           :public_path => 'public',
           :static_urls => ['/css','/js','/img'],
           :port => 8080,
@@ -177,7 +182,7 @@ module Togo
             end
           end
         end
-        builder.use Rack::Static, :urls => opts[:static_urls], :root => opts[:public_path]
+        builder.use Togo::Static, :urls => opts[:static_urls], :root => opts[:public_path], :path_prefix => opts[:path_prefix]
         if opts[:sessions] or opts[:auth_model]
           builder.use Rack::Session::Cookie
           opts[:sessions] = true
@@ -193,5 +198,35 @@ module Togo
     end
     
   end # Dispatch
+
+  class Static
+
+    def initialize(app, options={})
+      @app = app
+      @path_prefix = options[:path_prefix] || ''
+      @urls = options[:urls] || ["/favicon.ico"]
+      root = options[:root] || Dir.pwd
+      @file_server = Rack::File.new(root)
+    end
+
+    def call(env)
+      path = env["PATH_INFO"]
+      path = path.gsub(Regexp.new("^#{@path_prefix}"), '') if @path_prefix > ''
+
+      unless @urls.kind_of? Hash
+        can_serve = @urls.any? { |url| path.index(url) == 0 }
+      else
+        can_serve = @urls.key? path
+      end
+
+      if can_serve
+        env["PATH_INFO"] = (@urls.kind_of?(Hash) ? @urls[path] : path)
+        @file_server.call(env)
+      else
+        @app.call(env)
+      end
+    end
+
+  end
 
 end # Togo

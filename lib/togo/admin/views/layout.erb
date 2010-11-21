@@ -3,8 +3,13 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title><%= config[:site_title] %></title>
-    <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
-    <script type="text/javascript" src="/js/togo.js"></script>
+    <link rel="stylesheet" href="<%= admin_url('/css/screen.css') %>" type="text/css" media="screen" />
+    <script type="text/javascript" src="<%= admin_url('/js/togo.js') %>"></script>
+    <script type="text/javascript">
+      Togo.configure({
+        pathPrefix: '<%= @path_prefix %>'
+      });
+    </script>
   </head>
   <body id="<%= @body_id %>">
     <div id="container">
@@ -14,7 +19,7 @@
           <div id="system-menu">
             <ul>
               <% config[:system_menu].each do |s| %>
-                <li><a href="<%= s[:url] %>"><%= s[:title] %></a></li>
+                <li><a href="<%= admin_url(s[:url]) %>"><%= s[:title] %></a></li>
               <% end %>
             </ul>
           </div>

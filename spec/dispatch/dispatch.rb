@@ -81,4 +81,12 @@ describe "Togo Dispatch" do
     @configured_browser.last_response.body.should =~ /<h1>Index<\/h1>/ # instead of configured route
   end
 
+  it "should work with path_prefix" do
+    config = {:path_prefix => '/admin'}
+    @configured_browser = Rack::Test::Session.new(Rack::MockSession.new(DispatchTest.run!(config)))
+    @configured_browser.get('/admin')
+    @configured_browser.last_response.status.should == 200
+    @configured_browser.last_response.body.should =~ /<h1>Index<\/h1>/
+  end
+
 end
