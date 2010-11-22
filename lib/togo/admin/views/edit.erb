@@ -7,7 +7,7 @@
     <% if @errors %><div id="save_errors" class="errors"><%= @errors %></div><% end %>
     <% @model.get_form_properties.each do |p| %>
     <fieldset id="property-<%= p.name %>" class="<%= @model.field_class_for(p) %>">
-      <%= @model.form_for(p,@content) %>
+      <%= @model.form_for(p,@content,:path_prefix => @path_prefix) %>
     </fieldset>
     <% end %>
   </div>

@@ -44,7 +44,7 @@ module Togo
         end
 
         # Display the form template for a property
-        def form_for(property,content)
+        def form_for(property,content,opts = {})
           template = class_variable_get(:@@custom_form_templates)[property.name] || File.join(File.dirname(__FILE__),'types',"#{property.type}.erb")
           Erubis::TinyEruby.new(File.open(template).read).result(binding)
         end
@@ -115,7 +115,7 @@ module Togo
 
         def type_from_property(property)
           case property
-            when ::DataMapper::Property::Text
+            when (defined?(::DataMapper::Property::Text) and ::DataMapper::Property::Text)
               'text'
             when (defined?(::DataMapper::Property::Enum) and ::DataMapper::Property::Enum)
               'string'

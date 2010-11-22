@@ -43,7 +43,7 @@
               <td class="checkbox"><input type="radio" name="selection[<%= c.id %>]" value="<%= c.id %>" id="selection_<%= related_model.name %>_<%= c.id %>" checked="checked" /></td>
               <% related_model.get_list_properties.each_with_index do |p,i| %>
                 <% v = c.send(p.name) || '-' %>
-                <td><% if i == 0 %><a href="/edit/<%= related_model.name %>/<%= c.id %>"><%= v || '-' %></a><% else %><%= v %><% end %></td>
+                <td><% if i == 0 %><a href="<%= [(opts[:path_prefix] || ''), '/edit/' + related_model.name + '/' + c.id.to_s].join %>"><%= v || '-' %></a><% else %><%= v %><% end %></td>
               <% end %>
             </tr>   
           <% end %>
