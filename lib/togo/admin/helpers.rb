@@ -23,14 +23,14 @@ module Helpers
   end
 
   def column_head_link(property, current_order, qs = {})
-    if property.sortable
-      qs = hash_to_qs(qs)
-      new_order = (current_order[0] == property.name ? (current_order[1] == :asc ? "desc" : "asc") : "asc")
-      link_class = current_order[0] == property.name ? new_order : ''
-      "<a href=\"?o=#{[(property.name.to_s+'.'+new_order.to_s),qs].compact.join('&')}\" class=\"#{link_class}\">#{property.label}</a>"
-    else
+#     if property.sortable
+#       qs = hash_to_qs(qs)
+#       new_order = (current_order[0] == property.name ? (current_order[1] == :asc ? "desc" : "asc") : "asc")
+#       link_class = current_order[0] == property.name ? new_order : ''
+#       "<a href=\"?o=#{[(property.name.to_s+'.'+new_order.to_s),qs].compact.join('&')}\" class=\"#{link_class}\">#{property.label}</a>"
+#     else
       property.label
-    end
+#     end
   end
 
   def partial(template, options={})

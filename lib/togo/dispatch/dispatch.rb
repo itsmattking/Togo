@@ -183,6 +183,7 @@ module Togo
           end
         end
         builder.use Togo::Static, :urls => opts[:static_urls], :root => opts[:public_path], :path_prefix => opts[:path_prefix]
+        builder.use Rack::CommonLogger
         if opts[:sessions] or opts[:auth_model]
           builder.use Rack::Session::Cookie
           opts[:sessions] = true
