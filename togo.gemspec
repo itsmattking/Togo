@@ -2,8 +2,8 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = %q{togo}
-  s.version = "0.6.4"
-  s.date = %q{2010-11-21}
+  s.version = "0.7.0"
+  s.date = %q{2011-06-30}
   s.authors = ["Matt King"]
   s.email = %q{matt@mking.me}
   s.summary = %q{CMS Framework for Ruby ORMs}

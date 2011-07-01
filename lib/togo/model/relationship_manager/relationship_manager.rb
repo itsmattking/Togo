@@ -3,7 +3,7 @@ module Togo
     class RelationshipManager
 
       def self.create(content, relationship, opts = {})
-        case relationship[1]
+        case relationship
         when ::DataMapper::Associations::ManyToOne::Relationship
           ManyToOne.new(content, relationship, opts)
         when ::DataMapper::Associations::OneToMany::Relationship
@@ -13,8 +13,8 @@ module Togo
 
       def initialize(content, relationship, opts = {})
         @content = content
-        @relationship = relationship[1]
-        @relationship_name = relationship[0]
+        @relationship = relationship
+        @relationship_name = relationship.name
         @ids = (opts[:ids] || '').split(',').map(&:to_i)
       end
 

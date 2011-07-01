@@ -30,7 +30,7 @@ module Togo
       @view_path = opts[:view_path] || 'views'
       @path_prefix = opts[:path_prefix]
       @path_prefix_regexp = Regexp.new("^#{@path_prefix}")
-      ENV['RACK_ENV'] = (opts[:environment] || :development) if not ENV['RACK_ENV']
+      #ENV['RACK_ENV'] = (opts[:environment] || :development) if not ENV['RACK_ENV']
     end
 
     def symbolize_keys(hash)

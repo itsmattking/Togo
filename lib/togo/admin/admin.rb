@@ -62,12 +62,12 @@ module Togo
     end
 
     get '/edit/:model/:id' do
-      @content = @model.get(params[:id])
+      @content = @model.first(:id => params[:id].to_i)
       erb :edit
     end
 
     post '/update/:model/:id' do
-      @content = @model.stage_content(@model.get(params[:id]),params)
+      @content = @model.stage_content(@model.first(:id => params[:id].to_i),params)
       begin
         raise "Could not save content" if not @content.save
         redirect params[:return_url] || "/#{@model.name}"

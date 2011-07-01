@@ -50,7 +50,7 @@ module Togo
         end
 
         def update_content!(id,attrs)
-          stage_content(get(id),attrs).save
+          stage_content(first(:id => id),attrs).save
         end
 
         def create_content!(attrs)
@@ -59,8 +59,8 @@ module Togo
 
         def stage_content(content,attrs)
           content.attributes = properties.inject({}){|m,p| attrs[p.name.to_sym] ? m.merge!(p.name.to_sym => attrs[p.name.to_sym]) : m}
-          relationships.each do |r| 
-            val = attrs["related_#{r[0]}".to_sym]
+          relationships.each do |r|
+            val = attrs["related_#{r.name}".to_sym]
             next if not val or val == 'unset'
             content = RelationshipManager.create(content, r, :ids => val).relate
           end
@@ -126,7 +126,7 @@ module Togo
             when ::DataMapper::Associations::OneToMany::Relationship
               'has_n'
             when ::DataMapper::Property
-              class_variable_get(:@@inflector).demodulize(property.type || property.class).downcase # type seems to be deprecated in 1.0
+              class_variable_get(:@@inflector).demodulize(property.class).downcase # type seems to be deprecated in 1.0
             else
               'string'
           end
@@ -163,18 +163,18 @@ module Togo
         end
 
         def shown_properties
-          skip = relationships.values.collect{|r| r.through if r.respond_to?(:through) }.compact.uniq # don't include join models
-          properties.select{|p| not BLACKLIST.include?(p.name) and not p.name =~ /_id$/} + relationships.values.select{|r| not skip.include?(r)}
+          skip = relationships.to_a.collect{|r| r.through if r.respond_to?(:through) }.compact.uniq # don't include join models
+          properties.select{|p| not BLACKLIST.include?(p.name) and not p.name =~ /_id$/} + relationships.to_a.select{|r| not skip.include?(r)}
         end
 
         def search_properties
           # Support dm 0.10.x and 1.x by checking for deprecated(?) types
-          only_properties = [String, ::DataMapper::Types::Text]
+          only_properties = [String]
           begin # rescue exception when not using dm-core 1.0, these don't exist in the 0.10.x series
             only_properties.concat([::DataMapper::Property::String, ::DataMapper::Property::Text])
           rescue
           end
-          properties.select{|p| only_properties.include?(p.type || p.class)} # type seems to be depracated in 1.0
+          properties.select{|p| only_properties.include?(p.class)} # type seems to be depracated in 1.0
         end
 
       end

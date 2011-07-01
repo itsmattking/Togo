@@ -1,6 +1,7 @@
 $TESTING=true
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib','togo')
+$:.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib','togo','admin')
 %w(do_sqlite3 togo togo/admin rack rack/test dm-core dm-serializer dm-migrations).each{|l| require l}
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/admin.db")
 
