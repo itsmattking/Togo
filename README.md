@@ -21,7 +21,7 @@ works with associations.
 ### Setting up a simple application
 
 We'll use a combination of Sinatra, DataMapper and Sqlite for our tutorial. You actually don't need Sinatra to run the Togo admin application, however this
-gives a good idea of how Togo can be used in conjuction with an existing project.
+gives a good idea of how Togo can be used in conjunction with an existing project.
 
 You'll need the following gems installed:
 
